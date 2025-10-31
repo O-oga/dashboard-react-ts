@@ -1,4 +1,80 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --shadow: rgba(0, 0, 0, 0.22);
+  --svg-button-collor: rgba(234, 234, 234, 0.09);
+  --svg-button-hover-color: rgba(234, 234, 234, 0.3);
+  --button-text-color: rgba(234, 234, 234, 0.5);
+  --button-hover-text-color: rgba(234, 234, 234, 0.7);
+  --transition: 0.3s;
+  --border: 2px solid rgba(234, 234, 234, 0.15);
+  --invalid-border: 2px solid rgba(255, 0, 0, 0.4);
+  --close-collor: rgba(255, 80, 80, 0.6);
+  --border-radius: 10px;
+  --card-background-color: rgba(23, 23, 23, 0.6);
+  --active-card-background-color: rgba(23, 23, 23, 0.9);
+  --blur: blur(15px);
+  --background-modal-input: rgba(234, 234, 234, 0.06);
+
+  --font: "Poppins-Light";
+  --standart-item-size: 17.6vh;
+
+  --active-card-border: 2px solid rgba(234, 234, 234, 0.5)
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font), "sans-serif";
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /*Explorer Edge */
+  user-select: none;
+}
+
+@font-face {
+  font-family: "Poppins-Light";
+  src: url("./assets/fonts/Poppins-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-Regular", sans-serif;
+  src: url("./assets/fonts/Poppins-Regular.ttf") format("truetype")
+}
+
+@font-face {
+  font-family: "Poppins-Medium";
+  src: url("./assets/fonts/Poppins-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-SemiBold";
+  src: url("./assets/fonts/Poppins-SemiBold.ttf") format("truetype");
+}
+
+.poppins-light {
+  font-family: "Poppins-Light", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins-Regular", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins-Medium", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-weight: 600;
+  font-style: normal;
 }
 

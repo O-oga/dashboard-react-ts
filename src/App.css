@@ -5,3 +5,11 @@
   text-align: center;
 }
 
+body {
+  background: url('./assets/img/background.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+}
+
