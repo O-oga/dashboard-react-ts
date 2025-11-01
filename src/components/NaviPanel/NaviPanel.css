@@ -2,28 +2,85 @@
     height: 13vh;
     backdrop-filter: blur(20px);
     background: var(--card-background-color);
-    width: 96vw;
+    
+    /* Ограничение ширины родителем */
+    max-width: 100%;
+    width: fit-content;
+    min-width: 400px;
+    
+    /* Центрирование панели по ширине */
+    margin: 0 auto;
+    
     border: var(--border);
     border-radius: var(--border-radius);
     display: flex;
-
-    justify-content: center; /*wide-with*/
+    justify-content: flex-start;
     flex-direction: row;
     align-items: center;
+    
+    /* Прокрутка если панель больше родителя */
     overflow-x: auto;
-    overflow-y: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
+    
+    /* Анимация расширения панели */
+    transition: width var(--transition), min-width var(--transition);
+    
+    /* Отступы и промежутки */
+    padding: 0 15px;
+    gap: 10px;
+}
+
+/* Скрываем скроллбар для всех браузеров */
+.navi-panel::-webkit-scrollbar {
+    display: none;
 }
 
 .navi-panel-button {
-
-    backdrop-filter: var(--blur);
-    background: var(--card-background-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    height: 100%;
+    height: 90%;
     aspect-ratio: 1;
     box-sizing: border-box;
-    margin: 5px;
+    margin: 0;
     padding: 5px;
+    flex-shrink: 0;
+    
+    /* Анимация появления кнопки */
+    transition: transform var(--transition), opacity var(--transition);
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Анимация появления карточек пространств */
+.navi-panel-card {
+    animation: slideInFromLeft 0.4s ease-out forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Stagger анимация для нескольких карточек */
+.navi-panel-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.navi-panel-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.navi-panel-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.navi-panel-card:nth-child(n+4) {
+    animation-delay: 0.4s;
 }

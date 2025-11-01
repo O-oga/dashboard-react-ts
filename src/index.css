@@ -1,23 +1,42 @@
 :root {
-  --shadow: rgba(0, 0, 0, 0.22);
-  --svg-button-collor: rgba(234, 234, 234, 0.09);
-  --svg-button-hover-color: rgba(234, 234, 234, 0.3);
-  --button-text-color: rgba(234, 234, 234, 0.5);
-  --button-hover-text-color: rgba(234, 234, 234, 0.7);
-  --transition: 0.3s;
-  --border: 2px solid rgba(234, 234, 234, 0.15);
-  --invalid-border: 2px solid rgba(255, 0, 0, 0.4);
-  --close-collor: rgba(255, 80, 80, 0.6);
-  --border-radius: 5px;
+  /* Темная тема - Фоны */
+  --body-background: #0f0f0f;
+  --body-background-gradient: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
   --card-background-color: rgba(23, 23, 23, 0.6);
   --active-card-background-color: rgba(23, 23, 23, 0.9);
-  --blur: blur(15px);
   --background-modal-input: rgba(234, 234, 234, 0.06);
 
+  /* Темная тема - Контуры */
+  --border: 1px solid rgba(234, 234, 234, 0.15);
+  --active-card-border: 1px solid rgba(234, 234, 234, 0.5);
+  --invalid-border: 1px solid rgba(255, 0, 0, 0.4);
+
+  /* Темная тема - Кнопки */
+  --svg-button-collor: rgba(234, 234, 234, 0.09);
+  --svg-button-hover-color: rgba(234, 234, 234, 0.3);
+  --svg-button-focus-color: rgba(234, 234, 234, 0.4);
+  --svg-button-active-color: rgba(234, 234, 234, 0.5);
+  --button-text-color: rgba(234, 234, 234, 0.5);
+  --button-hover-text-color: rgba(234, 234, 234, 0.7);
+  --button-focus-text-color: rgba(234, 234, 234, 0.9);
+  --button-active-text-color: rgba(255, 255, 255, 1);
+
+  /* Темная тема - Кнопка отмены/закрытия */
+  --close-collor: rgba(255, 80, 80, 0.6);
+  --close-hover-color: rgba(255, 80, 80, 0.8);
+  --close-active-color: rgba(255, 60, 60, 1);
+  --cancel-button-background: rgba(255, 80, 80, 0.15);
+  --cancel-button-hover-background: rgba(255, 80, 80, 0.25);
+
+  /* Эффекты */
+  --shadow: rgba(0, 0, 0, 0.22);
+  --blur: blur(15px);
+
+  /* Общие настройки */
+  --transition: 0.3s;
+  --border-radius: 5px;
   --font: "Poppins-Light";
   --standart-item-size: 17.6vh;
-
-  --active-card-border: 1px solid rgba(234, 234, 234, 0.5)
 }
 
 html,

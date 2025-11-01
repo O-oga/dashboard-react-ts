@@ -2,9 +2,10 @@
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    height: calc(100vh - 13vh);
-    width: 100vw;
-    padding: 2vh 2vw 2vh 2vw;
+    height: calc(98vh - 13vh);
+    width: 98vw;
+    background: none;
+    padding: 1vh 1vw;
 }
 
 .add-item {
@@ -17,4 +18,9 @@
     box-sizing: border-box;
     margin: 5px;
     padding: 5px;
+}
+
+.card-svg {
+    width: 120px;
+    height: 120px;
 }

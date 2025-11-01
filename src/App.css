@@ -1,15 +1,411 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 1vh 1vw;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 98vh;
+  width: 98vw;
 }
 
 body {
-  background: url('./assets/img/background.png') no-repeat center center fixed;
-  background-size: cover;
-  height: 100vh;
+  background: var(--body-background);
+  background-image: var(--body-background-gradient);
+  /* height: 100vh; */
   margin: 0;
-  width: 100vw;
+  /* width: 100vw; */
+}
+
+/* Базовые классы для кнопок с эффектами */
+
+/* Кнопка с SVG иконкой */
+.button-svg {
+  background: var(--svg-button-collor);
+  transition: background var(--transition), border var(--transition);
+  cursor: pointer;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  color: var(--button-text-color);
+}
+
+/* SVG внутри кнопки - меняется цвет при состояниях */
+.button-svg svg {
+  transition: stroke var(--transition), fill var(--transition);
+}
+
+.button-svg svg,
+.button-svg svg path {
+  stroke: currentColor;
+  fill: none;
+}
+
+.button-svg:hover {
+  background: var(--svg-button-hover-color);
+  color: var(--button-hover-text-color);
+}
+
+.button-svg:hover svg,
+.button-svg:hover svg path {
+  stroke: var(--button-hover-text-color);
+}
+
+.button-svg:focus {
+  background: var(--svg-button-focus-color);
+  color: var(--button-focus-text-color);
+  outline: 2px solid var(--svg-button-focus-color);
+  outline-offset: 2px;
+}
+
+.button-svg:focus svg,
+.button-svg:focus svg path {
+  stroke: var(--button-focus-text-color);
+}
+
+.button-svg:active {
+  background: var(--svg-button-active-color);
+  color: var(--button-active-text-color);
+}
+
+.button-svg:active svg,
+.button-svg:active svg path {
+  stroke: var(--button-active-text-color);
+}
+
+/* Текстовая кнопка */
+.button-text {
+  background: transparent;
+  color: var(--button-text-color);
+  transition: color var(--transition), background var(--transition), border var(--transition);
+  cursor: pointer;
+  border: var(--border);
+}
+
+.button-text:hover {
+  color: var(--button-hover-text-color);
+}
+
+.button-text:focus {
+  color: var(--button-focus-text-color);
+  outline: 2px solid var(--svg-button-focus-color);
+  outline-offset: 2px;
+}
+
+.button-text:active {
+  color: var(--button-active-text-color);
+  background: var(--svg-button-active-color);
+}
+
+/* Кнопка отмены/закрытия */
+.button-cancel {
+  background: var(--cancel-button-background);
+  color: var(--close-collor);
+  transition: background var(--transition), color var(--transition), border var(--transition);
+  cursor: pointer;
+  border: 1px solid var(--close-collor);
+}
+
+.button-cancel:hover {
+  background: var(--cancel-button-hover-background);
+  color: var(--close-hover-color);
+  border-color: var(--close-hover-color);
+}
+
+.button-cancel:focus {
+  color: var(--close-hover-color);
+  outline: 2px solid var(--close-hover-color);
+  outline-offset: 2px;
+}
+
+.button-cancel:active {
+  background: var(--close-active-color);
+  color: rgba(255, 255, 255, 1);
+  border-color: var(--close-active-color);
+}
+
+/* Универсальный класс для всех кнопок (базовые стили) */
+.button {
+  transition: all var(--transition);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  border: var(--border);
+  box-sizing: border-box;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Комбинированный класс: кнопка с SVG и текстом */
+.button-combined {
+  background: var(--svg-button-collor);
+  color: var(--button-text-color);
+  transition: background var(--transition), color var(--transition), border var(--transition);
+  cursor: pointer;
+  border: var(--border);
+}
+
+.button-combined:hover {
+  background: var(--svg-button-hover-color);
+  color: var(--button-hover-text-color);
+}
+
+.button-combined:focus {
+  background: var(--svg-button-focus-color);
+  color: var(--button-focus-text-color);
+  outline: 2px solid var(--svg-button-focus-color);
+  outline-offset: 2px;
+}
+
+.button-combined:active {
+  background: var(--svg-button-active-color);
+  color: var(--button-active-text-color);
+}
+
+/* Media queries для адаптации кнопок под разные разрешения */
+
+/* Mobile устройства (до 768px) */
+@media screen and (max-width: 767px) {
+  /* Базовые размеры для touch-интерфейса */
+  .button,
+  .button-svg,
+  .button-text,
+  .button-combined,
+  .button-cancel {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  /* SVG кнопки - увеличенные размеры для удобства */
+  .button-svg {
+    min-width: 68px;
+    min-height: 68px;
+    padding: 12px;
+  }
+
+  .button-svg svg {
+    width: 64px;
+    height: 64px;
+  }
+
+  /* Текстовые кнопки */
+  .button-text {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: 120px;
+  }
+
+  /* Комбинированные кнопки */
+  .button-combined {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: 140px;
+    gap: 8px;
+  }
+
+  .button-combined svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Кнопки отмены */
+  .button-cancel {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: 100px;
+  }
+
+  /* Outline для focus на touch-устройствах */
+  .button-svg:focus,
+  .button-text:focus,
+  .button-combined:focus,
+  .button-cancel:focus {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+/* Tablet устройства (768px - 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  /* Средние размеры для планшетов */
+  .button,
+  .button-svg,
+  .button-text,
+  .button-combined,
+  .button-cancel {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+
+  /* SVG кнопки */
+  .button-svg {
+    min-width: 64px;
+    min-height: 64px;
+    padding: 14px;
+  }
+
+  .button-svg svg {
+    width: 56px;
+    height: 56px;
+  }
+
+  /* Текстовые кнопки */
+  .button-text {
+    padding: 14px 18px;
+    font-size: 15px;
+    min-width: 140px;
+  }
+
+  /* Комбинированные кнопки */
+  .button-combined {
+    padding: 14px 18px;
+    font-size: 15px;
+    min-width: 160px;
+    gap: 10px;
+  }
+
+  .button-combined svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Кнопки отмены */
+  .button-cancel {
+    padding: 14px 18px;
+    font-size: 15px;
+    min-width: 120px;
+  }
+}
+
+/* Desktop устройства (1024px и выше) */
+@media screen and (min-width: 1024px) {
+  /* Оптимальные размеры для десктопа */
+  .button,
+  .button-svg,
+  .button-text,
+  .button-combined,
+  .button-cancel {
+    min-height: 40px;
+    min-width: 40px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  /* SVG кнопки */
+  .button-svg {
+    min-width: 80px;
+    min-height: 80px;
+    padding: 10px;
+  }
+
+  .button-svg svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Текстовые кнопки */
+  .button-text {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-width: 120px;
+  }
+
+  /* Комбинированные кнопки */
+  .button-combined {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-width: 140px;
+    gap: 8px;
+  }
+
+  .button-combined svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Кнопки отмены */
+  .button-cancel {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-width: 100px;
+  }
+
+  /* Более тонкий outline для десктопа */
+  .button-svg:focus,
+  .button-text:focus,
+  .button-combined:focus,
+  .button-cancel:focus {
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+}
+
+/* Большие экраны (1440px и выше) */
+@media screen and (min-width: 1440px) {
+  .button,
+  .button-svg,
+  .button-text,
+  .button-combined,
+  .button-cancel {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  .button-svg {
+    padding: 12px;
+  }
+
+  .button-svg svg {
+    width: 64px;
+    height: 64px;
+  }
+
+  .button-text {
+    padding: 12px 20px;
+    min-width: 140px;
+  }
+
+  .button-combined {
+    padding: 12px 20px;
+    min-width: 160px;
+  }
+
+  .button-combined svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .button-cancel {
+    padding: 12px 20px;
+    min-width: 120px;
+  }
+}
+
+/* Landscape ориентация на мобильных (до 768px в ширине) */
+@media screen and (max-width: 767px) and (orientation: landscape) {
+  .button,
+  .button-svg,
+  .button-text,
+  .button-combined,
+  .button-cancel {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+
+  .button-svg {
+    min-width: 72px;
+    min-height: 72px;
+    padding: 10px;
+  }
+
+  .button-svg svg {
+    width: 56px;
+    height: 56px;
+  }
 }
 
