@@ -90,8 +90,18 @@ jobs:
           PORTAINER_STACK_ID: ${{ secrets.PORTAINER_STACK_ID }}
           PORTAINER_ENDPOINT_ID: ${{ secrets.PORTAINER_ENDPOINT_ID }}
         run: |
+          set -e  # Прекращать выполнение при ошибках
+          
           # Установка jq для работы с JSON
-          sudo apt-get update && sudo apt-get install -y jq curl
+          # Игнорируем exit code от update (может быть 3 даже при успехе)
+          sudo apt-get update || true
+          sudo apt-get install -y jq curl
+          
+          # Проверяем, что jq установлен
+          if ! command -v jq &> /dev/null; then
+            echo "❌ Error: jq is not installed!"
+            exit 1
+          fi
           
           # Проверяем существование файла docker-compose.portainer.yml
           if [ ! -f "docker-compose.portainer.yml" ]; then
@@ -105,14 +115,38 @@ jobs:
             exit 1
           fi
           
+          # Показываем содержимое файла для отладки
+          echo "📄 Contents of docker-compose.portainer.yml:"
+          cat docker-compose.portainer.yml
+          echo ""
+          
           # Получаем содержимое docker-compose.yml и экранируем для JSON
+          echo "🔄 Converting to JSON..."
           COMPOSE_CONTENT=$(cat docker-compose.portainer.yml | jq -Rs .)
           
           # Проверяем успешность выполнения jq
-          if [ $? -ne 0 ]; then
-            echo "❌ Error: Failed to parse docker-compose.portainer.yml with jq"
+          JQ_EXIT_CODE=$?
+          if [ $JQ_EXIT_CODE -ne 0 ]; then
+            echo "❌ Error: Failed to parse docker-compose.portainer.yml with jq (exit code: $JQ_EXIT_CODE)"
+            echo "File size: $(wc -c < docker-compose.portainer.yml) bytes"
             exit 1
           fi
+          
+          echo "✅ JSON conversion successful"
+          echo "Content length: ${#COMPOSE_CONTENT} characters"
+          
+          # Проверяем наличие всех необходимых переменных окружения
+          if [ -z "$PORTAINER_URL" ] || [ -z "$PORTAINER_API_KEY" ] || [ -z "$PORTAINER_STACK_ID" ] || [ -z "$PORTAINER_ENDPOINT_ID" ]; then
+            echo "❌ Error: Missing required environment variables!"
+            echo "PORTAINER_URL: ${PORTAINER_URL:+set}${PORTAINER_URL:-not set}"
+            echo "PORTAINER_API_KEY: ${PORTAINER_API_KEY:+set}${PORTAINER_API_KEY:-not set}"
+            echo "PORTAINER_STACK_ID: ${PORTAINER_STACK_ID:+set}${PORTAINER_STACK_ID:-not set}"
+            echo "PORTAINER_ENDPOINT_ID: ${PORTAINER_ENDPOINT_ID:+set}${PORTAINER_ENDPOINT_ID:-not set}"
+            exit 1
+          fi
+          
+          echo "🚀 Updating stack in Portainer..."
+          echo "URL: $PORTAINER_URL/api/stacks/$PORTAINER_STACK_ID?endpointId=$PORTAINER_ENDPOINT_ID"
           
           # Обновляем стек через Portainer API
           RESPONSE=$(curl -s -w "\n%{http_code}" -X PUT \
@@ -123,7 +157,7 @@ jobs:
               \"StackFileContent\": $COMPOSE_CONTENT,
               \"Prune\": true,
               \"PullImage\": true
-            }")
+            }" 2>&1)
           
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | head -n-1)
