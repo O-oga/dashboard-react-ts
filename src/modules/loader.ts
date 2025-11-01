@@ -1,6 +1,6 @@
 'use strict';
 
-import {entities} from "./";
+export const entities: Record<string, string> = {};
 
 export let connection: WebSocket;
 let id = 1;
@@ -66,7 +66,7 @@ export const messages = {
 
 }
 
-export let sendToHA = (data) => {
+export let sendToHA = (data: any) => {
     data.id = id++;
 
     // if (data.type === 'ping') {
@@ -80,19 +80,21 @@ export let sendToHA = (data) => {
     });
 }
 
-export const pushAuthData = (link, token) => {
-    let HAAuth = {};
-    HAAuth.url = link;
-    HAAuth.token = token;
+export const pushAuthData = (link: string, token: string) => {
+    let HAAuth: { url: string; token: string } = {
+        url: link,
+        token: token
+    };
     localStorage.setItem('HAAuth', JSON.stringify(HAAuth))
 }
 
-export const getAuthData = () => {
-    return JSON.parse(localStorage.getItem('HAAuth'));
+export const getAuthData = (): { url: string; token: string } | null => {
+    const data = localStorage.getItem('HAAuth');
+    return data ? JSON.parse(data) : null;
 }
 
 
-let handleMessage = (event) => {
+let handleMessage = (event: MessageEvent) => {
     const data = JSON.parse(event.data);
     console.log(`Received data: ${JSON.stringify(data)}`);
 
@@ -119,16 +121,16 @@ let handleMessage = (event) => {
     }
 }
 
-function handleEvent(event) {
+function handleEvent(event: { event_type: string; data: { entity_id: string; new_state: { state: string }; old_state: { state: string } } }) {
     if (event.event_type === 'state_changed') {
         console.log('State changed:', event.data);
         changeDeviceState(event.data.entity_id, event.data.new_state.state, event.data.old_state.state, true).then(()=>{});
     }
 }
 
-let sendAuthMessage = (token) => {
-    return new Promise((resolve, reject) => {
-        const authHandler = (message) => {
+let sendAuthMessage = (token: string): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+        const authHandler = (message: MessageEvent) => {
             const data = JSON.parse(message.data);
             if (data.type === 'auth_ok') {
                 connection.removeEventListener('message', authHandler);
@@ -164,7 +166,7 @@ let subscribeToEvents = () => {
         .catch(error => console.error('Failed to subscribe to events:', error));
 }
 
-export const createConnection = (url, token) => {
+export const createConnection = (url: string, token: string): Promise<WebSocket> => {
     return new Promise((resolve, reject) => {
         connection = new WebSocket(url);
 
@@ -199,7 +201,7 @@ export const createConnection = (url, token) => {
             // Reconnect after 5 seconds
             let newAuthData = getAuthData();
             if (newAuthData) {
-                setTimeout(() => createConnection(newAuthData.url, newAuthData.token).then(resolve).catch(reject), 5000);
+                setTimeout(() => createConnection(newAuthData!.url, newAuthData!.token).then(resolve).catch(reject), 5000);
             }
         };
 
@@ -208,7 +210,7 @@ export const createConnection = (url, token) => {
 };
 
 
-export const changeDeviceState = async (entity_id, new_state, old_state, serverEvent = false) => {
+export const changeDeviceState = async (entity_id: string, new_state: string, _old_state: string, serverEvent = false) => {
 
     if (serverEvent) {
         //make client changes
@@ -231,8 +233,8 @@ export const changeDeviceState = async (entity_id, new_state, old_state, serverE
 
 export const createEntitysStateList = async () => {
     try {
-        const request = await sendToHA(messages.get_states);
-        return request.result.reduce((entitys, item) => {
+        const request = await sendToHA(messages.get_states) as { result: Array<{ entity_id: string; state: string }> };
+        return request.result.reduce((entitys: Record<string, string>, item: { entity_id: string; state: string }) => {
             entitys[item.entity_id] = item.state;
             return entitys;
         }, {});
@@ -242,7 +244,8 @@ export const createEntitysStateList = async () => {
     }
 }
 
-export const getHistory = async (entity_ids, start_time, end_time) => {
+export const getHistory = async (_entity_ids: string[], _start_time: string, _end_time: string) => {
+    // TODO: Implement history retrieval
 };
 
 // export const getAllEntity = () => {
