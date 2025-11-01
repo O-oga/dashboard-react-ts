@@ -1,4 +1,4 @@
-name: Build and Deploy to Portainer
+name: Build and Deploy to Portainer (Webhook)
 
 on:
   push:
@@ -56,118 +56,35 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Prepare docker-compose for Portainer
-        run: |
-          # Проверяем существование исходного файла
-          if [ ! -f "docker-compose.yml" ]; then
-            echo "❌ Error: docker-compose.yml not found!"
-            exit 1
-          fi
-          
-          # Создаем docker-compose.yml с указанием образа из registry (lowercase)
-          # Заменяем любой образ на правильный из registry
-          sed "s|image:.*dashboard-react.*|image: ${{ env.REGISTRY }}/${{ steps.repo.outputs.repo_lower }}:latest|g" docker-compose.yml > docker-compose.portainer.yml
-          
-          # Проверяем успешность создания файла
-          if [ $? -ne 0 ]; then
-            echo "❌ Error: Failed to create docker-compose.portainer.yml"
-            exit 1
-          fi
-          
-          # Проверяем, что файл создан и не пустой
-          if [ ! -f "docker-compose.portainer.yml" ] || [ ! -s "docker-compose.portainer.yml" ]; then
-            echo "❌ Error: docker-compose.portainer.yml was not created or is empty!"
-            exit 1
-          fi
-          
-          echo "✅ docker-compose.portainer.yml created successfully:"
-          cat docker-compose.portainer.yml
-
-      - name: Deploy to Portainer
+      - name: Deploy to Portainer via Webhook
         env:
-          PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
-          PORTAINER_API_KEY: ${{ secrets.PORTAINER_API_KEY }}
-          PORTAINER_STACK_ID: ${{ secrets.PORTAINER_STACK_ID }}
-          PORTAINER_ENDPOINT_ID: ${{ secrets.PORTAINER_ENDPOINT_ID }}
+          PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
         run: |
-          set -e  # Прекращать выполнение при ошибках
+          set -e
           
-          # Установка jq для работы с JSON
-          # Игнорируем exit code от update (может быть 3 даже при успехе)
-          sudo apt-get update || true
-          sudo apt-get install -y jq curl
-          
-          # Проверяем, что jq установлен
-          if ! command -v jq &> /dev/null; then
-            echo "❌ Error: jq is not installed!"
+          # Проверяем наличие webhook URL
+          if [ -z "$PORTAINER_WEBHOOK_URL" ]; then
+            echo "❌ Error: PORTAINER_WEBHOOK_URL is not set!"
+            echo "📝 Please add PORTAINER_WEBHOOK_URL to GitHub Secrets"
+            echo "   Settings → Secrets and variables → Actions → New repository secret"
             exit 1
           fi
           
-          # Проверяем существование файла docker-compose.portainer.yml
-          if [ ! -f "docker-compose.portainer.yml" ]; then
-            echo "❌ Error: docker-compose.portainer.yml not found!"
-            exit 1
-          fi
+          echo "🚀 Triggering Portainer webhook..."
+          echo "URL: ${PORTAINER_WEBHOOK_URL}"
           
-          # Проверяем, что файл не пустой
-          if [ ! -s "docker-compose.portainer.yml" ]; then
-            echo "❌ Error: docker-compose.portainer.yml is empty!"
-            exit 1
-          fi
-          
-          # Показываем содержимое файла для отладки
-          echo "📄 Contents of docker-compose.portainer.yml:"
-          cat docker-compose.portainer.yml
-          echo ""
-          
-          # Получаем содержимое docker-compose.yml и экранируем для JSON
-          echo "🔄 Converting to JSON..."
-          COMPOSE_CONTENT=$(cat docker-compose.portainer.yml | jq -Rs .)
-          
-          # Проверяем успешность выполнения jq
-          JQ_EXIT_CODE=$?
-          if [ $JQ_EXIT_CODE -ne 0 ]; then
-            echo "❌ Error: Failed to parse docker-compose.portainer.yml with jq (exit code: $JQ_EXIT_CODE)"
-            echo "File size: $(wc -c < docker-compose.portainer.yml) bytes"
-            exit 1
-          fi
-          
-          echo "✅ JSON conversion successful"
-          echo "Content length: ${#COMPOSE_CONTENT} characters"
-          
-          # Проверяем наличие всех необходимых переменных окружения
-          if [ -z "$PORTAINER_URL" ] || [ -z "$PORTAINER_API_KEY" ] || [ -z "$PORTAINER_STACK_ID" ] || [ -z "$PORTAINER_ENDPOINT_ID" ]; then
-            echo "❌ Error: Missing required environment variables!"
-            echo "PORTAINER_URL: ${PORTAINER_URL:+set}${PORTAINER_URL:-not set}"
-            echo "PORTAINER_API_KEY: ${PORTAINER_API_KEY:+set}${PORTAINER_API_KEY:-not set}"
-            echo "PORTAINER_STACK_ID: ${PORTAINER_STACK_ID:+set}${PORTAINER_STACK_ID:-not set}"
-            echo "PORTAINER_ENDPOINT_ID: ${PORTAINER_ENDPOINT_ID:+set}${PORTAINER_ENDPOINT_ID:-not set}"
-            exit 1
-          fi
-          
-          echo "🚀 Updating stack in Portainer..."
-          echo "URL: $PORTAINER_URL/api/stacks/$PORTAINER_STACK_ID?endpointId=$PORTAINER_ENDPOINT_ID"
-          
-          # Обновляем стек через Portainer API
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X PUT \
-            "$PORTAINER_URL/api/stacks/$PORTAINER_STACK_ID?endpointId=$PORTAINER_ENDPOINT_ID" \
-            -H "X-API-Key: $PORTAINER_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"StackFileContent\": $COMPOSE_CONTENT,
-              \"Prune\": true,
-              \"PullImage\": true
-            }" 2>&1)
+          # Вызываем webhook
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$PORTAINER_WEBHOOK_URL" 2>&1)
           
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | head -n-1)
           
           if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
-            echo "✅ Stack updated successfully!"
-            echo "$BODY" | jq .
+            echo "✅ Webhook triggered successfully!"
+            echo "Response: $BODY"
           else
-            echo "❌ Failed to update stack. HTTP Code: $HTTP_CODE"
-            echo "$BODY"
+            echo "❌ Failed to trigger webhook. HTTP Code: $HTTP_CODE"
+            echo "Response: $BODY"
             exit 1
           fi
 
