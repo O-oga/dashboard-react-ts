@@ -1,14 +1,23 @@
-# Build
-FROM node:20-alpine AS build
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
+version: '3.8'
 
-# Serve
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 99
-CMD ["nginx","-g","daemon off;"]
+services:
+  dashboard-react:
+    # Для Portainer: используйте image из GitHub Container Registry
+    # GitHub Actions автоматически заменит это на ghcr.io/USERNAME/REPO:latest
+    image: dashboard-react:latest
+    
+    # Для локальной сборки раскомментируйте build и закомментируйте image выше
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    
+    container_name: dashboard-react
+    ports:
+      - "99:80"
+    restart: unless-stopped
+    networks:
+      - dashboard-network
+
+networks:
+  dashboard-network:
+    driver: bridge
