@@ -58,8 +58,29 @@ jobs:
 
       - name: Prepare docker-compose for Portainer
         run: |
+          # Проверяем существование исходного файла
+          if [ ! -f "docker-compose.yml" ]; then
+            echo "❌ Error: docker-compose.yml not found!"
+            exit 1
+          fi
+          
           # Создаем docker-compose.yml с указанием образа из registry (lowercase)
-          sed "s|image: dashboard-react:latest|image: ${{ env.REGISTRY }}/${{ steps.repo.outputs.repo_lower }}:latest|g" docker-compose.yml > docker-compose.portainer.yml
+          # Заменяем любой образ на правильный из registry
+          sed "s|image:.*dashboard-react.*|image: ${{ env.REGISTRY }}/${{ steps.repo.outputs.repo_lower }}:latest|g" docker-compose.yml > docker-compose.portainer.yml
+          
+          # Проверяем успешность создания файла
+          if [ $? -ne 0 ]; then
+            echo "❌ Error: Failed to create docker-compose.portainer.yml"
+            exit 1
+          fi
+          
+          # Проверяем, что файл создан и не пустой
+          if [ ! -f "docker-compose.portainer.yml" ] || [ ! -s "docker-compose.portainer.yml" ]; then
+            echo "❌ Error: docker-compose.portainer.yml was not created or is empty!"
+            exit 1
+          fi
+          
+          echo "✅ docker-compose.portainer.yml created successfully:"
           cat docker-compose.portainer.yml
 
       - name: Deploy to Portainer
@@ -72,8 +93,26 @@ jobs:
           # Установка jq для работы с JSON
           sudo apt-get update && sudo apt-get install -y jq curl
           
+          # Проверяем существование файла docker-compose.portainer.yml
+          if [ ! -f "docker-compose.portainer.yml" ]; then
+            echo "❌ Error: docker-compose.portainer.yml not found!"
+            exit 1
+          fi
+          
+          # Проверяем, что файл не пустой
+          if [ ! -s "docker-compose.portainer.yml" ]; then
+            echo "❌ Error: docker-compose.portainer.yml is empty!"
+            exit 1
+          fi
+          
           # Получаем содержимое docker-compose.yml и экранируем для JSON
           COMPOSE_CONTENT=$(cat docker-compose.portainer.yml | jq -Rs .)
+          
+          # Проверяем успешность выполнения jq
+          if [ $? -ne 0 ]; then
+            echo "❌ Error: Failed to parse docker-compose.portainer.yml with jq"
+            exit 1
+          fi
           
           # Обновляем стек через Portainer API
           RESPONSE=$(curl -s -w "\n%{http_code}" -X PUT \
