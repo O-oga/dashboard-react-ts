@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository_owner }}/${{ github.event.repository.name }}
 
 jobs:
   build-and-push:
@@ -30,11 +30,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Convert repository name to lowercase
+        id: repo
+        run: |
+          echo "repo_lower=$(echo '${{ env.IMAGE_NAME }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+      
       - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ steps.repo.outputs.repo_lower }}
           tags: |
             type=ref,event=branch
             type=sha,prefix={{branch}}-
@@ -53,8 +58,8 @@ jobs:
 
       - name: Prepare docker-compose for Portainer
         run: |
-          # Создаем docker-compose.yml с указанием образа из registry
-          sed "s|image: dashboard-react:latest|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest|g" docker-compose.yml > docker-compose.portainer.yml
+          # Создаем docker-compose.yml с указанием образа из registry (lowercase)
+          sed "s|image: dashboard-react:latest|image: ${{ env.REGISTRY }}/${{ steps.repo.outputs.repo_lower }}:latest|g" docker-compose.yml > docker-compose.portainer.yml
           cat docker-compose.portainer.yml
 
       - name: Deploy to Portainer

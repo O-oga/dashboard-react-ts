@@ -1,15 +1,9 @@
-version: '3.8'
-
 services:
   dashboard-react:
-    # Для Portainer: используйте image из GitHub Container Registry
-    # GitHub Actions автоматически заменит это на ghcr.io/USERNAME/REPO:latest
-    image: dashboard-react:latest
-    
-    # Для локальной сборки раскомментируйте build и закомментируйте image выше
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
+    # Для Portainer: замените на ваш образ из GitHub Container Registry
+    # Формат: ghcr.io/YOUR_USERNAME/YOUR_REPO:latest
+    # Например: ghcr.io/username/dashboard-react:latest
+    image: ghcr.io/YOUR_USERNAME/dashboard-react:latest
     
     container_name: dashboard-react
     ports:

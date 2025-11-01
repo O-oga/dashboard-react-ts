@@ -21,23 +21,33 @@
 
 ### Настройка:
 
-1. **Создайте webhook в Portainer:**
-   - Откройте ваш стек в Portainer
-   - Перейдите в раздел **Webhooks**
+1. **Создайте стек в Portainer:**
+   - В Portainer перейдите в **Stacks**
+   - Нажмите **Add stack**
+   - Выберите ваш endpoint
+   - Название: `dashboard-react`
+   - **Важно:** Вставьте содержимое файла `docker-compose.yml` из репозитория
+   - **КРИТИЧЕСКИ ВАЖНО:** Замените `ghcr.io/YOUR_USERNAME/dashboard-react:latest` на реальный путь к вашему образу
+     - Формат: `ghcr.io/ваш-github-username/название-репозитория:latest`
+     - Например: если репозиторий `username/dashboard-react`, то `ghcr.io/username/dashboard-react:latest`
+   - Создайте стек
+
+2. **Создайте webhook в Portainer:**
+   - Откройте созданный стек в Portainer
+   - Перейдите в раздел **Webhooks** (в меню стека справа)
    - Нажмите **Add webhook**
-   - Скопируйте URL webhook
+   - Скопируйте URL webhook (выглядит как `https://your-portainer.com/api/webhooks/...`)
 
-2. **Добавьте webhook URL в GitHub Secrets:**
-   - Settings → Secrets and variables → Actions
-   - Добавьте secret: `PORTAINER_WEBHOOK_URL` с URL вашего webhook
+3. **Добавьте webhook URL в GitHub Secrets:**
+   - В GitHub репозитории: **Settings** → **Secrets and variables** → **Actions**
+   - Нажмите **New repository secret**
+   - Name: `PORTAINER_WEBHOOK_URL`
+   - Secret: вставьте URL webhook, скопированный из Portainer
+   - Нажмите **Add secret**
 
-3. **Убедитесь, что используется правильный workflow:**
+4. **Убедитесь, что используется правильный workflow:**
    - Переименуйте `.github/workflows/deploy-webhook.yml` в `.github/workflows/deploy.yml`
-   - Или удалите старый `deploy.yml`
-
-4. **Настройте docker-compose.yml в Portainer:**
-   - Используйте образ из GitHub Container Registry: `ghcr.io/YOUR_USERNAME/YOUR_REPO:latest`
-   - Замените `YOUR_USERNAME` и `YOUR_REPO` на ваши значения
+   - Или удалите старый `deploy.yml` если используете только webhook
 
 ---
 
@@ -71,15 +81,35 @@
 1. Обычно это `1` для локального Docker окружения
 2. Или перейдите в **Environments** и посмотрите ID в списке
 
-## Создание стека в Portainer (если еще не создан)
+## Устранение ошибок
 
-1. В Portainer перейдите в **Stacks**
-2. Нажмите **Add stack**
-3. Выберите ваш endpoint
-4. Название: `dashboard-react`
-5. Вставьте содержимое файла `docker-compose.yml`
-6. **Важно**: Измените `image: dashboard-react:latest` на `image: ghcr.io/YOUR_USERNAME/dashboard-react:latest`
-7. Создайте стек
+### Ошибка: "Top-level object must be a mapping"
+
+Эта ошибка возникает когда:
+1. **Неправильный формат YAML** - убедитесь что в Portainer вы используете правильный docker-compose.yml
+2. **Лишние символы** - проверьте что в файле нет скрытых символов
+3. **Неверная структура** - используйте файл `docker-compose.portainer.example.yml` как шаблон
+
+**Решение:**
+1. Скопируйте содержимое `docker-compose.portainer.example.yml`
+2. Замените `YOUR_USERNAME` и `YOUR_REPO` на ваши значения
+3. В Portainer откройте стек → **Editor** → вставьте исправленный YAML
+4. Сохраните и перезапустите стек
+
+### Ошибка: "denied Error response from daemon: Head https://ghcr.io/v2/..."
+
+**Причина:** Образ приватный, Portainer не может получить доступ без аутентификации.
+
+**Решение:** См. подробную инструкцию в файле `FIX-REGISTRY-ACCESS.md`
+
+**Кратко:**
+1. Создайте GitHub Personal Access Token с правами `read:packages`
+2. В Portainer: **Registries** → **Add registry** → **Custom**
+   - Name: `ghcr.io`
+   - URL: `ghcr.io`
+   - Username: ваш GitHub username
+   - Password: Personal Access Token
+3. Или сделайте образ публичным (см. `FIX-REGISTRY-ACCESS.md`)
 
 
 ## Настройка доступа к GitHub Container Registry

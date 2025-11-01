@@ -1,0 +1,21 @@
+# Пример docker-compose.yml для Portainer
+# Для репозитория: https://github.com/O-oga/dashboard-react-ts
+# ⚠️ ВАЖНО: Docker требует lowercase для имен образов!
+# Правильный путь к образу: ghcr.io/o-oga/dashboard-react-ts:latest
+
+services:
+  dashboard-react:
+    # ПРАВИЛЬНЫЙ путь для вашего репозитория (lowercase!):
+    image: ghcr.io/o-oga/dashboard-react-ts:latest
+    
+    container_name: dashboard-react
+    ports:
+      - "99:80"
+    restart: unless-stopped
+    networks:
+      - dashboard-network
+
+networks:
+  dashboard-network:
+    driver: bridge
+
