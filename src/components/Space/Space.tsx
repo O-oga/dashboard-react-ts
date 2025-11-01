@@ -10,19 +10,18 @@ function Space(props: any) {
 
     return (
         <div className="space">
-            {/* if (createdCards!=[]) {
-                createdCards.map((card: any) => {
-                    switch (card.type) {
+            {createdCards.map((card: any) => {
+                switch (card.type) {
 
-                        case 'switch': {
-                            return <Switch cardData={[card]}></Switch>
-                        }
-                        case 'sensor': {
-                            return <Sensor cardData={[card]}></Sensor>
-                        }
+                    case 'switch': {
+                        return <Switch title={[card.title]} entity={[card.entity]} img={[card.img]}></Switch>
                     }
-                })
-            } */}
+                    case 'sensor': {
+                        return <Sensor title={[card.title]} entity={[card.entity]} img={[card.img]}></Sensor>
+                    }
+                }
+            })
+            }
 
             <button className="card-svg button-svg" type="button" aria-label='Create new card'>
                 <svg className="card-svg" id="add-svg" width="80px" height="80px" viewBox="0 0 24 24" fill="none"
