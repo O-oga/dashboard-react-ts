@@ -8,7 +8,7 @@
   --border: 2px solid rgba(234, 234, 234, 0.15);
   --invalid-border: 2px solid rgba(255, 0, 0, 0.4);
   --close-collor: rgba(255, 80, 80, 0.6);
-  --border-radius: 10px;
+  --border-radius: 5px;
   --card-background-color: rgba(23, 23, 23, 0.6);
   --active-card-background-color: rgba(23, 23, 23, 0.9);
   --blur: blur(15px);
@@ -17,7 +17,7 @@
   --font: "Poppins-Light";
   --standart-item-size: 17.6vh;
 
-  --active-card-border: 2px solid rgba(234, 234, 234, 0.5)
+  --active-card-border: 1px solid rgba(234, 234, 234, 0.5)
 }
 
 html,

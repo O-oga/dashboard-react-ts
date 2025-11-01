@@ -1,0 +1,29 @@
+.navi-panel {
+    height: 13vh;
+    backdrop-filter: blur(20px);
+    background: var(--card-background-color);
+    width: 96vw;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    display: flex;
+
+    justify-content: center; /*wide-with*/
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.navi-panel-button {
+
+    backdrop-filter: var(--blur);
+    background: var(--card-background-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    height: 100%;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    margin: 5px;
+    padding: 5px;
+}
