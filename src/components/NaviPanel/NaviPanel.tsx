@@ -1,13 +1,53 @@
+import { useReducer } from 'react';
 import './NaviPanel.css';
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard';
 
 function NaviPanel(props: any) {
     const { crearedSpaces = [] } = props;
 
+    type Space = {
+        id: number;
+        title: string;
+        description?: string;
+        cards: [];
+        icon?: React.ReactNode;
+        order?: number;
+    };
+    type State = { spaces: Space[] };
+    type Action =
+        | { type: 'changeTitle'; id: number; title: string }
+        | { type: 'changeOrder'; id: number; order: number }
+        | { type: 'add'; space: Space }
+        | { type: 'remove'; id: number };
+
+    function reducer(state: State, action: Action): State {
+        switch (action.type) {
+            case 'changeTitle':
+                return {
+                    ...state,
+                    spaces: state.spaces.map(s => s.id === action.id ? { ...s, title: action.title } : s),
+                };
+            case 'changeOrder':
+                return {
+                    ...state,
+                    spaces: state.spaces.map(s => s.id === action.id ? { ...s, order: action.order } : s),
+                };
+            case 'add':
+                return { ...state, spaces: [...state.spaces, action.space] };
+            case 'remove':
+                return { ...state, spaces: state.spaces.filter(s => s.id !== action.id) };
+            default:
+                return state;
+        }
+    }
+
+    const initialState: State = { spaces: [] };
+    const [state, dispatch] = useReducer(reducer, initialState);
+
     return (
-        <div 
+        <div
             className="navi-panel"
-            style={{ 
+            style={{
                 justifyContent: crearedSpaces.length === 0 ? 'center' : 'flex-start'
             }}
         >
@@ -17,8 +57,11 @@ function NaviPanel(props: any) {
                     key={space.id || index}
                     icon={space.icon}
                     title={space.title}
+                    order={space.order}
                     description={space.description}
                     onClick={space.onClick}
+                    onTitleChange={space.onTitleChange}
+                    onOrderChange={space.onOrderChange}
                 />
             ))}
 
