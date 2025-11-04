@@ -1,7 +1,7 @@
 :root {
   /* Темная тема - Фоны */
   --body-background: #0f0f0f;
-  --body-background-gradient: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  --body-background-gradient: linear-gradient(135deg, #0f0f0f 0%, #121212 100%);
   --card-background-color: rgba(23, 23, 23, 0.6);
   --active-card-background-color: rgba(23, 23, 23, 0.9);
   --background-modal-input: rgba(234, 234, 234, 0.06);

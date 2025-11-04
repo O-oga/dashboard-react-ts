@@ -6,17 +6,58 @@
     width: 100vw;
     background: var(--body-background);
     background-image: var(--body-background-gradient);
+    position: relative;
 }
 
 .login-container {
-    backdrop-filter: var(--blur);
-    background: var(--card-background-color);
+    position: relative;
+    backdrop-filter: blur(5px); 
+    background: rgba(23, 23, 23, 0.8);
+    opacity: 1;
     border: var(--border);
     border-radius: var(--border-radius);
     padding: 40px;
     max-width: 500px;
     width: 90%;
     box-sizing: border-box;
+    z-index: 2;
+}
+
+/* Свечение за окном - отдельный элемент на уровне страницы */
+.login-page::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(500px, 90vw);
+    height: auto;
+    min-height: 400px;
+    aspect-ratio: 1.2;
+    z-index: 1;
+    border-radius: var(--border-radius);
+    background: radial-gradient(
+        ellipse at center,
+        rgba(100, 150, 255, 0.35) 0%,
+        rgba(150, 100, 255, 0.25) 20%,
+        rgba(255, 100, 150, 0.2) 40%,
+        rgba(100, 255, 200, 0.12) 60%,
+        transparent 85%
+    );
+    filter: blur(50px);
+    pointer-events: none;
+    animation: glow-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+    0% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.23);
+    }
 }
 
 .login-title {

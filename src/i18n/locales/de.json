@@ -1,0 +1,26 @@
+{
+  "app": {
+    "checkingConnection": "Verbindung wird geprüft...",
+    "pinNewCard": "Neue Karte anheften"
+  },
+  "login": {
+    "title": "Mit Home Assistant verbinden",
+    "urlLabel": "Home Assistant URL",
+    "urlPlaceholder": "ws://homeassistant.local:8123/api/websocket",
+    "tokenLabel": "Zugriffstoken",
+    "tokenPlaceholder": "Token eingeben",
+    "connectButton": "Verbinden",
+    "connecting": "Verbinde...",
+    "continueButton": "Fortfahren",
+    "ping": "Ping",
+    "errorRequired": "Bitte geben Sie URL und Token ein",
+    "errorConnection": "Verbindungsfehler"
+  },
+  "language": {
+    "en": "Englisch",
+    "ru": "Russisch",
+    "de": "Deutsch",
+    "uk": "Ukrainisch"
+  }
+}
+

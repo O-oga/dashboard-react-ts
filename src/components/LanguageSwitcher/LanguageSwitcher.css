@@ -1,0 +1,100 @@
+.language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.language-select-button {
+    background: var(--svg-button-collor);
+    color: var(--button-text-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    font-family: var(--font-family);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.language-select-button:hover {
+    background: var(--svg-button-hover-color);
+    color: var(--button-hover-text-color);
+}
+
+.language-select-button:focus {
+    outline: 2px solid var(--svg-button-focus-color);
+    outline-offset: 2px;
+}
+
+.language-select-button:active {
+    background: var(--svg-button-active-color);
+    color: var(--button-active-text-color);
+}
+
+.language-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: var(--card-background-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: 40px;
+    box-shadow: 0 4px 12px var(--shadow);
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.language-option {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    color: var(--button-text-color);
+    border: none;
+    border-bottom: var(--border);
+    font-family: var(--font-family);
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+}
+
+.language-option:last-child {
+    border-bottom: none;
+}
+
+.language-option:hover {
+    background: var(--svg-button-hover-color);
+    color: var(--button-hover-text-color);
+}
+
+.language-option.selected {
+    background: var(--svg-button-focus-color);
+    color: var(--button-focus-text-color);
+}
+
+.language-option:focus {
+    outline: none;
+    background: var(--svg-button-focus-color);
+    color: var(--button-focus-text-color);
+}

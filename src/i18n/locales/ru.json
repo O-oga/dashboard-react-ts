@@ -1,0 +1,26 @@
+{
+  "app": {
+    "checkingConnection": "Проверка подключения...",
+    "pinNewCard": "Добавить карточку"
+  },
+  "login": {
+    "title": "Подключение к Home Assistant",
+    "urlLabel": "URL Home Assistant",
+    "urlPlaceholder": "ws://homeassistant.local:8123/api/websocket",
+    "tokenLabel": "Токен доступа",
+    "tokenPlaceholder": "Введите токен",
+    "connectButton": "Подключиться",
+    "connecting": "Подключение...",
+    "continueButton": "Продолжить",
+    "ping": "Пинг",
+    "errorRequired": "Пожалуйста, введите URL и токен",
+    "errorConnection": "Ошибка подключения"
+  },
+  "language": {
+    "en": "Английский",
+    "ru": "Русский",
+    "de": "Немецкий",
+    "uk": "Украинский"
+  }
+}
+

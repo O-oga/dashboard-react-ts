@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './App.css'
 import NaviPanel from './components/NaviPanel/NaviPanel'
 import Space from './components/Space/Space'
 import LoginPage from './components/LoginPage/LoginPage'
+import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
 import { getAuthData, createConnection, convertToWebSocketUrl, isConnectionActive } from './modules/loader'
 import type { Card } from './types/space.types'
 
 function App() {
+  const { t } = useTranslation();
   const [selectedSpaceCards, setSelectedSpaceCards] = useState<Card[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
@@ -54,15 +57,21 @@ function App() {
   if (isCheckingAuth) {
     return (
       <div className="app">
+        <LanguageSwitcher />
         <div style={{ color: 'var(--button-text-color)', textAlign: 'center', padding: '20px' }}>
-          Проверка подключения...
+          {t('app.checkingConnection')}
         </div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+    return (
+      <>
+        <LanguageSwitcher />
+        <LoginPage onLoginSuccess={handleLoginSuccess} />
+      </>
+    );
   }
 
   return (

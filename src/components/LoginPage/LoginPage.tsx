@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { createConnection, getPingLatency, pushAuthData, convertToWebSocketUrl, getAuthData } from '../../modules/loader';
 import './LoginPage.css';
 
@@ -7,6 +8,7 @@ type LoginPageProps = {
 };
 
 function LoginPage({ onLoginSuccess }: LoginPageProps) {
+    const { t } = useTranslation();
     const [url, setUrl] = useState<string>('');
     const [token, setToken] = useState<string>('');
     const [isConnecting, setIsConnecting] = useState<boolean>(false);
@@ -38,7 +40,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
     const handleConnect = async () => {
         if (!url || !token) {
-            setError('Пожалуйста, введите URL и токен');
+            setError(t('login.errorRequired'));
             return;
         }
 
@@ -53,7 +55,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
             setIsConnected(true);
             setError('');
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Ошибка подключения');
+            setError(err instanceof Error ? err.message : t('login.errorConnection'));
             setIsConnected(false);
         } finally {
             setIsConnecting(false);
@@ -69,30 +71,30 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
     return (
         <div className="login-page">
             <div className="login-container">
-                <h1 className="login-title">Подключение к Home Assistant</h1>
+                <h1 className="login-title">{t('login.title')}</h1>
                 
                 <div className="login-form">
                     <div className="form-group">
-                        <label htmlFor="url">URL Home Assistant</label>
+                        <label htmlFor="url">{t('login.urlLabel')}</label>
                         <input
                             id="url"
                             type="text"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
-                            placeholder="ws://homeassistant.local:8123/api/websocket"
+                            placeholder={t('login.urlPlaceholder')}
                             disabled={isConnecting || isConnected}
                             className="form-input"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="token">Токен доступа</label>
+                        <label htmlFor="token">{t('login.tokenLabel')}</label>
                         <input
                             id="token"
                             type="password"
                             value={token}
                             onChange={(e) => setToken(e.target.value)}
-                            placeholder="Введите токен"
+                            placeholder={t('login.tokenPlaceholder')}
                             disabled={isConnecting || isConnected}
                             className="form-input"
                         />
@@ -103,7 +105,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     <div className="button-container">
                         {isConnected && pingLatency !== null && (
                             <div className="ping-indicator">
-                                Пинг: {pingLatency}ms
+                                {t('login.ping')}: {pingLatency}ms
                             </div>
                         )}
                         <button
@@ -111,7 +113,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
                             disabled={isConnecting}
                             className="login-button"
                         >
-                            {isConnecting ? 'Подключение...' : isConnected ? 'Продолжить' : 'Подключиться'}
+                            {isConnecting ? t('login.connecting') : isConnected ? t('login.continueButton') : t('login.connectButton')}
                         </button>
                     </div>
                 </div>
