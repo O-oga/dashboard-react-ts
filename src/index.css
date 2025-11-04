@@ -7,7 +7,7 @@
   --background-modal-input: rgba(234, 234, 234, 0.06);
 
   /* Темная тема - Контуры */
-  --border: 1px solid rgba(234, 234, 234, 0.15);
+  --border: 1px solid rgba(234, 234, 234, 0.05);
   --active-card-border: 1px solid rgba(234, 234, 234, 0.5);
   --invalid-border: 1px solid rgba(255, 0, 0, 0.4);
 

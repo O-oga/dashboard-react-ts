@@ -13,8 +13,16 @@
     "connecting": "Verbinde...",
     "continueButton": "Fortfahren",
     "ping": "Ping",
+    "pingWaiting": "Warte auf Ping...",
     "errorRequired": "Bitte geben Sie URL und Token ein",
-    "errorConnection": "Verbindungsfehler"
+    "errorConnection": "Verbindungsfehler",
+    "privacy": "Datenschutzrichtlinie",
+    "version": "Version 1.0.0"
+  },
+  "privacy": {
+    "title": "Datenschutzrichtlinie",
+    "description": "Diese Anwendung arbeitet vollständig clientseitig ohne Serverkomponente. Alle Daten werden lokal auf Ihrem Gerät gespeichert und nicht gesammelt, übertragen oder auf externen Servern gespeichert.",
+    "close": "Schließen"
   },
   "language": {
     "en": "Englisch",

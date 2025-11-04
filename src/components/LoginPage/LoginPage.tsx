@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createConnection, getPingLatency, pushAuthData, convertToWebSocketUrl, getAuthData } from '../../modules/loader';
+import PrivacyModal from '../ModalWindows/Privacy/PrivacyModal';
 import './LoginPage.css';
 
 type LoginPageProps = {
@@ -15,6 +16,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [pingLatency, setPingLatency] = useState<number | null>(null);
+    const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState<boolean>(false);
 
     // Load saved data from cookies on mount
     useEffect(() => {
@@ -28,13 +30,23 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
     // Track ping latency when connected
     useEffect(() => {
         if (isConnected) {
-            const interval = setInterval(() => {
+            // Check ping immediately and then set up interval
+            const checkPing = () => {
                 const latency = getPingLatency();
                 if (latency !== null) {
                     setPingLatency(latency);
                 }
-            }, 1000);
+            };
+            
+            // Check immediately
+            checkPing();
+            
+            // Then check every 500ms for faster updates
+            const interval = setInterval(checkPing, 500);
             return () => clearInterval(interval);
+        } else {
+            // Reset ping when disconnected
+            setPingLatency(null);
         }
     }, [isConnected]);
 
@@ -68,10 +80,20 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
         onLoginSuccess();
     };
 
+    // Helper function to highlight "Home Assistant" text
+    const highlightHomeAssistant = (text: string) => {
+        const parts = text.split(/(Home Assistant)/i);
+        return parts.map((part, index) => 
+            /Home Assistant/i.test(part) ? (
+                <span key={index} className="home-assistant-highlight">{part}</span>
+            ) : part
+        );
+    };
+
     return (
         <div className="login-page">
             <div className="login-container">
-                <h1 className="login-title">{t('login.title')}</h1>
+                <h1 className="login-title">{highlightHomeAssistant(t('login.title'))}</h1>
                 
                 <div className="login-form">
                     <div className="form-group">
@@ -103,21 +125,29 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     {error && <div className="error-message">{error}</div>}
 
                     <div className="button-container">
-                        {isConnected && pingLatency !== null && (
-                            <div className="ping-indicator">
-                                {t('login.ping')}: {pingLatency}ms
+                        {isConnected && (
+                            <div className={`ping-indicator ${pingLatency !== null ? 'ping-indicator-visible' : 'ping-indicator-loading'}`}>
+                                {pingLatency !== null ? `${t('login.ping')}: ${pingLatency}ms` : t('login.pingWaiting')}
                             </div>
                         )}
                         <button
                             onClick={isConnected ? handleContinue : handleConnect}
                             disabled={isConnecting}
-                            className="login-button"
+                            className={`login-button ${isConnected ? 'login-button-connected' : ''}`}
                         >
                             {isConnecting ? t('login.connecting') : isConnected ? t('login.continueButton') : t('login.connectButton')}
                         </button>
                     </div>
+                    <div className='confidentiality' onClick={() => setIsPrivacyModalOpen(true)}>
+                        {t('login.privacy')}
+                    </div>
                 </div>
             </div>
+            <div className="login-page-footer">
+                <div className='autor'>Valerii Monakov © 2025</div>
+                <div className='version'>{t('login.version')}</div>
+            </div>
+            <PrivacyModal isOpen={isPrivacyModalOpen} onClose={() => setIsPrivacyModalOpen(false)} />
         </div>
     );
 }

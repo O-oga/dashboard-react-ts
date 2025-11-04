@@ -71,6 +71,10 @@
     font-family: var(--font);
 }
 
+.home-assistant-highlight {
+    color: #18bbf2b9;
+}
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -126,6 +130,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    justify-content: space-between;
     margin-top: 10px;
 }
 
@@ -133,11 +138,29 @@
     color: var(--button-text-color);
     font-size: 14px;
     padding: 10px 15px;
-    background: var(--background-modal-input);
-    border: var(--border);
+    /* background: var(--background-modal-input); */
+    /* border: var(--border); */
     border-radius: var(--border-radius);
     min-width: 100px;
     text-align: center;
+    opacity: 0;
+    transform: translateX(-20px);
+    max-width: 0;
+    overflow: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease, max-width 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+}
+
+.ping-indicator-visible {
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 200px;
+}
+
+.ping-indicator-loading {
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 200px;
+    color: var(--button-hover-text-color);
 }
 
 .login-button {
@@ -150,7 +173,12 @@
     font-size: 16px;
     font-family: var(--font);
     cursor: pointer;
-    transition: background var(--transition), color var(--transition), border var(--transition);
+    transition: flex 0.4s ease, padding 0.4s ease, font-size 0.4s ease, background var(--transition), color var(--transition), border var(--transition);
+}
+
+.login-button-connected {
+    flex: 0 1 auto;
+    min-width: 150px;
 }
 
 .login-button:hover:not(:disabled) {
@@ -176,3 +204,40 @@
     cursor: not-allowed;
 }
 
+.login-page-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--button-text-color);
+    font-size: 12px;
+    font-family: var(--font);
+    margin-top: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.confidentiality {
+    height: 0px;
+    color: var(--button-text-color);
+    font-size: 12px;
+    font-family: var(--font);
+    text-align: center;
+    position: relative;
+    bottom: -5px;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.confidentiality:hover {
+    text-decoration: underline;
+    color: var(--button-hover-text-color);
+}
+
+.confidentiality:active {
+    color: var(--button-active-text-color);
+    text-decoration: underline;
+}

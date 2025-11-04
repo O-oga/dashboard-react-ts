@@ -13,8 +13,16 @@
     "connecting": "Connecting...",
     "continueButton": "Continue",
     "ping": "Ping",
+    "pingWaiting": "Waiting for ping...",
     "errorRequired": "Please enter URL and token",
-    "errorConnection": "Connection error"
+    "errorConnection": "Connection error",
+    "privacy": "Privacy Policy",
+    "version": "Version 1.0.0"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "This application operates entirely on the client side without any server component. All data is stored locally on your device and is not collected, transmitted, or stored on external servers.",
+    "close": "Close"
   },
   "language": {
     "en": "English",
