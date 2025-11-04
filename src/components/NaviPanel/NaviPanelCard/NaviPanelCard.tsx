@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './NaviPanelCard.css';
 
 function NaviPanelCard(props : any) {
-    const {icon, description, onClick, onTitleChange, onOrderChange} = props;
+    const { icon, description, loadSpacesCards, onTitleChange, onOrderChange} = props;
     const [title, setTitle] = useState(props.title);
     const [order, setOrder] = useState<number>(props.order ?? 0);
 
@@ -16,7 +16,7 @@ function NaviPanelCard(props : any) {
     }, [props.order]);
 
     return (
-        <div className="navi-panel-card" onClick={onClick}>
+        <div className="navi-panel-card" onClick={loadSpacesCards}>
             <div className="navi-panel-card-icon">{icon}</div>
             <input
                 className="navi-panel-card-title"

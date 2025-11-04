@@ -1,27 +1,19 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import './NaviPanel.css';
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard';
+import { saveSpaces, getSpaces } from '../../modules/loader';
+import type { Space, State, Action } from '../../types/space.types';
 
-function NaviPanel(props: any) {
-    const { crearedSpaces = [] } = props;
+type NaviPanelProps = {
+    onSpaceSelect?: (cards: Space['cards']) => void;
+};
 
-    type Space = {
-        id: number;
-        title: string;
-        description?: string;
-        cards: [];
-        icon?: React.ReactNode;
-        order?: number;
-    };
-    type State = { spaces: Space[] };
-    type Action =
-        | { type: 'changeTitle'; id: number; title: string }
-        | { type: 'changeOrder'; id: number; order: number }
-        | { type: 'add'; space: Space }
-        | { type: 'remove'; id: number };
+function NaviPanel({ onSpaceSelect }: NaviPanelProps) {
 
     function reducer(state: State, action: Action): State {
         switch (action.type) {
+            case 'loadSpaces':
+                return action.state;
             case 'changeTitle':
                 return {
                     ...state,
@@ -44,28 +36,44 @@ function NaviPanel(props: any) {
     const initialState: State = { spaces: [] };
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    // Load data when component mounts
+    useEffect(() => {
+        const savedSpaces = getSpaces();
+        if (savedSpaces && Array.isArray(savedSpaces.spaces)) {
+            dispatch({ type: 'loadSpaces', state: savedSpaces });
+        }
+    }, []);
+
+    // Save data when state changes
+    useEffect(() => {
+        if (state.spaces.length > 0 || localStorage.getItem('spaces') !== null) {
+            saveSpaces(state);
+        }
+    }, [state]);
+
     return (
         <div
             className="navi-panel"
             style={{
-                justifyContent: crearedSpaces.length === 0 ? 'center' : 'flex-start'
+                justifyContent: state.spaces.length === 0 ? 'center' : 'flex-start'
             }}
         >
-            {/* Отображаем карточки пространств */}
-            {crearedSpaces.map((space: any, index: number) => (
+            {/* Display space cards */}
+            {state.spaces.map((space: Space, index: number) => (
                 <NaviPanelCard
                     key={space.id || index}
                     icon={space.icon}
                     title={space.title}
                     order={space.order}
                     description={space.description}
-                    onClick={space.onClick}
-                    onTitleChange={space.onTitleChange}
-                    onOrderChange={space.onOrderChange}
+                    cards={space.cards}
+                    onClick={() => onSpaceSelect?.(space.cards)}
+                    onTitleChange={(next: string) => dispatch({ type: 'changeTitle', id: space.id, title: next })}
+                    onOrderChange={(next: number) => dispatch({ type: 'changeOrder', id: space.id, order: next })}
                 />
             ))}
 
-            {/* Кнопка создания нового пространства */}
+            {/* Button to create new space */}
             <button className="navi-panel-button button-svg" type="button" aria-label='Create new space'>
                 <svg className="card-svg" width="80px" height="80px" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">

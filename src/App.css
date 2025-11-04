@@ -1,6 +1,6 @@
 #root {
   margin: 0;
-  padding: 1vh 1vw;
+  /* padding: 1vh 1vw; */
   text-align: center;
   display: flex;
   flex-direction: column;
