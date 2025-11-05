@@ -43,6 +43,28 @@
     height: 100%;
 }
 
+/* Adaptive icon sizes */
+@media screen and (max-width: 767px) {
+    .navi-panel-card-icon {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .navi-panel-card-icon {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .navi-panel-card-icon {
+        width: 44px;
+        height: 44px;
+    }
+}
+
 .navi-panel-card-title {
     font-size: 12px;
     color: var(--button-text-color);

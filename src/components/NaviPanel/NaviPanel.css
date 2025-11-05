@@ -6,7 +6,7 @@
     /* Width constrained by parent */
     max-width: 100%;
     width: fit-content;
-    min-width: 400px;
+    min-width: 20vw;
     
     /* Centering panel horizontally */
     margin: 0 auto;

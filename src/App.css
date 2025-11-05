@@ -1,11 +1,12 @@
 #root {
   margin: 0;
-  /* padding: 1vh 1vw; */
   text-align: center;
   display: flex;
   flex-direction: column;
-  height: 98vh;
-  width: 98vw;
+  height: calc(var(--vh, 1vh) * 100);
+  width: calc(var(--vw, 1vw) * 100);
+  overflow: hidden;
+  position: relative;
 }
 
 body {
@@ -165,9 +166,49 @@ body {
 
 /* Media queries for button adaptation to different resolutions */
 
-/* Mobile devices (up to 768px) */
+/* Base sizes - applied to all buttons by default */
+.button,
+.button-svg,
+.button-text,
+.button-combined,
+.button-cancel {
+  min-height: 40px;
+  min-width: 40px;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.button-svg {
+  min-width: 80px;
+  min-height: 80px;
+  padding: 10px;
+}
+
+.button-svg svg {
+  width: 60px;
+  height: 60px;
+}
+
+.button-text {
+  min-width: 120px;
+}
+
+.button-combined {
+  min-width: 140px;
+  gap: 8px;
+}
+
+.button-combined svg {
+  width: 18px;
+  height: 18px;
+}
+
+.button-cancel {
+  min-width: 100px;
+}
+
+/* Mobile devices (up to 767px) */
 @media screen and (max-width: 767px) {
-  /* Base sizes for touch interface */
   .button,
   .button-svg,
   .button-text,
@@ -179,7 +220,6 @@ body {
     font-size: 14px;
   }
 
-  /* SVG buttons - increased sizes for convenience */
   .button-svg {
     min-width: 68px;
     min-height: 68px;
@@ -191,17 +231,11 @@ body {
     height: 64px;
   }
 
-  /* Text buttons */
   .button-text {
-    padding: 12px 16px;
-    font-size: 14px;
     min-width: 120px;
   }
 
-  /* Combined buttons */
   .button-combined {
-    padding: 12px 16px;
-    font-size: 14px;
     min-width: 140px;
     gap: 8px;
   }
@@ -211,10 +245,7 @@ body {
     height: 20px;
   }
 
-  /* Cancel buttons */
   .button-cancel {
-    padding: 12px 16px;
-    font-size: 14px;
     min-width: 100px;
   }
 
@@ -228,9 +259,31 @@ body {
   }
 }
 
-/* Tablet devices (768px - 1024px) */
+/* Landscape orientation on mobile */
+@media screen and (max-width: 767px) and (orientation: landscape) {
+  .button,
+  .button-svg,
+  .button-text,
+  .button-combined,
+  .button-cancel {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+
+  .button-svg {
+    min-width: 72px;
+    min-height: 72px;
+    padding: 10px;
+  }
+
+  .button-svg svg {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* Tablet devices (768px - 1023px) */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-  /* Medium sizes for tablets */
   .button,
   .button-svg,
   .button-text,
@@ -242,7 +295,6 @@ body {
     font-size: 15px;
   }
 
-  /* SVG buttons */
   .button-svg {
     min-width: 64px;
     min-height: 64px;
@@ -254,17 +306,11 @@ body {
     height: 56px;
   }
 
-  /* Text buttons */
   .button-text {
-    padding: 14px 18px;
-    font-size: 15px;
     min-width: 140px;
   }
 
-  /* Combined buttons */
   .button-combined {
-    padding: 14px 18px;
-    font-size: 15px;
     min-width: 160px;
     gap: 10px;
   }
@@ -274,74 +320,8 @@ body {
     height: 24px;
   }
 
-  /* Cancel buttons */
   .button-cancel {
-    padding: 14px 18px;
-    font-size: 15px;
     min-width: 120px;
-  }
-}
-
-/* Desktop devices (1024px and above) */
-@media screen and (min-width: 1024px) {
-  /* Optimal sizes for desktop */
-  .button,
-  .button-svg,
-  .button-text,
-  .button-combined,
-  .button-cancel {
-    min-height: 40px;
-    min-width: 40px;
-    padding: 10px 16px;
-    font-size: 14px;
-  }
-
-  /* SVG buttons */
-  .button-svg {
-    min-width: 80px;
-    min-height: 80px;
-    padding: 10px;
-  }
-
-  .button-svg svg {
-    width: 60px;
-    height: 60px;
-  }
-
-  /* Text buttons */
-  .button-text {
-    padding: 10px 16px;
-    font-size: 14px;
-    min-width: 120px;
-  }
-
-  /* Combined buttons */
-  .button-combined {
-    padding: 10px 16px;
-    font-size: 14px;
-    min-width: 140px;
-    gap: 8px;
-  }
-
-  .button-combined svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Cancel buttons */
-  .button-cancel {
-    padding: 10px 16px;
-    font-size: 14px;
-    min-width: 100px;
-  }
-
-  /* Thinner outline for desktop */
-  .button-svg:focus,
-  .button-text:focus,
-  .button-combined:focus,
-  .button-cancel:focus {
-    outline-width: 2px;
-    outline-offset: 2px;
   }
 }
 
@@ -366,12 +346,10 @@ body {
   }
 
   .button-text {
-    padding: 12px 20px;
     min-width: 140px;
   }
 
   .button-combined {
-    padding: 12px 20px;
     min-width: 160px;
   }
 
@@ -381,31 +359,7 @@ body {
   }
 
   .button-cancel {
-    padding: 12px 20px;
     min-width: 120px;
-  }
-}
-
-/* Landscape orientation on mobile (up to 768px width) */
-@media screen and (max-width: 767px) and (orientation: landscape) {
-  .button,
-  .button-svg,
-  .button-text,
-  .button-combined,
-  .button-cancel {
-    min-height: 40px;
-    padding: 10px 14px;
-  }
-
-  .button-svg {
-    min-width: 72px;
-    min-height: 72px;
-    padding: 10px;
-  }
-
-  .button-svg svg {
-    width: 56px;
-    height: 56px;
   }
 }
 

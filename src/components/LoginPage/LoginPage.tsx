@@ -42,7 +42,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
             checkPing();
             
             // Then check every 500ms for faster updates
-            const interval = setInterval(checkPing, 500);
+            const interval = setInterval(checkPing, 3000);
             return () => clearInterval(interval);
         } else {
             // Reset ping when disconnected

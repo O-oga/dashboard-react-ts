@@ -315,7 +315,7 @@ const setupHeartbeat = () => {
         sendToHA(messages.ping)
             .then(() => console.log('Ping successful'))
             .catch(error => console.error('Ping failed:', error));
-    }, 10000);
+    }, 3000);
 }
 
 let subscribeToEvents = () => {
