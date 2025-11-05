@@ -18,6 +18,10 @@
     flex-direction: row;
     align-items: center;
     
+    /* Position and z-index to appear above modal */
+    position: relative;
+    z-index: 1001;
+    
     /* Scroll if panel is larger than parent */
     overflow-x: auto;
     overflow-y: hidden;
@@ -83,4 +87,21 @@
 
 .navi-panel-card:nth-child(n+4) {
     animation-delay: 0.4s;
+}
+
+/* Disable NaviPanel interactions when modal is open */
+.navi-panel-disabled {
+    pointer-events: none;
+    user-select: none;
+}
+
+.navi-panel-disabled .navi-panel-card,
+.navi-panel-disabled .navi-panel-button {
+    cursor: default;
+}
+
+.navi-panel-disabled .navi-panel-card:hover {
+    transform: none;
+    background: var(--card-background-color);
+    border: var(--border);
 }

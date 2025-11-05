@@ -20,3 +20,9 @@ export type Action =
     | { type: 'changeOrder'; id: number; order: number }
     | { type: 'add'; space: Space }
     | { type: 'remove'; id: number };
+
+    
+export type ModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
+  };

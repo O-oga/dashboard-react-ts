@@ -1,13 +1,10 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import './PrivacyModal.css';
+import type { ModalProps } from '../../../types/space.types';
 
-type PrivacyModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
 
-function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
+const PrivacyModal = ({ isOpen, onClose }: ModalProps) => {
   const { t } = useTranslation();
 
   // Close on Escape key press
