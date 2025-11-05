@@ -10,7 +10,7 @@ type PrivacyModalProps = {
 function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
   const { t } = useTranslation();
 
-  // Закрытие при нажатии Escape
+  // Close on Escape key press
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -27,7 +27,7 @@ function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // Предотвращение прокрутки body при открытом модальном окне
+  // Prevent body scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';

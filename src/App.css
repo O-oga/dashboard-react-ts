@@ -16,9 +16,9 @@ body {
   /* width: 100vw; */
 }
 
-/* Базовые классы для кнопок с эффектами */
+/* Base button classes with effects */
 
-/* Кнопка с SVG иконкой */
+/* Button with SVG icon */
 .button-svg {
   background: var(--svg-button-collor);
   transition: background var(--transition), border var(--transition);
@@ -28,7 +28,7 @@ body {
   color: var(--button-text-color);
 }
 
-/* SVG внутри кнопки - меняется цвет при состояниях */
+/* SVG inside button - color changes on states */
 .button-svg svg {
   transition: stroke var(--transition), fill var(--transition);
 }
@@ -71,7 +71,7 @@ body {
   stroke: var(--button-active-text-color);
 }
 
-/* Текстовая кнопка */
+/* Text button */
 .button-text {
   background: transparent;
   color: var(--button-text-color);
@@ -95,7 +95,7 @@ body {
   background: var(--svg-button-active-color);
 }
 
-/* Кнопка отмены/закрытия */
+/* Cancel/Close button */
 .button-cancel {
   background: var(--cancel-button-background);
   color: var(--close-collor);
@@ -122,7 +122,7 @@ body {
   border-color: var(--close-active-color);
 }
 
-/* Универсальный класс для всех кнопок (базовые стили) */
+/* Universal class for all buttons (base styles) */
 .button {
   transition: all var(--transition);
   cursor: pointer;
@@ -137,7 +137,7 @@ body {
   pointer-events: none;
 }
 
-/* Комбинированный класс: кнопка с SVG и текстом */
+/* Combined class: button with SVG and text */
 .button-combined {
   background: var(--svg-button-collor);
   color: var(--button-text-color);
@@ -163,11 +163,11 @@ body {
   color: var(--button-active-text-color);
 }
 
-/* Media queries для адаптации кнопок под разные разрешения */
+/* Media queries for button adaptation to different resolutions */
 
-/* Mobile устройства (до 768px) */
+/* Mobile devices (up to 768px) */
 @media screen and (max-width: 767px) {
-  /* Базовые размеры для touch-интерфейса */
+  /* Base sizes for touch interface */
   .button,
   .button-svg,
   .button-text,
@@ -179,7 +179,7 @@ body {
     font-size: 14px;
   }
 
-  /* SVG кнопки - увеличенные размеры для удобства */
+  /* SVG buttons - increased sizes for convenience */
   .button-svg {
     min-width: 68px;
     min-height: 68px;
@@ -191,14 +191,14 @@ body {
     height: 64px;
   }
 
-  /* Текстовые кнопки */
+  /* Text buttons */
   .button-text {
     padding: 12px 16px;
     font-size: 14px;
     min-width: 120px;
   }
 
-  /* Комбинированные кнопки */
+  /* Combined buttons */
   .button-combined {
     padding: 12px 16px;
     font-size: 14px;
@@ -211,14 +211,14 @@ body {
     height: 20px;
   }
 
-  /* Кнопки отмены */
+  /* Cancel buttons */
   .button-cancel {
     padding: 12px 16px;
     font-size: 14px;
     min-width: 100px;
   }
 
-  /* Outline для focus на touch-устройствах */
+  /* Outline for focus on touch devices */
   .button-svg:focus,
   .button-text:focus,
   .button-combined:focus,
@@ -228,9 +228,9 @@ body {
   }
 }
 
-/* Tablet устройства (768px - 1024px) */
+/* Tablet devices (768px - 1024px) */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-  /* Средние размеры для планшетов */
+  /* Medium sizes for tablets */
   .button,
   .button-svg,
   .button-text,
@@ -242,7 +242,7 @@ body {
     font-size: 15px;
   }
 
-  /* SVG кнопки */
+  /* SVG buttons */
   .button-svg {
     min-width: 64px;
     min-height: 64px;
@@ -254,14 +254,14 @@ body {
     height: 56px;
   }
 
-  /* Текстовые кнопки */
+  /* Text buttons */
   .button-text {
     padding: 14px 18px;
     font-size: 15px;
     min-width: 140px;
   }
 
-  /* Комбинированные кнопки */
+  /* Combined buttons */
   .button-combined {
     padding: 14px 18px;
     font-size: 15px;
@@ -274,7 +274,7 @@ body {
     height: 24px;
   }
 
-  /* Кнопки отмены */
+  /* Cancel buttons */
   .button-cancel {
     padding: 14px 18px;
     font-size: 15px;
@@ -282,9 +282,9 @@ body {
   }
 }
 
-/* Desktop устройства (1024px и выше) */
+/* Desktop devices (1024px and above) */
 @media screen and (min-width: 1024px) {
-  /* Оптимальные размеры для десктопа */
+  /* Optimal sizes for desktop */
   .button,
   .button-svg,
   .button-text,
@@ -296,7 +296,7 @@ body {
     font-size: 14px;
   }
 
-  /* SVG кнопки */
+  /* SVG buttons */
   .button-svg {
     min-width: 80px;
     min-height: 80px;
@@ -308,14 +308,14 @@ body {
     height: 60px;
   }
 
-  /* Текстовые кнопки */
+  /* Text buttons */
   .button-text {
     padding: 10px 16px;
     font-size: 14px;
     min-width: 120px;
   }
 
-  /* Комбинированные кнопки */
+  /* Combined buttons */
   .button-combined {
     padding: 10px 16px;
     font-size: 14px;
@@ -328,14 +328,14 @@ body {
     height: 18px;
   }
 
-  /* Кнопки отмены */
+  /* Cancel buttons */
   .button-cancel {
     padding: 10px 16px;
     font-size: 14px;
     min-width: 100px;
   }
 
-  /* Более тонкий outline для десктопа */
+  /* Thinner outline for desktop */
   .button-svg:focus,
   .button-text:focus,
   .button-combined:focus,
@@ -345,7 +345,7 @@ body {
   }
 }
 
-/* Большие экраны (1440px и выше) */
+/* Large screens (1440px and above) */
 @media screen and (min-width: 1440px) {
   .button,
   .button-svg,
@@ -386,7 +386,7 @@ body {
   }
 }
 
-/* Landscape ориентация на мобильных (до 768px в ширине) */
+/* Landscape orientation on mobile (up to 768px width) */
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .button,
   .button-svg,

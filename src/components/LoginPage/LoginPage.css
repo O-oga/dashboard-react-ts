@@ -6,7 +6,14 @@
     width: 100vw;
     background: var(--body-background);
     background-image: var(--body-background-gradient);
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-overflow-scrolling: none;
 }
 
 .login-container {
@@ -21,9 +28,12 @@
     width: 90%;
     box-sizing: border-box;
     z-index: 2;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-/* Свечение за окном - отдельный элемент на уровне страницы */
+/* Glow behind window - separate element at page level */
 .login-page::before {
     content: '';
     position: absolute;
@@ -240,4 +250,43 @@
 .confidentiality:active {
     color: var(--button-active-text-color);
     text-decoration: underline;
+}
+
+/* Prevent scrolling and moving on mobile devices */
+@media screen and (max-width: 767px) {
+    html,
+    body {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+        -webkit-overflow-scrolling: none;
+    }
+
+    #root {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+    }
+
+    .login-page {
+        overflow: hidden;
+        touch-action: none;
+        -webkit-overflow-scrolling: none;
+    }
+
+    .login-container {
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+        will-change: transform;
+    }
+
+    /* Prevent input fields from causing scroll */
+    .form-input {
+        touch-action: manipulation;
+    }
 }

@@ -22,7 +22,7 @@ function LanguageSwitcher() {
     setIsOpen(false);
   };
 
-  // Закрытие при клике вне компонента
+  // Close on click outside component
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -39,7 +39,7 @@ function LanguageSwitcher() {
     };
   }, [isOpen]);
 
-  // Закрытие при нажатии Escape
+  // Close on Escape key press
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {

@@ -1,12 +1,12 @@
 /**
- * Утилиты для работы с cookies
+ * Utilities for working with cookies
  */
 
 /**
- * Устанавливает значение cookie
- * @param name - имя cookie
- * @param value - значение cookie
- * @param days - количество дней до истечения
+ * Sets a cookie value
+ * @param name - cookie name
+ * @param value - cookie value
+ * @param days - number of days until expiration
  */
 export const setCookie = (name: string, value: string, days: number): void => {
     const date = new Date();
@@ -16,9 +16,9 @@ export const setCookie = (name: string, value: string, days: number): void => {
 };
 
 /**
- * Получает значение cookie
- * @param name - имя cookie
- * @returns значение cookie или пустая строка
+ * Gets a cookie value
+ * @param name - cookie name
+ * @returns cookie value or empty string
  */
 export const getCookie = (name: string): string => {
     const nameEQ = `${name}=`;
@@ -33,8 +33,8 @@ export const getCookie = (name: string): string => {
 };
 
 /**
- * Удаляет cookie
- * @param name - имя cookie
+ * Deletes a cookie
+ * @param name - cookie name
  */
 export const deleteCookie = (name: string): void => {
     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;

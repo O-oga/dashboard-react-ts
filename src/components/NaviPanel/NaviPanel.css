@@ -3,12 +3,12 @@
     backdrop-filter: blur(20px);
     background: var(--card-background-color);
     
-    /* Ограничение ширины родителем */
+    /* Width constrained by parent */
     max-width: 100%;
     width: fit-content;
     min-width: 400px;
     
-    /* Центрирование панели по ширине */
+    /* Centering panel horizontally */
     margin: 0 auto;
     
     border: var(--border);
@@ -18,20 +18,20 @@
     flex-direction: row;
     align-items: center;
     
-    /* Прокрутка если панель больше родителя */
+    /* Scroll if panel is larger than parent */
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
     
-    /* Анимация расширения панели */
+    /* Panel expansion animation */
     transition: width var(--transition), min-width var(--transition);
     
-    /* Отступы и промежутки */
+    /* Padding and spacing */
     padding: 0 15px;
     gap: 10px;
 }
 
-/* Скрываем скроллбар для всех браузеров */
+/* Hide scrollbar for all browsers */
 .navi-panel::-webkit-scrollbar {
     display: none;
 }
@@ -44,13 +44,13 @@
     padding: 5px;
     flex-shrink: 0;
     
-    /* Анимация появления кнопки */
+    /* Button appearance animation */
     transition: transform var(--transition), opacity var(--transition);
     opacity: 1;
     transform: scale(1);
 }
 
-/* Анимация появления карточек пространств */
+/* Space cards appearance animation */
 .navi-panel-card {
     animation: slideInFromLeft 0.4s ease-out forwards;
     opacity: 0;
@@ -68,7 +68,7 @@
     }
 }
 
-/* Stagger анимация для нескольких карточек */
+/* Stagger animation for multiple cards */
 .navi-panel-card:nth-child(1) {
     animation-delay: 0.1s;
 }

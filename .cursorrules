@@ -1,0 +1,11 @@
+# Code Style Rules
+
+## Comments
+- All code comments must be written in English
+- JSDoc comments should be in English
+- Inline comments should be in English
+
+## Code Quality
+- Follow best practices and design patterns appropriate for the language, framework and project
+- Prioritize clean, efficient and maintainable code
+
