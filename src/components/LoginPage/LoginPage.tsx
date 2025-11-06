@@ -122,7 +122,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
                         />
                     </div>
 
-                    {error && <div className="error-message">{error}</div>}
+                        {error && <div className="error-message">{error}</div>}
 
                     <div className="button-container">
                         {isConnected && (
@@ -134,7 +134,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
                             onClick={isConnected ? handleContinue : handleConnect}
                             disabled={isConnecting}
                             className={`login-button ${isConnected ? 'login-button-connected' : ''}`}
-                        >
+                            >
                             {isConnecting ? t('login.connecting') : isConnected ? t('login.continueButton') : t('login.connectButton')}
                         </button>
                     </div>

@@ -51,12 +51,12 @@ body {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /*Explorer Edge */
   user-select: none;
-  overflow: hidden;
+  /* overflow: hidden;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0; */
 }
 
 @font-face {
