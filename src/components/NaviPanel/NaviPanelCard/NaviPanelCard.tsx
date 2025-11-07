@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './NaviPanelCard.css';
 
 function NaviPanelCard(props : any) {
-    const { icon, description, loadSpacesCards, onTitleChange, onOrderChange} = props;
+    const { icon, description, loadSpacesCards, onTitleChange, onOrderChange, onSpaceSelect} = props;
     const [title, setTitle] = useState(props.title);
     const [order, setOrder] = useState<number>(props.order ?? 0);
 

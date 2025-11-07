@@ -22,7 +22,3 @@ export type Action =
     | { type: 'remove'; id: number };
 
     
-export type ModalProps = {
-    isOpen: boolean;
-    onClose: () => void;
-  };

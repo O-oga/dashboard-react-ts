@@ -29,6 +29,17 @@
     "ru": "Russisch",
     "de": "Deutsch",
     "uk": "Ukrainisch"
+  },
+  "addSpace": {
+    "spaceNamePlaceholder": "Raumname",
+    "spaceDescriptionPlaceholder": "Raumbeschreibung",
+    "addSpace": "Raum hinzufügen",
+    "cancel": "Abbrechen"
+  },
+  "naviPanel": {
+    "newSpace": "Neuer Raum",
+    "createNewSpace": "Neuen Raum erstellen",
+    "anyName": "Beliebiger Name"
   }
 }
 

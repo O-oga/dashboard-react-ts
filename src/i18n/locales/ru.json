@@ -29,6 +29,17 @@
     "ru": "Русский",
     "de": "Немецкий",
     "uk": "Украинский"
+  },
+  "addSpace": {
+    "spaceNamePlaceholder": "Название пространства",
+    "spaceDescriptionPlaceholder": "Описание пространства",
+    "addSpace": "Добавить пространство",
+    "cancel": "Отмена"
+  },
+  "naviPanel": {
+    "newSpace": "Новое пространство",
+    "createNewSpace": "Создать новое пространство",
+    "anyName": "Любое имя"
   }
 }
 

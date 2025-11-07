@@ -29,6 +29,17 @@
     "ru": "Russian",
     "de": "German",
     "uk": "Ukrainian"
+  },
+  "addSpace": {
+    "spaceNamePlaceholder": "Space name",
+    "spaceDescriptionPlaceholder": "Space description",
+    "addSpace": "Add Space",
+    "cancel": "Cancel"
+  },
+  "naviPanel": {
+    "newSpace": "New Space",
+    "createNewSpace": "Create new space",
+    "anyName": "Any Name"
   }
 }
 

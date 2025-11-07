@@ -1,39 +1,41 @@
-import { Chair2Icon, HomeIcon, LightbulbIcon, MonitorIcon, PlugCircleIcon, SmartHomeIcon, WidgetIcon, Widget4Icon } from '../../Icons';
-import './AddSpace.css';
-import type { ModalProps } from '../../../types/space.types';
+import './AddSpaceModal.css';
+import type { ModalProps } from '../../../types/modalProps.types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
-import type { ComponentType } from 'react';
+import type { SpaceIconTypes } from '../../../types/Icons.types';
+import { SpacesIcons } from '../../Icons';
 
-type IconComponent = ComponentType<{ size?: number; color?: string; className?: string }>;
 
-const AddSpaceModal = ({ isOpen, onClose, onSpaceChange }: ModalProps & { onSpaceChange?: (space: { name: string; description: string; icon: IconComponent | null }) => void }) => {
+
+const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
     const { t } = useTranslation();
-    const [newSpaceName, setNewSpaceName] = useState('');
-    const [newSpaceDescription, setNewSpaceDescription] = useState('');
-    const [selectedIcon, setSelectedIcon] = useState<IconComponent | null>(null);
+    const [newSpaceName, setNewSpaceName] = useState<string>('');
+    const [newSpaceDescription, setNewSpaceDescription] = useState<string>('');
+    const [selectedIcon, setSelectedIcon] = useState<SpaceIconTypes>('HomeIcon');
+
 
     // Update preview when space data changes
+
     useEffect(() => {
-        if (onSpaceChange) {
-            onSpaceChange({
-                name: newSpaceName,
-                description: newSpaceDescription,
-                icon: selectedIcon
-            });
-        }
-    }, [newSpaceName, newSpaceDescription, selectedIcon, onSpaceChange]);
+        onspacePreviewChange?.({
+            name: newSpaceName,
+            description: newSpaceDescription,
+            icon: selectedIcon
+        });
+    }, [newSpaceName, newSpaceDescription, selectedIcon, onspacePreviewChange]);
 
     // Reset form when modal closes
     useEffect(() => {
         if (!isOpen) {
-            setNewSpaceName('');
-            setNewSpaceDescription('');
-            setSelectedIcon(null);
+            onspacePreviewChange?.({
+                name: '',
+                description: '',
+                icon: 'HomeIcon' as SpaceIconTypes
+            });
         }
-    }, [isOpen]);
-    
+    }, [isOpen, onspacePreviewChange]);
+
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -65,14 +67,14 @@ const AddSpaceModal = ({ isOpen, onClose, onSpaceChange }: ModalProps & { onSpac
         <div className="add-space-modal-overlay" onClick={onClose}>
             <div className="add-space-modal" onClick={(e) => e.stopPropagation()}>
                 <div className='icon-container'>
-                    <HomeIcon size={35} color="white" />
-                    <LightbulbIcon size={35} color="white" />
-                    <MonitorIcon size={35} color="white" />
-                    <PlugCircleIcon size={35} color="white" />
-                    <SmartHomeIcon size={35} color="white" />
-                    <WidgetIcon size={35} color="white" />
-                    <Widget4Icon size={35} color="white" />
-                    <Chair2Icon size={35} color="white" />
+                    {
+                        Object.entries(SpacesIcons).map(([icon, Icon]) => (
+                            <div className='icon-button' key={icon} onClick={() => setSelectedIcon(icon as SpaceIconTypes)}>
+                                <Icon size={35} color="white"/>
+                            </div>
+                        ))
+                    }
+
                 </div>
                 <div className='add-space-input-container'>
                     <input
@@ -82,10 +84,10 @@ const AddSpaceModal = ({ isOpen, onClose, onSpaceChange }: ModalProps & { onSpac
                         type="text" placeholder={t('addSpace.spaceNamePlaceholder')}
                     />
                     <input
-                        className='add-space-input' 
-                        value={newSpaceDescription} 
-                        onChange={(e) => setNewSpaceDescription(e.target.value)} 
-                        type="text" 
+                        className='add-space-input'
+                        value={newSpaceDescription}
+                        onChange={(e) => setNewSpaceDescription(e.target.value)}
+                        type="text"
                         placeholder={t('addSpace.spaceDescriptionPlaceholder')} />
                 </div>
                 <div className='add-space-button-container'>

@@ -66,6 +66,8 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .add-space-input-container {

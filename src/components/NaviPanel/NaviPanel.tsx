@@ -4,15 +4,20 @@ import NaviPanelCard from './NaviPanelCard/NaviPanelCard';
 import { saveSpaces, getSpaces } from '../../modules/loader';
 import type { Space, State, Action } from '../../types/space.types';
 import NaviPanelAddCard from './NaviPanelAddCard/NaviPanelAddCard';
-import AddSpaceModal from '../ModalWindows/AddSpace/AddSpace';
+import AddSpaceModal from '../ModalWindows/AddSpace/AddSpaceModal';
+import SpacePreviewCard from './SpacePreviewCard/SpacePreviewCard';
+import type { SpaceIconTypes } from '../../types/Icons.types';
 
 type NaviPanelProps = {
     onSpaceSelect?: (cards: Space['cards']) => void;
 };
 
 function NaviPanel({ onSpaceSelect }: NaviPanelProps) {
-    
-    const [isAddSpaceModalOpen, setIsAddSpaceModalOpen] = useState(false);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [spacePreviewIconKey, setSpacePreviewIconKey] = useState<SpaceIconTypes>('HomeIcon');
+    const [spacePreviewTitle, setSpacePreviewTitle] = useState<string>('');
+    const [spacePreviewDescription, setSpacePreviewDescription] = useState<string>('');
 
     function reducer(state: State, action: Action): State {
         switch (action.type) {
@@ -57,7 +62,7 @@ function NaviPanel({ onSpaceSelect }: NaviPanelProps) {
 
     return (
         <div
-            className={`navi-panel ${isAddSpaceModalOpen ? 'navi-panel-disabled' : ''}`}
+            className={`navi-panel ${isModalOpen ? 'navi-panel-disabled' : ''}`}
             style={{
                 justifyContent: state.spaces.length === 0 ? 'center' : 'flex-start'
             }}
@@ -71,15 +76,24 @@ function NaviPanel({ onSpaceSelect }: NaviPanelProps) {
                     order={space.order}
                     description={space.description}
                     cards={space.cards}
-                    onClick={() => onSpaceSelect?.(space.cards)}
+                    onSpaceSelect={() => onSpaceSelect?.(space.cards)}
                     onTitleChange={(next: string) => dispatch({ type: 'changeTitle', id: space.id, title: next })}
                     onOrderChange={(next: number) => dispatch({ type: 'changeOrder', id: space.id, order: next })}
                 />
             ))}
 
+            <SpacePreviewCard iconKey={spacePreviewIconKey} title={spacePreviewTitle} description={spacePreviewDescription} />
+
             {/* Button to create new space */}
-            <NaviPanelAddCard onClick={() => setIsAddSpaceModalOpen(true)} />
-            <AddSpaceModal isOpen={isAddSpaceModalOpen} onClose={() => setIsAddSpaceModalOpen(false)} />
+            <NaviPanelAddCard onOpenModal={() => setIsModalOpen(true)} />
+            <AddSpaceModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onspacePreviewChange={(space: { name: string; description: string; icon: SpaceIconTypes}) => {
+                    setSpacePreviewIconKey(space.icon as SpaceIconTypes);
+                    setSpacePreviewTitle(space.name);
+                    setSpacePreviewDescription(space.description);
+                }} />
         </div>
     );
 }
