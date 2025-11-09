@@ -64,17 +64,6 @@
     -webkit-backface-visibility: hidden;
 }
 
-@keyframes glow-pulse {
-    0% {
-        opacity: 0.5;
-        transform: translate3d(-50%, -50%, 0) scale(1.15);
-    }
-    100% {
-        opacity: 0.8;
-        transform: translate3d(-50%, -50%, 0) scale(1.25);
-    }
-}
-
 .login-title {
     color: var(--button-text-color);
     font-size: 24px;
