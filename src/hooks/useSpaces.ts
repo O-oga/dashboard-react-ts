@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback } from 'react';
+import { useReducer, useEffect, useCallback, useRef } from 'react';
 import type { State, Action, Space, Card } from '../types/space.types';
 import { saveSpaces, getSpaces } from '../modules/loader';
 
@@ -50,7 +50,16 @@ const spacesReducer = (state: State, action: Action): State => {
     }
 };
 
-const initialState: State = { spaces: [] };
+/**
+ * Initialize state from localStorage or return empty state
+ */
+const getInitialState = (): State => {
+    const savedSpaces = getSpaces();
+    if (savedSpaces && Array.isArray(savedSpaces.spaces)) {
+        return savedSpaces;
+    }
+    return { spaces: [] };
+};
 
 /**
  * Custom hook for managing spaces state
@@ -59,20 +68,23 @@ const initialState: State = { spaces: [] };
  * @returns Object containing spaces state, dispatch function, and helper methods
  */
 export const useSpaces = () => {
-    const [state, dispatch] = useReducer(spacesReducer, initialState);
+    const [state, dispatch] = useReducer(spacesReducer, undefined, getInitialState);
+    const hasLoadedRef = useRef(false);
+    const prevStateRef = useRef<State | null>(null);
 
-    // Load data from localStorage when component mounts
+    // Save data to localStorage whenever state changes (but not on initial mount)
     useEffect(() => {
-        const savedSpaces = getSpaces();
-        if (savedSpaces && Array.isArray(savedSpaces.spaces)) {
-            dispatch({ type: 'loadSpaces', state: savedSpaces });
+        // Skip saving on initial mount
+        if (!hasLoadedRef.current) {
+            hasLoadedRef.current = true;
+            prevStateRef.current = state;
+            return;
         }
-    }, []);
 
-    // Save data to localStorage whenever state changes
-    useEffect(() => {
-        if (state.spaces.length > 0 || localStorage.getItem('spaces') !== null) {
+        // Only save if state actually changed
+        if (prevStateRef.current && JSON.stringify(prevStateRef.current) !== JSON.stringify(state)) {
             saveSpaces(state);
+            prevStateRef.current = state;
         }
     }, [state]);
 
