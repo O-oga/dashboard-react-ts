@@ -1,3 +1,5 @@
+import type { SpaceIconTypes } from './Icons.types';
+
 export type Card = {
     id: number;
     title: string;
@@ -10,15 +12,17 @@ export type Space = {
     title: string;
     description?: string;
     cards: Card[];
-    icon?: React.ReactNode;
+    icon?: SpaceIconTypes | React.ReactNode;
     order?: number;
 };
 export type State = { spaces: Space[] };
 export type Action =
     | { type: 'loadSpaces'; state: State }
-    | { type: 'changeTitle'; id: number; title: string }
-    | { type: 'changeOrder'; id: number; order: number }
-    | { type: 'add'; space: Space }
-    | { type: 'remove'; id: number };
+    | { type: 'changeSpaceTitle'; id: number; title: string }
+    | { type: 'changeSpaceOrder'; id: number; order: number }
+    | { type: 'addSpace'; space: Space }
+    | { type: 'removeSpace'; id: number }
+    | {type: 'addCard'; spaceId: number; card: Card}
+    | {type: 'removeCard'; spaceId: number; cardId: number}
 
     

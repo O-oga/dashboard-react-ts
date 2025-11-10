@@ -70,10 +70,10 @@
     font-size: 11px;
 }
 
-@keyframes slideInFromLeft {
+@keyframes slideInFromRight {
     from {
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateX(20px);
     }
     to {
         opacity: 1;
@@ -84,7 +84,7 @@
 .space-preview-card {
     position: relative;
     overflow: visible;
-    animation: slideInFromLeft 0.4s ease-out forwards;
+    animation: slideInFromRight 0.4s ease-out forwards;
     opacity: 0;
     transform: translateX(-20px);
 }

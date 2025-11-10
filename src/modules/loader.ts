@@ -84,7 +84,7 @@ export let sendToHA = (data: any) => {
         
         try {
             connection.send(JSON.stringify(data));
-            console.log('Sent data:', data);
+            // console.log('Sent data:', data);
         } catch (error) {
             pendingRequests.delete(data.id);
             reject(error);
@@ -196,7 +196,7 @@ export const getSpaces = (): State | null => {
 
 let handleMessage = (event: MessageEvent) => {
     const data = JSON.parse(event.data);
-    console.log(`Received data: ${JSON.stringify(data)}`);
+    // console.log(`Received data: ${JSON.stringify(data)}`);
 
     // auth_required message is normal - server just indicates authentication is needed
     // We don't handle it here as authentication happens in sendAuthMessage
@@ -230,7 +230,7 @@ let handleMessage = (event: MessageEvent) => {
 
 function handleEvent(event: { event_type: string; data: { entity_id: string; new_state: { state: string }; old_state: { state: string } } }) {
     if (event.event_type === 'state_changed') {
-        console.log('State changed:', event.data);
+        // console.log('State changed:', event.data);
         changeDeviceState(event.data.entity_id, event.data.new_state.state, event.data.old_state.state, true).then(()=>{});
     }
 }
@@ -441,7 +441,7 @@ export const changeDeviceState = async (entity_id: string, new_state: string, _o
 
         try {
             const response = await sendToHA(newMessage);
-            console.log('Device state changed successfully:', response);
+            // console.log('Device state changed successfully:', response);
             return response;
         } catch (error) {
             console.error('Failed to change device state:', error);

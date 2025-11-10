@@ -1,21 +1,36 @@
 import './AddSpaceModal.css';
 import type { ModalProps } from '../../../types/modalProps.types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import type { SpaceIconTypes } from '../../../types/Icons.types';
 import { SpacesIcons } from '../../Icons';
-
-
+import { useSpaces } from '../../../hooks/useSpaces';
 
 const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
     const { t } = useTranslation();
+    const { addSpace } = useSpaces();
     const [newSpaceName, setNewSpaceName] = useState<string>('');
     const [newSpaceDescription, setNewSpaceDescription] = useState<string>('');
     const [selectedIcon, setSelectedIcon] = useState<SpaceIconTypes>('HomeIcon');
 
+    const iconButtons = () => {
+        return Object.entries(SpacesIcons).map(([icon, Icon]) => (
+            <div className='icon-button' key={icon} onClick={() => setSelectedIcon(icon as SpaceIconTypes)}>
+                <Icon size={35} color="white" />
+            </div>
+        ))
+    }
 
-    // Update preview when space data changes
+    const onAddSpace = useCallback((space: { name: string; description: string; icon: SpaceIconTypes }) => {
+        addSpace({ 
+            title: space.name, 
+            description: space.description, 
+            icon: space.icon,
+            cards: []
+        });
+        onClose();
+    }, [addSpace, onClose]);
 
     useEffect(() => {
         onspacePreviewChange?.({
@@ -28,13 +43,11 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
     // Reset form when modal closes
     useEffect(() => {
         if (!isOpen) {
-            onspacePreviewChange?.({
-                name: '',
-                description: '',
-                icon: 'HomeIcon' as SpaceIconTypes
-            });
+            setNewSpaceName('');
+            setNewSpaceDescription('');
+            setSelectedIcon('HomeIcon');
         }
-    }, [isOpen, onspacePreviewChange]);
+    }, [isOpen]);
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -68,11 +81,7 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
             <div className="add-space-modal" onClick={(e) => e.stopPropagation()}>
                 <div className='icon-container'>
                     {
-                        Object.entries(SpacesIcons).map(([icon, Icon]) => (
-                            <div className='icon-button' key={icon} onClick={() => setSelectedIcon(icon as SpaceIconTypes)}>
-                                <Icon size={35} color="white"/>
-                            </div>
-                        ))
+                        iconButtons()
                     }
 
                 </div>
@@ -91,8 +100,16 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
                         placeholder={t('addSpace.spaceDescriptionPlaceholder')} />
                 </div>
                 <div className='add-space-button-container'>
-                    <button className='button-add'>{t('addSpace.addSpace')}</button>
-                    <button className='button-cancel' onClick={onClose}>{t('addSpace.cancel')}</button>
+                    <button
+                        className='button-add'
+                        onClick={() => onAddSpace({ name: newSpaceName, description: newSpaceDescription, icon: selectedIcon })}>
+                        {t('addSpace.addSpace')}
+                    </button>
+                    <button
+                        className='button-cancel'
+                        onClick={onClose}>
+                        {t('addSpace.cancel')}
+                    </button>
                 </div>
             </div>
         </div>
