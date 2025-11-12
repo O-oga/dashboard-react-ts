@@ -9,18 +9,11 @@ const spacesReducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'loadSpaces':
             return action.state;
-        case 'changeSpaceTitle':
+        case 'changeSpace':
             return {
                 ...state,
                 spaces: state.spaces.map(s => 
-                    s.id === action.id ? { ...s, title: action.title } : s
-                ),
-            };
-        case 'changeSpaceOrder':
-            return {
-                ...state,
-                spaces: state.spaces.map(s => 
-                    s.id === action.id ? { ...s, order: action.order } : s
+                    s.id === action.space.id ? action.space : s
                 ),
             };
         case 'addSpace':
@@ -89,11 +82,11 @@ export const useSpaces = () => {
     }, [state]);
 
     // Helper function to add a space
-    const addSpace = useCallback((space: Omit<Space, 'id'> & { id?: number }) => {
+    const addSpace = useCallback((space: Space) => {
         dispatch({ 
             type: 'addSpace', 
             space: { 
-                id: space.id ?? Date.now(), 
+                id: space.id, 
                 title: space.title, 
                 description: space.description, 
                 icon: space.icon,
@@ -103,27 +96,18 @@ export const useSpaces = () => {
         });
     }, []);
 
-    // Helper function to remove a space
     const removeSpace = useCallback((id: number) => {
         dispatch({ type: 'removeSpace', id });
     }, []);
 
-    // Helper function to change space title
-    const changeSpaceTitle = useCallback((id: number, title: string) => {
-        dispatch({ type: 'changeSpaceTitle', id, title });
+    const changeSpace = useCallback((space: Space) => {
+        dispatch({ type: 'changeSpace', space });
     }, []);
 
-    // Helper function to change space order
-    const changeSpaceOrder = useCallback((id: number, order: number) => {
-        dispatch({ type: 'changeSpaceOrder', id, order });
-    }, []);
-
-    // Helper function to add a card to a space
     const addCard = useCallback((spaceId: number, card: Card) => {
         dispatch({ type: 'addCard', spaceId, card });
     }, []);
 
-    // Helper function to remove a card from a space
     const removeCard = useCallback((spaceId: number, cardId: number) => {
         dispatch({ type: 'removeCard', spaceId, cardId });
     }, []);
@@ -133,8 +117,7 @@ export const useSpaces = () => {
         dispatch,
         addSpace,
         removeSpace,
-        changeSpaceTitle,
-        changeSpaceOrder,
+        changeSpace,
         addCard,
         removeCard,
     };

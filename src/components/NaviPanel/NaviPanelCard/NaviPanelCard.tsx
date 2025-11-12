@@ -1,44 +1,36 @@
-import { useEffect, useState } from 'react';
+
 import './NaviPanelCard.css';
+import { SpacesIcons, UIIcons } from '../../Icons';
+import type { SpaceIconTypes } from '../../../types/Icons.types';
+import { useSpaces } from '../../../hooks/useSpaces';
 
-function NaviPanelCard(props : any) {
-    const { icon, description, loadSpacesCards, onTitleChange, onOrderChange, onSpaceSelect} = props;
-    const [title, setTitle] = useState(props.title);
-    const [order, setOrder] = useState<number>(props.order ?? 0);
+const NaviPanelCard = (props: any) => {
+    const { space, isChangable, onSpaceSelect } = props;
 
-    // Sync local state when external title changes
-    useEffect(() => {
-        setTitle(props.title);
-    }, [props.title]);
+    const IconComponent = SpacesIcons[space.icon as SpaceIconTypes];
+    const SettingsIconComponent = UIIcons['SettingsIcon'];
+    const TrashIconComponent = UIIcons['TrashIcon'];
+    const {removeSpace, changeSpace} = useSpaces();
 
-    useEffect(() => {
-        setOrder(props.order ?? 0);
-    }, [props.order]);
+
 
     return (
-        <div className="navi-panel-card" onClick={loadSpacesCards}>
-            <div className="navi-panel-card-icon">{icon}</div>
-            <input
-                className="navi-panel-card-title"
-                value={title}
-                onChange={(e) => {
-                    const next = e.target.value;
-                    setTitle(next);
-                    if (onTitleChange) onTitleChange(next);
-                }}
-            />
-            <input
-                className="navi-panel-card-order"
-                type="number"
-                value={order}
-                onChange={(e) => {
-                    const next = Number(e.target.value);
-                    setOrder(next);
-                    if (onOrderChange) onOrderChange(next);
-                }}
-            />
-            <div className="navi-panel-card-description">{description}</div>
-        </div>
+        <button className="navi-panel-card button-svg" onClick={onSpaceSelect} aria-label={space.description} >
+            <IconComponent size={60} color="white" />
+            <div
+                className="space-card-title"
+            >{space.title}</div>
+            {isChangable && (
+                <>
+                    <button className='change-button button-svg-small' onClick={() => changeSpace({ ...space, cards: space.cards })}>
+                        <SettingsIconComponent size={24} color="white" />
+                    </button>
+                    <button className='delete-button button-svg-small' onClick={() => removeSpace(space.id)}>
+                        <TrashIconComponent size={24} color="white" />
+                    </button>
+                </>
+            )}
+        </button>
     );
 };
 

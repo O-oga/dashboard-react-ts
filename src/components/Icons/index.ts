@@ -2,11 +2,16 @@ import type { CardIconTypes, IconComponent, SpaceIconTypes, UIIconTypes } from '
 import type { IconProps } from './types';
 
 import { Chair2Icon } from './Chair2Icon';
+import { HelpIcon } from './HelpIcon';
 import { HomeIcon } from './HomeIcon';
+import { LanguageIcon } from './LanguageIcon';
 import { LightbulbIcon } from './LightbulbIcon';
+import { LogoutIcon } from './LogoutIcon';
 import { MonitorIcon } from './MonitorIcon';
 import { PlugCircleIcon } from './PlugCircleIcon';
+import { SettingsIcon } from './SettingsIcon';
 import { SmartHomeIcon } from './SmartHomeIcon';
+import { TrashIcon } from './TrashIcon';
 import { Widget4Icon } from './Widget4Icon';
 import { WidgetIcon } from './WidgetIcon';
 
@@ -28,11 +33,11 @@ export const CardsIcons : Record<CardIconTypes, React.ComponentType<IconProps>> 
     PlugCircleIcon: PlugCircleIcon,
 };
 
-// export const UIIcon: Record<UIIconTypes, React.ComponentType<IconProps>> = {
-//     HomeIcon: undefined,
-//     SettingsIcon: undefined,
-//     LogoutIcon: undefined,
-//     LanguageIcon: undefined,
-//     HelpIcon: undefined,
-//     AboutIcon: undefined
-// };
+export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
+    HomeIcon: HomeIcon,
+    SettingsIcon: SettingsIcon,
+    LogoutIcon: LogoutIcon,
+    LanguageIcon: LanguageIcon,
+    HelpIcon: HelpIcon,
+    TrashIcon: TrashIcon,
+};

@@ -22,8 +22,9 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
         ))
     }
 
-    const onAddSpace = useCallback((space: { name: string; description: string; icon: SpaceIconTypes }) => {
-        addSpace({ 
+    const onAddSpace = useCallback((space: { id: number; name: string; description: string; icon: SpaceIconTypes }) => {
+        addSpace({
+            id: space.id ?? Date.now(),
             title: space.name, 
             description: space.description, 
             icon: space.icon,
@@ -102,7 +103,7 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
                 <div className='add-space-button-container'>
                     <button
                         className='button-add'
-                        onClick={() => onAddSpace({ name: newSpaceName, description: newSpaceDescription, icon: selectedIcon })}>
+                        onClick={() => onAddSpace({ id: Date.now(), name: newSpaceName, description: newSpaceDescription, icon: selectedIcon })}>
                         {t('addSpace.addSpace')}
                     </button>
                     <button

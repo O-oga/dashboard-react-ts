@@ -29,24 +29,53 @@ body {
   color: var(--button-text-color);
 }
 
+.button-svg-small {
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  height: 32px;
+  aspect-ratio: 1;
+  background: none;
+  color: var(--button-text-color);
+  
+}
+
 /* SVG inside button - color changes on states */
-.button-svg svg {
+.button-svg svg,
+.button-svg svg path,
+.button-svg svg circle,
+.button-svg-small svg,
+.button-svg-small svg path,
+.button-svg-small svg circle {
   transition: stroke var(--transition), fill var(--transition);
 }
 
 .button-svg svg,
-.button-svg svg path {
+.button-svg svg path,
+.button-svg svg circle,
+.button-svg-small svg,
+.button-svg-small svg path,
+.button-svg-small svg circle {
   stroke: currentColor;
   fill: none;
 }
 
-.button-svg:hover {
-  background: var(--svg-button-hover-color);
+.button-svg:hover,
+.button-svg-small:hover {
+  background: var(--active-card-background-color);
   color: var(--button-hover-text-color);
+  border: var(--active-card-border);
 }
 
 .button-svg:hover svg,
-.button-svg:hover svg path {
+.button-svg:hover svg path,
+.button-svg:hover svg circle,
+.button-svg-small:hover svg,
+.button-svg-small:hover svg path,
+.button-svg-small:hover svg circle {
   stroke: var(--button-hover-text-color);
 }
 
@@ -58,7 +87,8 @@ body {
 }
 
 .button-svg:focus svg,
-.button-svg:focus svg path {
+.button-svg:focus svg path,
+.button-svg:focus svg circle {
   stroke: var(--button-focus-text-color);
 }
 
@@ -68,7 +98,8 @@ body {
 }
 
 .button-svg:active svg,
-.button-svg:active svg path {
+.button-svg:active svg path,
+.button-svg:active svg circle {
   stroke: var(--button-active-text-color);
 }
 

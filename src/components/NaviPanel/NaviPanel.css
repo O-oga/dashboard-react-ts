@@ -18,13 +18,12 @@
     flex-direction: row;
     align-items: center;
     
-    /* Position and z-index to appear above modal */
-    position: relative;
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    right: 0;
     z-index: 1001;
     
-    /* Scroll if panel is larger than parent */
-    overflow-x: auto;
-    overflow-y: hidden;
     scrollbar-width: none;
     
     /* Panel expansion animation */
@@ -46,7 +45,10 @@
     box-sizing: border-box;
     margin: 0;
     padding: 5px;
-    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
     
     /* Button appearance animation */
     transition: transform var(--transition), opacity var(--transition);
@@ -71,6 +73,17 @@
 }
 
 @keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromLeft {
     from {
         opacity: 0;
         transform: translateX(20px);
@@ -149,4 +162,10 @@
     transform: none;
     background: var(--card-background-color);
     border: var(--border);
+}
+
+.change-button {
+    position: absolute;
+    top: 0;
+    right: -35px;
 }
