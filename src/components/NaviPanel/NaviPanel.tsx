@@ -46,12 +46,12 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
         });
     }, [spaces.length]);
 
-    // Select first space's cards when spaces change or on mount
+    // Select first space's cards when mounted
     useEffect(() => {
         if (sortedSpaces.length > 0) {
             onSpaceSelect(sortedSpaces[0].cards);
         }
-    }, [sortedSpaces, onSpaceSelect]);
+    }, []);
 
     const spaceSelect = useCallback((space: Space) => {
         onSpaceSelect(space.cards);
@@ -60,9 +60,6 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
     return (
         <div
             className={`navi-panel ${isOpen ? 'navi-panel-disabled' : ''}`}
-            style={{
-                justifyContent: spaces.length === 0 ? 'center' : 'flex-start'
-            }}
         >
             {/* Display space cards */}
             {sortedSpaces.map((space: Space) => (
