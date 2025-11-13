@@ -1,4 +1,4 @@
-import type { CardIconTypes, IconComponent, SpaceIconTypes, UIIconTypes } from '../../types/Icons.types';
+import type { CardIconTypes, SpaceIconTypes, UIIconTypes } from '../../types/Icons.types';
 import type { IconProps } from './types';
 
 import { Chair2Icon } from './Chair2Icon';

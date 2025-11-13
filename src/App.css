@@ -139,6 +139,7 @@ body {
   transition: background var(--transition), color var(--transition), border var(--transition);
   cursor: pointer;
   border: 1px solid var(--close-collor);
+  border-radius: var(--border-radius);
 }
 
 .button-cancel:hover {

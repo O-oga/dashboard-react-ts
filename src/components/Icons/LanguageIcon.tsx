@@ -3,8 +3,7 @@ import type { IconProps } from './types';
 export function LanguageIcon({ 
   className = '', 
   size = 24, 
-  color = 'currentColor',
-  strokeWidth = 1.5 
+  color = 'currentColor'
 }: IconProps) {
   return (
     <svg 
