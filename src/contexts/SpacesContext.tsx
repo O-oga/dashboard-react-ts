@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback, useRef } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useRef, type ReactNode } from 'react';
 import type { State, Action, Space, Card } from '../types/space.types';
 import { saveSpaces, getSpaces } from '../modules/loader';
 
@@ -54,13 +54,22 @@ const getInitialState = (): State => {
     return { spaces: [] };
 };
 
+type SpacesContextType = {
+    spaces: Space[];
+    dispatch: React.Dispatch<Action>;
+    addSpace: (space: Space) => void;
+    removeSpace: (id: number) => void;
+    changeSpace: (space: Space) => void;
+    addCard: (spaceId: number, card: Card) => void;
+    removeCard: (spaceId: number, cardId: number) => void;
+};
+
+const SpacesContext = createContext<SpacesContextType | undefined>(undefined);
+
 /**
- * Custom hook for managing spaces state
- * Handles loading from and saving to localStorage automatically
- * 
- * @returns Object containing spaces state, dispatch function, and helper methods
+ * Provider component for Spaces context
  */
-export const useSpaces = () => {
+export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(spacesReducer, undefined, getInitialState);
     const hasLoadedRef = useRef(false);
     const prevStateRef = useRef<State | null>(null);
@@ -112,14 +121,32 @@ export const useSpaces = () => {
         dispatch({ type: 'removeCard', spaceId, cardId });
     }, []);
 
-    return {
-        spaces: state.spaces,
-        dispatch,
-        addSpace,
-        removeSpace,
-        changeSpace,
-        addCard,
-        removeCard,
-    };
+    return (
+        <SpacesContext.Provider
+            value={{
+                spaces: state.spaces,
+                dispatch,
+                addSpace,
+                removeSpace,
+                changeSpace,
+                addCard,
+                removeCard,
+            }}
+        >
+            {children}
+        </SpacesContext.Provider>
+    );
+};
+
+/**
+ * Custom hook to use Spaces context
+ * @throws Error if used outside SpacesProvider
+ */
+export const useSpaces = () => {
+    const context = useContext(SpacesContext);
+    if (context === undefined) {
+        throw new Error('useSpaces must be used within a SpacesProvider');
+    }
+    return context;
 };
 

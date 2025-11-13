@@ -12,21 +12,21 @@
   --invalid-border: 1px solid rgba(255, 0, 0, 0.4);
 
   /* Dark theme - Buttons */
-  --svg-button-collor: rgba(234, 234, 234, 0.09);
-  --svg-button-hover-color: rgba(234, 234, 234, 0.3);
-  --svg-button-focus-color: rgba(234, 234, 234, 0.4);
-  --svg-button-active-color: rgba(234, 234, 234, 0.5);
-  --button-text-color: rgba(234, 234, 234, 0.5);
-  --button-hover-text-color: rgba(234, 234, 234, 0.7);
-  --button-focus-text-color: rgba(234, 234, 234, 0.9);
-  --button-active-text-color: rgba(255, 255, 255, 1);
+  --svg-button-collor: #1a1a1a;
+  --svg-button-hover-color: #2a2a2a;
+  --svg-button-focus-color: #333333;
+  --svg-button-active-color: #3a3a3a;
+  --button-text-color: #b0b0b0;
+  --button-hover-text-color: #d0d0d0;
+  --button-focus-text-color: #e8e8e8;
+  --button-active-text-color: #ffffff;
 
   /* Dark theme - Cancel/Close button */
-  --close-collor: rgba(255, 80, 80, 0.6);
-  --close-hover-color: rgba(255, 80, 80, 0.8);
-  --close-active-color: rgba(255, 60, 60, 1);
-  --cancel-button-background: rgba(255, 80, 80, 0.15);
-  --cancel-button-hover-background: rgba(255, 80, 80, 0.25);
+  --close-collor: #ff5050;
+  --close-hover-color: #ff6666;
+  --close-active-color: #ff3c3c;
+  --cancel-button-background: #2a1a1a;
+  --cancel-button-hover-background: #3a1f1f;
 
   /* Effects */
   --shadow: rgba(0, 0, 0, 0.22);

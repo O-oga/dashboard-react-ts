@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.css'
 import NaviPanel from './components/NaviPanel/NaviPanel'
@@ -7,11 +7,17 @@ import LoginPage from './components/LoginPage/LoginPage'
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
 import { useAuthenticationVerification } from './modules/autenticationVerification'
 import type { Card } from './types/space.types'
+import { SpacesProvider } from './contexts/SpacesContext'
 
 function App() {
   const { t } = useTranslation();
   const [currentSpaceCards, setCurrentSpaceCards] = useState<Card[]>([]);
   const { isAuthenticated, isCheckingAuth, setIsAuthenticated } = useAuthenticationVerification();
+
+  // Memoize callback to ensure stable reference for NaviPanel
+  const handleSpaceSelect = useCallback((cards: Card[]) => {
+    setCurrentSpaceCards(cards);
+  }, []);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -38,10 +44,12 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <Space createdCards={currentSpaceCards}></Space>
-      <NaviPanel onSpaceSelect={(cards: Card[]) => setCurrentSpaceCards(cards)}></NaviPanel>
-    </div>
+    <SpacesProvider>
+      <div className="app">
+        <Space createdCards={currentSpaceCards}></Space>
+        <NaviPanel onSpaceSelect={handleSpaceSelect}></NaviPanel>
+      </div>
+    </SpacesProvider>
   )
 }
 

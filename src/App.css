@@ -38,8 +38,10 @@ body {
   border: none;
   height: 32px;
   aspect-ratio: 1;
-  background: none;
+  background: var(--svg-button-collor);
+  backdrop-filter: 50px;
   color: var(--button-text-color);
+  transition: background var(--transition), border var(--transition);
   
 }
 
@@ -63,11 +65,14 @@ body {
   fill: none;
 }
 
-.button-svg:hover,
-.button-svg-small:hover {
+.button-svg:hover{
   background: var(--active-card-background-color);
   color: var(--button-hover-text-color);
   border: var(--active-card-border);
+}
+.button-svg-small:hover {
+  background: var(--active-card-background-color);
+  color: var(--button-hover-text-color);
 }
 
 .button-svg:hover svg,

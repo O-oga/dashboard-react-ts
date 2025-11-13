@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import type { SpaceIconTypes } from '../../../types/Icons.types';
 import { SpacesIcons } from '../../Icons';
-import { useSpaces } from '../../../hooks/useSpaces';
+import { useSpaces } from '../../../contexts/SpacesContext';
 
 const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
     const { t } = useTranslation();
-    const { addSpace } = useSpaces();
+    const { addSpace, spaces } = useSpaces();
     const [newSpaceName, setNewSpaceName] = useState<string>('');
     const [newSpaceDescription, setNewSpaceDescription] = useState<string>('');
     const [selectedIcon, setSelectedIcon] = useState<SpaceIconTypes>('HomeIcon');
@@ -22,13 +22,14 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
         ))
     }
 
-    const onAddSpace = useCallback((space: { id: number; name: string; description: string; icon: SpaceIconTypes }) => {
+    const onAddSpace = useCallback((space: { id: number; name: string; description: string; icon: SpaceIconTypes; order: number }) => {
         addSpace({
             id: space.id ?? Date.now(),
             title: space.name, 
             description: space.description, 
             icon: space.icon,
-            cards: []
+            cards: [],
+            order: space.order
         });
         onClose();
     }, [addSpace, onClose]);
@@ -103,7 +104,7 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
                 <div className='add-space-button-container'>
                     <button
                         className='button-add'
-                        onClick={() => onAddSpace({ id: Date.now(), name: newSpaceName, description: newSpaceDescription, icon: selectedIcon })}>
+                        onClick={() => onAddSpace({ id: Date.now(), name: newSpaceName, description: newSpaceDescription, icon: selectedIcon, order: spaces.length > 0 ? spaces[spaces.length - 1].order + 1 : 1 })}>
                         {t('addSpace.addSpace')}
                     </button>
                     <button

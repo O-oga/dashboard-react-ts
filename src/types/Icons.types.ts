@@ -19,7 +19,8 @@ export type UIIconTypes =
   | 'LogoutIcon'
   | 'LanguageIcon'
   | 'HelpIcon'
-  | 'TrashIcon';
+  | 'TrashIcon'
+  | 'SwapIcon';
 
 
 export type IconComponent = SpaceIconTypes | UIIconTypes | CardIconTypes;

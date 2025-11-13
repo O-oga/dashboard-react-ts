@@ -11,6 +11,7 @@ import { MonitorIcon } from './MonitorIcon';
 import { PlugCircleIcon } from './PlugCircleIcon';
 import { SettingsIcon } from './SettingsIcon';
 import { SmartHomeIcon } from './SmartHomeIcon';
+import { SwapIcon } from './SwapIcon';
 import { TrashIcon } from './TrashIcon';
 import { Widget4Icon } from './Widget4Icon';
 import { WidgetIcon } from './WidgetIcon';
@@ -40,4 +41,5 @@ export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
     LanguageIcon: LanguageIcon,
     HelpIcon: HelpIcon,
     TrashIcon: TrashIcon,
+    SwapIcon: SwapIcon,
 };

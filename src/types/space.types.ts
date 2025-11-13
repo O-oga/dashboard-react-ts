@@ -13,7 +13,7 @@ export type Space = {
     description?: string;
     cards: Card[];
     icon?: SpaceIconTypes | React.ReactNode;
-    order?: number;
+    order: number;
 };
 export type State = { spaces: Space[] };
 export type Action =

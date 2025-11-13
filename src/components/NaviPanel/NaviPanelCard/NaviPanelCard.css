@@ -1,19 +1,24 @@
+.navi-panel-card-container {
+    position: relative;
+    max-width: 140px;
+    height: 75%;
+    aspect-ratio: 1;
+}
+
 .navi-panel-card {
     backdrop-filter: var(--blur);
     border: var(--border);
     border-radius: var(--border-radius);
     padding: 5px;
-    max-width: 140px;
-    height: 75%;
+    height: 100%;
     aspect-ratio: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; 
     justify-content: space-around;
     box-sizing: border-box;
     margin: 0;
     cursor: pointer;
-    flex-shrink: 0;
     transition: background var(--transition), border var(--transition), transform var(--transition);
 }
 
@@ -85,3 +90,10 @@
     opacity: 0.7;
 }
 
+.change-buttons-container {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: -20px;
+    right: -5px;
+}
