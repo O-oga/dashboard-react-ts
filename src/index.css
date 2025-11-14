@@ -10,7 +10,7 @@
   --border: 1px solid rgba(234, 234, 234, 0.05);
   --active-card-border: 1px solid rgba(234, 234, 234, 0.5);
   --invalid-border: 1px solid rgba(255, 0, 0, 0.4);
-
+  --border-color: rgba(234, 234, 234, 0.05);
   /* Dark theme - Buttons */
   --svg-button-collor: #1a1a1a;
   --svg-button-hover-color: #2a2a2a;

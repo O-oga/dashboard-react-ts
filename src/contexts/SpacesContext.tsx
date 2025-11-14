@@ -1,11 +1,21 @@
 import { createContext, useContext, useReducer, useEffect, useCallback, useRef, type ReactNode } from 'react';
-import type { State, Action, Space, Card } from '../types/space.types';
+import type { Action, Space, Card, SpacesState } from '../types/space.types';
 import { saveSpaces, getSpaces } from '../modules/loader';
+
+type SpacesContextType = {
+    spaces: Space[];
+    dispatch: React.Dispatch<Action>;
+    addSpace: (space: Space) => void;
+    removeSpace: (id: number) => void;
+    changeSpace: (space: Space) => void;
+    addCard: (spaceId: number, card: Card) => void;
+    removeCard: (spaceId: number, cardId: number) => void;
+};
 
 /**
  * Reducer function for managing spaces state
  */
-const spacesReducer = (state: State, action: Action): State => {
+const spacesReducer = (state: SpacesState, action: Action): SpacesState => {
     switch (action.type) {
         case 'loadSpaces':
             return action.state;
@@ -44,9 +54,9 @@ const spacesReducer = (state: State, action: Action): State => {
 };
 
 /**
- * Initialize state from localStorage or return empty state
+ * Initialize spaces state from localStorage or return empty state
  */
-const getInitialState = (): State => {
+const getInitialSpacesState = (): SpacesState => {
     const savedSpaces = getSpaces();
     if (savedSpaces && Array.isArray(savedSpaces.spaces)) {
         return savedSpaces;
@@ -54,15 +64,6 @@ const getInitialState = (): State => {
     return { spaces: [] };
 };
 
-type SpacesContextType = {
-    spaces: Space[];
-    dispatch: React.Dispatch<Action>;
-    addSpace: (space: Space) => void;
-    removeSpace: (id: number) => void;
-    changeSpace: (space: Space) => void;
-    addCard: (spaceId: number, card: Card) => void;
-    removeCard: (spaceId: number, cardId: number) => void;
-};
 
 const SpacesContext = createContext<SpacesContextType | undefined>(undefined);
 
@@ -70,27 +71,25 @@ const SpacesContext = createContext<SpacesContextType | undefined>(undefined);
  * Provider component for Spaces context
  */
 export const SpacesProvider = ({ children }: { children: ReactNode }) => {
-    const [state, dispatch] = useReducer(spacesReducer, undefined, getInitialState);
+    const [spacesState, dispatch] = useReducer(spacesReducer, undefined, getInitialSpacesState);
     const hasLoadedRef = useRef(false);
-    const prevStateRef = useRef<State | null>(null);
+    const prevSpacesStateRef = useRef<SpacesState | null>(null);
 
-    // Save data to localStorage whenever state changes (but not on initial mount)
+    // Save data to localStorage whenever spaces state changes
     useEffect(() => {
         // Skip saving on initial mount
         if (!hasLoadedRef.current) {
             hasLoadedRef.current = true;
-            prevStateRef.current = state;
+            prevSpacesStateRef.current = spacesState;
             return;
         }
 
-        // Only save if state actually changed
-        if (prevStateRef.current && JSON.stringify(prevStateRef.current) !== JSON.stringify(state)) {
-            saveSpaces(state);
-            prevStateRef.current = state;
+        if (prevSpacesStateRef.current && JSON.stringify(prevSpacesStateRef.current) !== JSON.stringify(spacesState)) {
+            saveSpaces(spacesState);
+            prevSpacesStateRef.current = spacesState;
         }
-    }, [state]);
+    }, [spacesState]);
 
-    // Helper function to add a space
     const addSpace = useCallback((space: Space) => {
         dispatch({ 
             type: 'addSpace', 
@@ -124,7 +123,7 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     return (
         <SpacesContext.Provider
             value={{
-                spaces: state.spaces,
+                spaces: spacesState.spaces,
                 dispatch,
                 addSpace,
                 removeSpace,

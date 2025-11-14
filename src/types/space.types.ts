@@ -15,9 +15,9 @@ export type Space = {
     icon?: SpaceIconTypes | React.ReactNode;
     order: number;
 };
-export type State = { spaces: Space[] };
+export type SpacesState = { spaces: Space[] };
 export type Action =
-    | { type: 'loadSpaces'; state: State }
+    | { type: 'loadSpaces'; state: SpacesState }
     | { type: 'changeSpace'; space: Space }
     | { type: 'addSpace'; space: Space }
     | { type: 'removeSpace'; id: number }

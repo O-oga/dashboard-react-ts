@@ -11,7 +11,7 @@ import { useSpaces } from '../../contexts/SpacesContext';
 import { UIIcons } from '../Icons';
 
 type NaviPanelProps = {
-    onSpaceSelect: (cards: Space['cards']) => void;
+    onSpaceSelect: (space: Space) => void;
 };
 
 const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
@@ -49,12 +49,12 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
     // Select first space's cards when mounted
     useEffect(() => {
         if (sortedSpaces.length > 0) {
-            onSpaceSelect(sortedSpaces[0].cards);
+            onSpaceSelect(sortedSpaces[0]);
         }
     }, []);
 
     const spaceSelect = useCallback((space: Space) => {
-        onSpaceSelect(space.cards);
+        onSpaceSelect(space);
     }, [onSpaceSelect]);
 
     return (

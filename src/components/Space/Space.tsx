@@ -2,17 +2,23 @@ import { useTranslation } from 'react-i18next';
 import Sensor from '../SpaceCards/Devices/Sensor/Sensor';
 import Switch from '../SpaceCards/Devices/Switch/Switch';
 import './Space.css';
+import { useSpaces } from '../../contexts/SpacesContext';
+import { useDisclosure } from '../../hooks/useDisclosure';
 
 function Space(props: any) {
-    const { createdCards } = props;
+    const { createdCards, spaceId } = props;
     const { t } = useTranslation();
-
+    const { spaces } = useSpaces();
+    const { isOpen: isModalOpen, open: openModal, close: closeModal } = useDisclosure(false, { 
+        onOpen: () => { console.log('onOpen') }, 
+        onClose: () => { console.log('onClose') } 
+    });
 
 
 
     return (
         <div className="space">
-            {createdCards.length > 0 &&
+            {spaces?.[spaceId]?.cards.length === 0 &&
                 <div className='container'>
                     {createdCards.map((card: any) => {
                         switch (card.type) {
@@ -27,7 +33,11 @@ function Space(props: any) {
                     })
                     }
 
-                    <button className="card-svg button-svg" type="button" aria-label={t('app.pinNewCard')}>
+                    <button 
+                    className="card-svg button-svg" 
+                    type="button" 
+                    onClick={openModal}
+                    aria-label={t('app.pinNewCard')}>
                         <svg className="card-svg" id="add-svg" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#EAEAEA17" strokeWidth="1.5"

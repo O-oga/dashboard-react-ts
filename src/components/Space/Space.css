@@ -2,10 +2,10 @@
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    height: calc(98vh - 13vh);
-    width: 98vw;
+    height: 100%;
+    width: 100%;
     background: none;
-    padding: 1vh 1vw;
+    padding: 25px;
 }
 
 .add-item {

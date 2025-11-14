@@ -1,5 +1,5 @@
 'use strict';
-import type { State } from '../types/space.types';
+import type { SpacesState } from '../types/space.types';
 import { getCookie, setCookie } from './cookies';
 
 export const entities: Record<string, string> = {};
@@ -175,7 +175,7 @@ export const convertToWebSocketUrl = (url: string): string => {
     return wsUrl;
 }
 
-export const saveSpaces = (spaces: State): void => {
+export const saveSpaces = (spaces: SpacesState): void => {
     try {
         localStorage.setItem('spaces', JSON.stringify(spaces));
     } catch (error) {
@@ -183,7 +183,7 @@ export const saveSpaces = (spaces: State): void => {
     }
 }
 
-export const getSpaces = (): State | null => {
+export const getSpaces = (): SpacesState | null => {
     try {
         const data = localStorage.getItem('spaces');
         return data ? JSON.parse(data) : null;
