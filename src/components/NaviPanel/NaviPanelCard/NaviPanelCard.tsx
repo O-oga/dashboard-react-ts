@@ -14,7 +14,7 @@ const NaviPanelCard = (props: any) => {
     const TrashIconComponent = UIIcons['TrashIcon'];
     const { removeSpace, changeSpace } = useSpaces();
     const handleSpaceSelect = useCallback((space: Space) => {
-        onSpaceSelect(space);
+        onSpaceSelect(space, space.id);
     }, [onSpaceSelect]);   
 
 

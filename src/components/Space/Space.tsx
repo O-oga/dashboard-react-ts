@@ -16,9 +16,11 @@ function Space(props: any) {
 
 
 
+    const currentSpace = spaces.find(space => space.id === spaceId);
+
     return (
         <div className="space">
-            {spaces?.[spaceId]?.cards.length === 0 &&
+            {currentSpace?.cards.length === 0 &&
                 <div className='container'>
                     {createdCards.map((card: any) => {
                         switch (card.type) {
