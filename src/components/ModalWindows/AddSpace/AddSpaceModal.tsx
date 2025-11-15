@@ -16,7 +16,7 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
 
     const iconButtons = () => {
         return Object.entries(SpacesIcons).map(([icon, Icon]) => (
-            <div className='icon-button button-svg-medium' key={icon} onClick={() => setSelectedIcon(icon as SpaceIconTypes)}>
+            <div className='icon-button button-svg button-svg-medium button-svg-dark' key={icon} onClick={() => setSelectedIcon(icon as SpaceIconTypes)}>
                 <Icon size={35} color="white" />
             </div>
         ))

@@ -19,140 +19,224 @@ body {
 
 /* Base button classes with effects */
 
-/* Button with SVG icon */
+/* Base button with SVG icon - no sizes, no colors */
 .button-svg {
-  background: var(--svg-button-collor);
-  transition: background var(--transition), border var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: background var(--transition), border var(--transition), color var(--transition);
   border: var(--border);
   border-radius: var(--border-radius);
-  color: var(--button-text-color);
-}
-
-.button-svg-small {
-  border-radius: 50%;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  height: 32px;
-  aspect-ratio: 1;
-  background: var(--svg-button-collor);
-  backdrop-filter: 50px;
-  color: var(--button-text-color);
-  transition: background var(--transition), border var(--transition);
-
-}
-
-.button-svg-medium {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background var(--transition), border var(--transition);
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
-  color: var(--button-text-color);
-
-}
-
-.button-svg-medium:hover {
-  background: var(--active-card-background-color);
-  color: var(--button-hover-text-color);
-}
-
-.button-svg-medium:focus {
-  background: var(--svg-button-focus-color);
-  color: var(--button-focus-text-color);
-  outline: 2px solid var(--svg-button-focus-color);
-  outline-offset: 2px;
-}
-
-.button-svg-medium:active {
-  background: var(--svg-button-active-color);
-  color: var(--button-active-text-color);
+  box-sizing: border-box;
 }
 
 /* SVG inside button - color changes on states */
 .button-svg svg,
 .button-svg svg path,
-.button-svg svg circle,
-.button-svg-small svg,
-.button-svg-medium svg,
-.button-svg-small svg path,
-.button-svg-small svg circle,
-.button-svg-medium svg path,
-.button-svg-medium svg circle {
+.button-svg svg circle {
   transition: stroke var(--transition), fill var(--transition);
-}
-
-.button-svg svg,
-.button-svg svg path,
-.button-svg svg circle,
-.button-svg-small svg,
-.button-svg-small svg path,
-.button-svg-small svg circle,
-.button-svg-medium svg,
-.button-svg-medium svg path,
-.button-svg-medium svg circle {
   stroke: currentColor;
   fill: none;
 }
 
-.button-svg:hover {
+/* Size modifiers */
+.button-svg-small {
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  height: 32px;
+  aspect-ratio: 1;
+  backdrop-filter: 50px;
+}
+
+.button-svg-medium {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid transparent;
+}
+
+.button-svg-large {
+  min-width: 80px;
+  min-height: 80px;
+  padding: 10px;
+}
+
+.button-svg-large svg {
+  width: 60px;
+  height: 60px;
+}
+
+/* Color modifiers - Dark (default) */
+.button-svg-dark {
+  background: var(--svg-button-collor);
+  color: var(--button-text-color);
+}
+
+.button-svg-dark:hover {
   background: var(--active-card-background-color);
   color: var(--button-hover-text-color);
   border: var(--active-card-border);
 }
 
-.button-svg-small:hover {
-  background: var(--active-card-background-color);
-  color: var(--button-hover-text-color);
-}
-
-.button-svg:hover svg,
-.button-svg:hover svg path,
-.button-svg:hover svg circle,
-.button-svg-small:hover svg,
-.button-svg-small:hover svg path,
-.button-svg-small:hover svg circle,
-.button-svg-medium:hover svg,
-.button-svg-medium:hover svg path,
-.button-svg-medium:hover svg circle {
-  stroke: var(--button-hover-text-color);
-}
-
-.button-svg:focus {
+.button-svg-dark:focus {
   background: var(--svg-button-focus-color);
   color: var(--button-focus-text-color);
   outline: 2px solid var(--svg-button-focus-color);
   outline-offset: 2px;
 }
 
-.button-svg:focus svg,
-.button-svg:focus svg path,
-.button-svg:focus svg circle,
-.button-svg-medium:focus svg,
-.button-svg-medium:focus svg path,
-.button-svg-medium:focus svg circle {
-  stroke: var(--button-focus-text-color);
-}
-
-.button-svg:active {
+.button-svg-dark:active {
   background: var(--svg-button-active-color);
   color: var(--button-active-text-color);
 }
 
-.button-svg:active svg,
-.button-svg:active svg path,
-.button-svg:active svg circle,
-.button-svg-medium:active svg,
-.button-svg-medium:active svg path,
-.button-svg-medium:active svg circle {
+.button-svg-dark:hover svg,
+.button-svg-dark:hover svg path,
+.button-svg-dark:hover svg circle {
+  stroke: var(--button-hover-text-color);
+}
+
+.button-svg-dark:focus svg,
+.button-svg-dark:focus svg path,
+.button-svg-dark:focus svg circle {
+  stroke: var(--button-focus-text-color);
+}
+
+.button-svg-dark:active svg,
+.button-svg-dark:active svg path,
+.button-svg-dark:active svg circle {
   stroke: var(--button-active-text-color);
+}
+
+/* Color modifiers - Light */
+.button-svg-light {
+  background: var(--button-svg-light-background);
+  color: var(--button-svg-light-color);
+  border-color: var(--button-svg-light-border-color);
+}
+
+.button-svg-light:hover {
+  background: var(--button-svg-light-hover-background);
+  color: var(--button-svg-light-hover-color);
+  border-color: var(--button-svg-light-hover-border-color);
+}
+
+.button-svg-light:focus {
+  background: var(--button-svg-light-focus-background);
+  color: var(--button-svg-light-focus-color);
+  outline: 2px solid var(--button-svg-light-focus-outline);
+  outline-offset: 2px;
+}
+
+.button-svg-light:active {
+  background: var(--button-svg-light-active-background);
+  color: var(--button-svg-light-active-color);
+}
+
+.button-svg-light:hover svg,
+.button-svg-light:hover svg path,
+.button-svg-light:hover svg circle {
+  stroke: var(--button-svg-light-hover-color);
+}
+
+.button-svg-light:focus svg,
+.button-svg-light:focus svg path,
+.button-svg-light:focus svg circle {
+  stroke: var(--button-svg-light-focus-color);
+}
+
+.button-svg-light:active svg,
+.button-svg-light:active svg path,
+.button-svg-light:active svg circle {
+  stroke: var(--button-svg-light-active-color);
+}
+
+/* Color modifiers - Warn */
+.button-svg-warn {
+  background: var(--button-svg-warn-background);
+  color: var(--button-svg-warn-color);
+  border-color: var(--button-svg-warn-border-color);
+}
+
+.button-svg-warn:hover {
+  background: var(--button-svg-warn-hover-background);
+  color: var(--button-svg-warn-hover-color);
+  border-color: var(--button-svg-warn-hover-border-color);
+}
+
+.button-svg-warn:focus {
+  background: var(--button-svg-warn-focus-background);
+  color: var(--button-svg-warn-focus-color);
+  outline: 2px solid var(--button-svg-warn-focus-outline);
+  outline-offset: 2px;
+}
+
+.button-svg-warn:active {
+  background: var(--button-svg-warn-active-background);
+  color: var(--button-svg-warn-active-color);
+}
+
+.button-svg-warn:hover svg,
+.button-svg-warn:hover svg path,
+.button-svg-warn:hover svg circle {
+  stroke: var(--button-svg-warn-hover-color);
+}
+
+.button-svg-warn:focus svg,
+.button-svg-warn:focus svg path,
+.button-svg-warn:focus svg circle {
+  stroke: var(--button-svg-warn-focus-color);
+}
+
+.button-svg-warn:active svg,
+.button-svg-warn:active svg path,
+.button-svg-warn:active svg circle {
+  stroke: var(--button-svg-warn-active-color);
+}
+
+/* Color modifiers - Error */
+.button-svg-error {
+  background: var(--button-svg-error-background);
+  color: var(--button-svg-error-color);
+  border-color: var(--button-svg-error-border-color);
+}
+
+.button-svg-error:hover {
+  background: var(--button-svg-error-hover-background);
+  color: var(--button-svg-error-hover-color);
+  border-color: var(--button-svg-error-hover-border-color);
+}
+
+.button-svg-error:focus {
+  background: var(--button-svg-error-focus-background);
+  color: var(--button-svg-error-focus-color);
+  outline: 2px solid var(--button-svg-error-focus-outline);
+  outline-offset: 2px;
+}
+
+.button-svg-error:active {
+  background: var(--button-svg-error-active-background);
+  color: var(--button-svg-error-active-color);
+}
+
+.button-svg-error:hover svg,
+.button-svg-error:hover svg path,
+.button-svg-error:hover svg circle {
+  stroke: var(--button-svg-error-hover-color);
+}
+
+.button-svg-error:focus svg,
+.button-svg-error:focus svg path,
+.button-svg-error:focus svg circle {
+  stroke: var(--button-svg-error-focus-color);
+}
+
+.button-svg-error:active svg,
+.button-svg-error:active svg path,
+.button-svg-error:active svg circle {
+  stroke: var(--button-svg-error-active-color);
 }
 
 /* Text button */
@@ -252,7 +336,6 @@ body {
 
 /* Base sizes - applied to all buttons by default */
 .button,
-.button-svg,
 .button-text,
 .button-combined,
 .button-cancel {
@@ -260,17 +343,6 @@ body {
   min-width: 40px;
   padding: 10px 16px;
   font-size: 14px;
-}
-
-.button-svg {
-  min-width: 80px;
-  min-height: 80px;
-  padding: 10px;
-}
-
-.button-svg svg {
-  width: 60px;
-  height: 60px;
 }
 
 .button-text {
@@ -295,7 +367,6 @@ body {
 @media screen and (max-width: 767px) {
 
   .button,
-  .button-svg,
   .button-text,
   .button-combined,
   .button-cancel {
@@ -305,13 +376,13 @@ body {
     font-size: 14px;
   }
 
-  .button-svg {
+  .button-svg-large {
     min-width: 68px;
     min-height: 68px;
     padding: 12px;
   }
 
-  .button-svg svg {
+  .button-svg-large svg {
     width: 64px;
     height: 64px;
   }
@@ -348,7 +419,6 @@ body {
 @media screen and (max-width: 767px) and (orientation: landscape) {
 
   .button,
-  .button-svg,
   .button-text,
   .button-combined,
   .button-cancel {
@@ -356,13 +426,13 @@ body {
     padding: 10px 14px;
   }
 
-  .button-svg {
+  .button-svg-large {
     min-width: 72px;
     min-height: 72px;
     padding: 10px;
   }
 
-  .button-svg svg {
+  .button-svg-large svg {
     width: 56px;
     height: 56px;
   }
@@ -372,7 +442,6 @@ body {
 @media screen and (min-width: 768px) and (max-width: 1023px) {
 
   .button,
-  .button-svg,
   .button-text,
   .button-combined,
   .button-cancel {
@@ -382,13 +451,13 @@ body {
     font-size: 15px;
   }
 
-  .button-svg {
+  .button-svg-large {
     min-width: 64px;
     min-height: 64px;
     padding: 14px;
   }
 
-  .button-svg svg {
+  .button-svg-large svg {
     width: 56px;
     height: 56px;
   }
@@ -416,7 +485,6 @@ body {
 @media screen and (min-width: 1440px) {
 
   .button,
-  .button-svg,
   .button-text,
   .button-combined,
   .button-cancel {
@@ -424,11 +492,11 @@ body {
     font-size: 15px;
   }
 
-  .button-svg {
+  .button-svg-large {
     padding: 12px;
   }
 
-  .button-svg svg {
+  .button-svg-large svg {
     width: 64px;
     height: 64px;
   }

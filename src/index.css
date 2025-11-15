@@ -28,6 +28,45 @@
   --cancel-button-background: #2a1a1a;
   --cancel-button-hover-background: #3a1f1f;
 
+  /* Button SVG - Light theme colors */
+  --button-svg-light-background: rgba(255, 255, 255, 0.1);
+  --button-svg-light-color: rgba(255, 255, 255, 0.9);
+  --button-svg-light-border-color: rgba(255, 255, 255, 0.2);
+  --button-svg-light-hover-background: rgba(255, 255, 255, 0.15);
+  --button-svg-light-hover-color: rgba(255, 255, 255, 1);
+  --button-svg-light-hover-border-color: rgba(255, 255, 255, 0.3);
+  --button-svg-light-focus-background: rgba(255, 255, 255, 0.2);
+  --button-svg-light-focus-color: rgba(255, 255, 255, 1);
+  --button-svg-light-focus-outline: rgba(255, 255, 255, 0.4);
+  --button-svg-light-active-background: rgba(255, 255, 255, 0.25);
+  --button-svg-light-active-color: rgba(255, 255, 255, 1);
+
+  /* Button SVG - Warn theme colors */
+  --button-svg-warn-background: rgba(255, 193, 7, 0.2);
+  --button-svg-warn-color: rgba(255, 193, 7, 0.9);
+  --button-svg-warn-border-color: rgba(255, 193, 7, 0.4);
+  --button-svg-warn-hover-background: rgba(255, 193, 7, 0.3);
+  --button-svg-warn-hover-color: rgba(255, 193, 7, 1);
+  --button-svg-warn-hover-border-color: rgba(255, 193, 7, 0.5);
+  --button-svg-warn-focus-background: rgba(255, 193, 7, 0.35);
+  --button-svg-warn-focus-color: rgba(255, 193, 7, 1);
+  --button-svg-warn-focus-outline: rgba(255, 193, 7, 0.6);
+  --button-svg-warn-active-background: rgba(255, 193, 7, 0.4);
+  --button-svg-warn-active-color: rgba(255, 193, 7, 1);
+
+  /* Button SVG - Error theme colors */
+  --button-svg-error-background: rgba(255, 80, 80, 0.05);
+  --button-svg-error-color: rgba(255, 80, 80, 0.9);
+  --button-svg-error-border-color: rgba(255, 80, 80, 0.4);
+  --button-svg-error-hover-background: rgba(255, 80, 80, 0.3);
+  --button-svg-error-hover-color: rgba(255, 80, 80, 1);
+  --button-svg-error-hover-border-color: rgba(255, 80, 80, 0.5);
+  --button-svg-error-focus-background: rgba(255, 80, 80, 0.35);
+  --button-svg-error-focus-color: rgba(255, 80, 80, 1);
+  --button-svg-error-focus-outline: rgba(255, 80, 80, 0.6);
+  --button-svg-error-active-background: rgba(255, 60, 60, 0.4);
+  --button-svg-error-active-color: rgba(255, 255, 255, 1);
+
   /* Effects */
   --shadow: rgba(0, 0, 0, 0.22);
   --blur: blur(15px);

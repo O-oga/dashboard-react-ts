@@ -21,7 +21,7 @@ const NaviPanelCard = (props: any) => {
 
     return (
         <div className='navi-panel-card-container'>
-            <button className="navi-panel-card button-svg" onClick={() => handleSpaceSelect(space)} aria-label={space.description} >
+            <button className="navi-panel-card button-svg button-svg-large button-svg-dark" onClick={() => handleSpaceSelect(space)} aria-label={space.description} >
                 <IconComponent size={60} color="white" />
                 <div
                     className="space-card-title"
@@ -29,10 +29,10 @@ const NaviPanelCard = (props: any) => {
             </button>
             {isChangable && (
                 <div className='change-buttons-container'>
-                    <button className='change-space-button button-svg-small' onClick={() => changeSpace({ ...space, cards: space.cards })}>
+                    <button className='change-space-button button-svg button-svg-small button-svg-dark' onClick={() => changeSpace({ ...space, cards: space.cards })}>
                         <SettingsIconComponent size={24} color="white" />
                     </button>
-                    <button className='delete-space-button button-svg-small' onClick={() => removeSpace(space.id)}>
+                    <button className='delete-space-button button-svg button-svg-small button-svg-error' onClick={() => removeSpace(space.id)}>
                         <TrashIconComponent size={24} color="white" />
                     </button>
                 </div>

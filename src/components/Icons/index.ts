@@ -2,6 +2,7 @@ import type { CardIconTypes, SpaceIconTypes, UIIconTypes } from '../../types/Ico
 import type { IconProps } from './types';
 
 import { Chair2Icon } from './Chair2Icon';
+import { ExitIcon } from './ExitIcon';
 import { HelpIcon } from './HelpIcon';
 import { HomeIcon } from './HomeIcon';
 import { LanguageIcon } from './LanguageIcon';
@@ -42,4 +43,5 @@ export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
     HelpIcon: HelpIcon,
     TrashIcon: TrashIcon,
     SwapIcon: SwapIcon,
+    ExitIcon: ExitIcon,
 };

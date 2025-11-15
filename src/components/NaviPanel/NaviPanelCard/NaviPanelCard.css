@@ -94,6 +94,8 @@
     display: flex;
     flex-direction: row;
     position: absolute;
-    top: -20px;
-    right: -5px;
+    top: -15px;
+    right: 0px;
+    justify-content: space-between;
+    width: 100%;
 }

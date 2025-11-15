@@ -15,7 +15,7 @@ function SpacePreviewCard(props : any) {
     
     return (
         <button 
-        className="space-preview-card navi-panel-button button-svg" 
+        className="space-preview-card navi-panel-button button-svg button-svg-large button-svg-dark" 
         type="button"
         aria-label={description || t('naviPanel.createNewSpace')}>
             <div className="space-card-icon"><SpaceIcon size={55} color="white" /></div>

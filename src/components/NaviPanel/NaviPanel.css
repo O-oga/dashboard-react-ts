@@ -164,8 +164,34 @@
     border: var(--border);
 }
 
-.change-button {
+.settings-buttons-container {
     position: absolute;
     top: 0;
-    right: -35px;
+    right: -40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+    height: 100%;
+    width: 40px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.navi-panel:hover .settings-buttons-container {
+    animation: slideInFromLeft 0.3s ease-in-out forwards;
+    transform: translateX(0);
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

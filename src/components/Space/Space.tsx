@@ -4,6 +4,7 @@ import Switch from '../SpaceCards/Devices/Switch/Switch';
 import './Space.css';
 import { useSpaces } from '../../contexts/SpacesContext';
 import { useDisclosure } from '../../hooks/useDisclosure';
+import AddCardModal from '../ModalWindows/AddCard/AddCardModal';
 
 function Space(props: any) {
     const { createdCards, spaceId } = props;
@@ -36,7 +37,7 @@ function Space(props: any) {
                     }
 
                     <button 
-                    className="card-svg button-svg" 
+                    className="card-svg button-svg button-svg-large button-svg-dark" 
                     type="button" 
                     onClick={openModal}
                     aria-label={t('app.pinNewCard')}>
@@ -51,6 +52,7 @@ function Space(props: any) {
                     </button>
                 </div>
             }
+            {isModalOpen && <AddCardModal isModalOpen={isModalOpen} closeModal={closeModal} />}
         </div >
     );
 }

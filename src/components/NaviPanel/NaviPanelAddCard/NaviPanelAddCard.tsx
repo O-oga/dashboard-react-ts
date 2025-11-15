@@ -7,7 +7,7 @@ function NaviPanelAddCard(props: any) {
 
     return (
         <button
-            className="navi-panel-button button-svg"
+            className="navi-panel-button button-svg button-svg-large button-svg-dark"
             type="button"
             aria-label={t('naviPanel.createNewSpace')}
             onClick={onOpenModal}
