@@ -250,6 +250,7 @@ body {
 
 .button-text:hover {
   color: var(--button-hover-text-color);
+  border: var(--active-card-border);
 }
 
 .button-text:focus {
@@ -346,7 +347,7 @@ body {
 }
 
 .button-text {
-  min-width: 120px;
+  min-width: 80px;
 }
 
 .button-combined {

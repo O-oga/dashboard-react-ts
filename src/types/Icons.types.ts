@@ -11,7 +11,11 @@ export type SpaceIconTypes =
 
 export type CardIconTypes =
   | 'LightbulbIcon'
-  | 'PlugCircleIcon';
+  | 'PlugCircleIcon'
+  | 'SensorIcon'
+  | 'SwitchIcon'
+  | 'MediaIcon'
+  | 'ButtonIcon';
 
 export type UIIconTypes =
   | 'HomeIcon'
@@ -21,7 +25,9 @@ export type UIIconTypes =
   | 'HelpIcon'
   | 'TrashIcon'
   | 'SwapIcon'
-  | 'ExitIcon';
+  | 'ExitIcon'
+  | 'SpinnerIcon'
+  | 'AddIcon';
 
 
 export type IconComponent = SpaceIconTypes | UIIconTypes | CardIconTypes;

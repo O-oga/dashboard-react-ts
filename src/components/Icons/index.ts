@@ -1,6 +1,8 @@
 import type { CardIconTypes, SpaceIconTypes, UIIconTypes } from '../../types/Icons.types';
 import type { IconProps } from './types';
 
+import { AddIcon } from './AddIcon';
+import { ButtonIcon } from './ButtonIcon';
 import { Chair2Icon } from './Chair2Icon';
 import { ExitIcon } from './ExitIcon';
 import { HelpIcon } from './HelpIcon';
@@ -8,11 +10,15 @@ import { HomeIcon } from './HomeIcon';
 import { LanguageIcon } from './LanguageIcon';
 import { LightbulbIcon } from './LightbulbIcon';
 import { LogoutIcon } from './LogoutIcon';
+import { MediaIcon } from './MediaIcon';
 import { MonitorIcon } from './MonitorIcon';
 import { PlugCircleIcon } from './PlugCircleIcon';
+import { SensorIcon } from './SensorIcon';
 import { SettingsIcon } from './SettingsIcon';
 import { SmartHomeIcon } from './SmartHomeIcon';
+import { SpinnerIcon } from './SpinnerIcon';
 import { SwapIcon } from './SwapIcon';
+import { SwitchIcon } from './SwitchIcon';
 import { TrashIcon } from './TrashIcon';
 import { Widget4Icon } from './Widget4Icon';
 import { WidgetIcon } from './WidgetIcon';
@@ -33,6 +39,10 @@ export const SpacesIcons: Record<SpaceIconTypes, React.ComponentType<IconProps>>
 export const CardsIcons : Record<CardIconTypes, React.ComponentType<IconProps>> = {
     LightbulbIcon: LightbulbIcon,
     PlugCircleIcon: PlugCircleIcon,
+    SensorIcon: SensorIcon,
+    SwitchIcon: SwitchIcon,
+    MediaIcon: MediaIcon,
+    ButtonIcon: ButtonIcon,
 };
 
 export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
@@ -44,4 +54,6 @@ export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
     TrashIcon: TrashIcon,
     SwapIcon: SwapIcon,
     ExitIcon: ExitIcon,
+    SpinnerIcon: SpinnerIcon,
+    AddIcon: AddIcon,
 };
