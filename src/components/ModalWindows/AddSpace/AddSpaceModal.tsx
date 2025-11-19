@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import type { SpaceIconTypes } from '../../../types/Icons.types';
-import { getSpaceIconButtons, SpacesIcons } from '../../Icons';
+import { getSpaceIconButtons } from '../../Icons';
 import { useSpaces } from '../../../contexts/SpacesContext';
 
 const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
