@@ -4,7 +4,7 @@ export function SpinnerIcon({
   className = '', 
   size = 24, 
   color = 'currentColor',
-  strokeWidth = 1.5 
+  strokeWidth: _strokeWidth = 1.5 
 }: IconProps) {
   return (
     <svg 

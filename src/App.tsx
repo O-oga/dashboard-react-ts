@@ -15,7 +15,6 @@ function App() {
   const [currentSpaceId, setCurrentSpaceId] = useState<number>(0);
   const { isAuthenticated, isCheckingAuth, setIsAuthenticated } = useAuthenticationVerification();
 
-  // Memoize callback to ensure stable reference for NaviPanel
   const handleSpaceSelect = useCallback((space: Space, spaceId: number) => {
     setCurrentSpaceCards(space.cards);
     setCurrentSpaceId(spaceId);
