@@ -344,6 +344,7 @@ body {
   min-width: 40px;
   padding: 10px 16px;
   font-size: 14px;
+  border-radius: var(--border-radius);
 }
 
 .button-text {
@@ -415,6 +416,31 @@ body {
     outline-offset: 3px;
   }
 }
+
+
+.form-input {
+  background: var(--background-modal-input);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 12px 15px;
+  color: var(--button-text-color);
+  font-size: 14px;
+  font-family: var(--font);
+  transition: border var(--transition), background var(--transition);
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border: var(--active-card-border);
+  background: rgba(234, 234, 234, 0.08);
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 
 /* Landscape orientation on mobile */
 @media screen and (max-width: 767px) and (orientation: landscape) {

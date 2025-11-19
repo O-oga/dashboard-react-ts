@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import type { SpaceIconTypes } from '../../../types/Icons.types';
-import { SpacesIcons } from '../../Icons';
+import { getSpaceIconButtons } from '../../Icons';
 import { useSpaces } from '../../../contexts/SpacesContext';
 
 const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
@@ -13,14 +13,6 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
     const [newSpaceName, setNewSpaceName] = useState<string>('');
     const [newSpaceDescription, setNewSpaceDescription] = useState<string>('');
     const [selectedIcon, setSelectedIcon] = useState<SpaceIconTypes>('HomeIcon');
-
-    const iconButtons = () => {
-        return Object.entries(SpacesIcons).map(([icon, Icon]) => (
-            <div className='icon-button button-svg button-svg-medium button-svg-dark' key={icon} onClick={() => setSelectedIcon(icon as SpaceIconTypes)}>
-                <Icon size={35} color="white" />
-            </div>
-        ))
-    }
 
     const onAddSpace = useCallback((space: { id: number; name: string; description: string; icon: SpaceIconTypes; order: number }) => {
         addSpace({
@@ -83,7 +75,7 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
             <div className="add-space-modal" onClick={(e) => e.stopPropagation()}>
                 <div className='icon-container'>
                     {
-                        iconButtons()
+                        getSpaceIconButtons(setSelectedIcon)
                     }
 
                 </div>

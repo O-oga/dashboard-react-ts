@@ -94,29 +94,6 @@
     font-family: var(--font);
 }
 
-.form-input {
-    background: var(--background-modal-input);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    padding: 12px 15px;
-    color: var(--button-text-color);
-    font-size: 14px;
-    font-family: var(--font);
-    transition: border var(--transition), background var(--transition);
-    box-sizing: border-box;
-}
-
-.form-input:focus {
-    outline: none;
-    border: var(--active-card-border);
-    background: rgba(234, 234, 234, 0.08);
-}
-
-.form-input:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
 .error-message {
     /* position: absolute;
     bottom: 0px;

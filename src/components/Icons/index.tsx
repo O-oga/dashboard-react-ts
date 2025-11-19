@@ -36,6 +36,14 @@ export const SpacesIcons: Record<SpaceIconTypes, React.ComponentType<IconProps>>
     PlugCircleIcon: PlugCircleIcon,
 };
 
+export const getSpaceIconButtons = (setIcon: (icon: SpaceIconTypes) => void) => {
+    return Object.entries(SpacesIcons).map(([icon, Icon]) => (
+        <button className='icon-button button-svg button-svg-medium button-svg-dark' key={icon} onClick={() => setIcon(icon as SpaceIconTypes)}>
+            <Icon size={35} color="white" />
+        </button>
+    ))
+}
+
 export const CardsIcons : Record<CardIconTypes, React.ComponentType<IconProps>> = {
     LightbulbIcon: LightbulbIcon,
     PlugCircleIcon: PlugCircleIcon,
@@ -44,6 +52,15 @@ export const CardsIcons : Record<CardIconTypes, React.ComponentType<IconProps>> 
     MediaIcon: MediaIcon,
     ButtonIcon: ButtonIcon,
 };
+
+
+export const getIconButtons = (setIcon: (icon: CardIconTypes) => void) => {
+    return Object.entries(CardsIcons).map(([icon, Icon]) => (
+        <button className='icon-button button-svg button-svg-medium button-svg-dark' key={icon} onClick={() => setIcon(icon as CardIconTypes)}>
+            <Icon size={35} color="white" />
+        </button>
+    ))
+}
 
 export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
     HomeIcon: HomeIcon,
@@ -57,3 +74,11 @@ export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
     SpinnerIcon: SpinnerIcon,
     AddIcon: AddIcon,
 };
+
+export const getUIIconButtons = (setIcon: (icon: UIIconTypes) => void) => {
+    return Object.entries(UIIcons).map(([icon, Icon]) => (
+        <button className='icon-button button-svg button-svg-medium button-svg-dark' key={icon} onClick={() => setIcon(icon as UIIconTypes)}>
+            <Icon size={35} color="white" />
+        </button>
+    ))
+}

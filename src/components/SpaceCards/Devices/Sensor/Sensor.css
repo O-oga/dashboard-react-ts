@@ -7,7 +7,8 @@
  border-radius: var(--border-radius);
  padding: 5px;
  width: 100px;
- aspect-ratio: 1;
+ height: 100px;
+ box-sizing: border-box;
 }
 
 .sensor .svg-icon svg,
@@ -29,4 +30,13 @@
 .sensor:active .svg-icon svg,
 .sensor:active .svg-icon svg path {
     stroke: var(--button-active-text-color);
+}
+
+.sensor-entity {
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
 }

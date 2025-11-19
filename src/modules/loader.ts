@@ -9,6 +9,9 @@ let id = 1;
 const pendingRequests = new Map();
 let pingLatency: number | null = null;
 let lastPingTime: number | null = null;
+let heartbeatIntervalId: number | null = null;
+let reconnectTimeoutId: number | null = null;
+let isAuthenticated = false;
 
 export const messages = {
     auth: {
@@ -74,9 +77,21 @@ export let sendToHA = (data: any) => {
     data.id = id++;
 
     return new Promise((resolve, reject) => {
+        // Check if connection exists
+        if (!connection) {
+            reject(new Error('WebSocket connection is not initialized'));
+            return;
+        }
+
         // Check connection readiness before sending
         if (connection.readyState !== WebSocket.OPEN) {
-            reject(new Error(`WebSocket is not ready. Current state: ${connection.readyState}`));
+            const stateNames: Record<number, string> = {
+                0: 'CONNECTING',
+                1: 'OPEN',
+                2: 'CLOSING',
+                3: 'CLOSED'
+            };
+            reject(new Error(`WebSocket is not ready. Current state: ${connection.readyState} (${stateNames[connection.readyState] || 'UNKNOWN'})`));
             return;
         }
 
@@ -310,12 +325,41 @@ let sendAuthMessage = (token: string): Promise<void> => {
 }
 
 const setupHeartbeat = () => {
-    setInterval(() => {
-        lastPingTime = Date.now();
-        sendToHA(messages.ping)
-            .then(() => console.log('Ping successful'))
-            .catch(error => console.error('Ping failed:', error));
+    // Clear any existing heartbeat interval
+    if (heartbeatIntervalId !== null) {
+        clearInterval(heartbeatIntervalId);
+        heartbeatIntervalId = null;
+    }
+
+    heartbeatIntervalId = setInterval(() => {
+        // Only send ping if connection is open
+        if (connection && connection.readyState === WebSocket.OPEN) {
+            lastPingTime = Date.now();
+            sendToHA(messages.ping)
+                .then(() => {
+                    // Ping successful - connection is healthy
+                })
+                .catch(error => {
+                    // Only log if connection is actually closed, not just temporarily unavailable
+                    if (connection.readyState === WebSocket.CLOSED || connection.readyState === WebSocket.CLOSING) {
+                        console.warn('Ping failed - connection closed:', error.message);
+                    }
+                });
+        } else {
+            // Connection is not open, stop heartbeat
+            if (heartbeatIntervalId !== null) {
+                clearInterval(heartbeatIntervalId);
+                heartbeatIntervalId = null;
+            }
+        }
     }, 3000);
+}
+
+const clearHeartbeat = () => {
+    if (heartbeatIntervalId !== null) {
+        clearInterval(heartbeatIntervalId);
+        heartbeatIntervalId = null;
+    }
 }
 
 let subscribeToEvents = () => {
@@ -373,23 +417,28 @@ const createNewConnection = (url: string, token: string, resolve: (ws: WebSocket
 
     connection.onopen = () => {
         console.log('WebSocket connection established');
+        isAuthenticated = false;
 
         sendAuthMessage(token)
             .then(() => {
                 if (isResolved) return; // If already resolved, exit
                 isResolved = true;
+                isAuthenticated = true;
                 console.log('Authentication successful');
                 setupHeartbeat();
                 subscribeToEvents();
                 createEntitysStateList().then((request)=>{
                     Object.assign(entities, request);
                     console.log('Entitys state list created', entities);
+                }).catch(error => {
+                    console.error('Failed to create entity state list during connection setup:', error);
                 });
                 resolve(connection);
             })
             .catch((error) => {
                 if (isResolved) return; // If already resolved, exit
                 isResolved = true;
+                isAuthenticated = false;
                 console.error('Authentication failed:', error);
                 if (connection.readyState === WebSocket.OPEN || connection.readyState === WebSocket.CONNECTING) {
                     connection.close();
@@ -411,17 +460,52 @@ const createNewConnection = (url: string, token: string, resolve: (ws: WebSocket
     connection.onclose = (event) => {
         console.log(`WebSocket connection closed: ${event.code}`);
         
+        // Clear heartbeat when connection closes
+        clearHeartbeat();
+        
+        // Clear any pending reconnect timeout
+        if (reconnectTimeoutId !== null) {
+            clearTimeout(reconnectTimeoutId);
+            reconnectTimeoutId = null;
+        }
+        
         // If connection closed before successful authentication, try to reconnect
         if (!isResolved && event.code !== 1000) { // 1000 = normal closure
             let newAuthData = getAuthData();
             if (newAuthData) {
-                setTimeout(() => {
+                reconnectTimeoutId = setTimeout(() => {
                     const wsUrl = convertToWebSocketUrl(newAuthData!.url);
                     createConnection(wsUrl, newAuthData!.token).then(resolve).catch(reject);
                 }, 5000);
             } else if (!isResolved) {
                 isResolved = true;
                 reject(new Error('WebSocket connection closed unexpectedly'));
+            }
+        } else if (isAuthenticated && event.code !== 1000) {
+            // Connection closed after authentication - attempt to reconnect
+            console.log('Connection closed after authentication, attempting to reconnect...');
+            isAuthenticated = false;
+            const newAuthData = getAuthData();
+            if (newAuthData) {
+                reconnectTimeoutId = setTimeout(() => {
+                    const wsUrl = convertToWebSocketUrl(newAuthData.url);
+                    createConnection(wsUrl, newAuthData.token)
+                        .then(() => {
+                            console.log('Reconnection successful');
+                        })
+                        .catch((error) => {
+                            console.error('Reconnection failed:', error);
+                            // Schedule another reconnection attempt
+                            if (newAuthData) {
+                                reconnectTimeoutId = setTimeout(() => {
+                                    const wsUrl = convertToWebSocketUrl(newAuthData.url);
+                                    createConnection(wsUrl, newAuthData.token).catch(() => {
+                                        // Will retry on next close event
+                                    });
+                                }, 10000); // Wait 10 seconds before next attempt
+                            }
+                        });
+                }, 3000); // Wait 3 seconds before reconnecting
             }
         }
     };
@@ -453,6 +537,15 @@ export const changeDeviceState = async (entity_id: string, new_state: string, _o
 
 export const createEntitysStateList = async () => {
     try {
+        // Wait for connection to be ready before sending request
+        if (!connection) {
+            throw new Error('WebSocket connection is not initialized. Please establish a connection first.');
+        }
+        
+        if (connection.readyState !== WebSocket.OPEN) {
+            await waitForConnectionReady(5000); // Wait up to 5 seconds
+        }
+        
         const request = await sendToHA(messages.get_states) as { result: Array<{ entity_id: string; state: string }> };
         return request.result.reduce((entitys: Record<string, string>, item: { entity_id: string; state: string }) => {
             entitys[item.entity_id] = item.state;

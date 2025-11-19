@@ -60,24 +60,18 @@
 }
 
 .icon-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    gap: 5px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, auto));
     margin-bottom: 20px;
-    flex-wrap: wrap;
     width: 100%;
     border: var(--border);
     border-radius: var(--border-radius);
     padding: 5px;
     box-sizing: border-box;
-    flex: 1;
-}
-
-.icon-button {
-   margin: 0 auto;
+    overflow-y: auto;
+    flex-grow: 1;
+    place-items: center;    
 }
 
 .add-space-input-container {
