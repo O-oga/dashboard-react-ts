@@ -31,11 +31,21 @@
     "uk": "Ukrainian"
   },
   "addSpace": {
+    "iconSelection": "Icon selection",
     "spaceNamePlaceholder": "Space name",
     "spaceDescriptionPlaceholder": "Space description",
     "addSpace": "Add Space",
     "cancel": "Cancel"
   },
+  "addCard": {
+    "entityTypeNavigation": "Entity type navigation",
+    "entitySelection": "Entity selection",
+    "iconSelection": "Icon selection",
+    "cardNamePlaceholder": "Card name",
+    "create": "Create",
+    "cancel": "Cancel"
+  },
+  "loading": "Loading...",
   "naviPanel": {
     "newSpace": "New Space",
     "createNewSpace": "Create new space",

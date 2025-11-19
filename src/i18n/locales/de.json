@@ -31,11 +31,21 @@
     "uk": "Ukrainisch"
   },
   "addSpace": {
+    "iconSelection": "Symbolauswahl",
     "spaceNamePlaceholder": "Raumname",
     "spaceDescriptionPlaceholder": "Raumbeschreibung",
     "addSpace": "Raum hinzufügen",
     "cancel": "Abbrechen"
   },
+  "addCard": {
+    "entityTypeNavigation": "Entitätstyp-Navigation",
+    "entitySelection": "Entitätsauswahl",
+    "iconSelection": "Symbolauswahl",
+    "cardNamePlaceholder": "Kartenname",
+    "create": "Erstellen",
+    "cancel": "Abbrechen"
+  },
+  "loading": "Lädt...",
   "naviPanel": {
     "newSpace": "Neuer Raum",
     "createNewSpace": "Neuen Raum erstellen",

@@ -31,11 +31,21 @@
     "uk": "Українська"
   },
   "addSpace": {
+    "iconSelection": "Вибір іконки",
     "spaceNamePlaceholder": "Назва простору",
     "spaceDescriptionPlaceholder": "Опис простору",
     "addSpace": "Додати простір",
     "cancel": "Скасувати"
   },
+  "addCard": {
+    "entityTypeNavigation": "Навігація за типами сутностей",
+    "entitySelection": "Вибір сутності",
+    "iconSelection": "Вибір іконки",
+    "cardNamePlaceholder": "Назва картки",
+    "create": "Створити",
+    "cancel": "Скасувати"
+  },
+  "loading": "Завантаження...",
   "naviPanel": {
     "newSpace": "Новий простір",
     "createNewSpace": "Створити новий простір",

@@ -60,9 +60,7 @@
 }
 
 .icon-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(50px, auto));
+    
     margin-bottom: 20px;
     width: 100%;
     border: var(--border);
@@ -71,7 +69,14 @@
     box-sizing: border-box;
     overflow-y: auto;
     flex-grow: 1;
+}
+
+.icons{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, auto));
     place-items: center;    
+    place-content: start;
 }
 
 .add-space-input-container {

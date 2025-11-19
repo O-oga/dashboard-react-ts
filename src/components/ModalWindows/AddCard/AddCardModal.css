@@ -71,19 +71,28 @@
 
 .entity-selection-window,
 .icon-selection-window {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+    display: inline-grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(100px, 1fr)); */
     height: 100%;
     justify-items: center;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
+
+    align-content: start;
+    justify-content: start;
+    place-items: center;
 }
 .entity-selection-window {
     border: var(--border);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.icon-selection-window{    
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
 }
 
 .card-preview-window {

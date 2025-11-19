@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import type { SpaceIconTypes } from '../../../types/Icons.types';
-import { getSpaceIconButtons } from '../../Icons';
+import { getSpaceIconButtons, SpacesIcons } from '../../Icons';
 import { useSpaces } from '../../../contexts/SpacesContext';
 
 const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
@@ -17,8 +17,8 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
     const onAddSpace = useCallback((space: { id: number; name: string; description: string; icon: SpaceIconTypes; order: number }) => {
         addSpace({
             id: space.id ?? Date.now(),
-            title: space.name, 
-            description: space.description, 
+            title: space.name,
+            description: space.description,
             icon: space.icon,
             cards: [],
             order: space.order
@@ -73,12 +73,13 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
     const modalContent = (
         <div className="add-space-modal-overlay" onClick={onClose}>
             <div className="add-space-modal" onClick={(e) => e.stopPropagation()}>
-                <div className='icon-container'>
-                    {
-                        getSpaceIconButtons(setSelectedIcon)
-                    }
-
-                </div>
+                <section className='icon-container' aria-label={t('addSpace.iconSelection')}>
+                    <div className='icons'>
+                        {
+                            getSpaceIconButtons(setSelectedIcon)
+                        }
+                    </div>
+                </section>
                 <div className='add-space-input-container'>
                     <input
                         className='add-space-input'
