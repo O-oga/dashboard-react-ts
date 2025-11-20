@@ -6,9 +6,7 @@ import { createEntitysStateList } from '../../../modules/loader';
 import LoadingIndicator from '../../LoadingIndicator/LoadingIndicator';
 import type { EntityTypes } from '../../../types/space.types';
 import { ENTITY_TYPES } from '../../../types/space.types';
-import Sensor from '../../SpaceCards/Devices/Sensor/Sensor';
 import type { CardIconTypes } from '../../../types/Icons.types';
-import { getIconButtons } from '../../Icons';
 import EntityOfTab from './EntityOfTab/EntityOfTab';
 import CardCreation from './CardCreation/CardCreation';
 
@@ -49,10 +47,7 @@ function AddCardModal(props: any) {
             }
         });
         return entitysByTypes;
-    }
-
-    
-
+    }  
 
     useEffect(() => {
         setTabs(getExistingTypes(loadedEntitys) as EntityTypes[]);
@@ -111,7 +106,7 @@ function AddCardModal(props: any) {
                                 </nav>
                                 <section className='entity-selection-window' aria-label={t('addCard.entitySelection')}>
                                     {
-                                        selectedTab && <EntityOfTab key={selectedTab} entities={tabsEntitys[selectedTab]} />
+                                        selectedTab && <EntityOfTab key={selectedTab} entities={tabsEntitys[selectedTab]} setSelectedEntity={setSelectedEntity} />
                                     }
                                 </section>
                             </section>

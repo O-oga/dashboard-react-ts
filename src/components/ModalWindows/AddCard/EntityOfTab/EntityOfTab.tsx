@@ -3,7 +3,7 @@ import './EntityOfTab.css';
 import EntityGroup from '../EntityGroup/EntityGroup';
 
 function EntityOfTab(props: any) {
-    const { entities } = props;
+    const { entities, setSelectedEntity } = props;
 
     const groupEntities = useMemo(() => {
         let groupedEntities: Record<string, { name: string, entities: string[] }> = {};
@@ -27,7 +27,9 @@ function EntityOfTab(props: any) {
         <div className="entity-of-tab">
             {Object.entries(groupEntities).map(([name, groupData]) => {
                 return (
-                    <EntityGroup key={name} groupName={name} entities={groupData.entities} />
+                    <EntityGroup key={name} 
+                    groupName={name} entities={groupData.entities}
+                    setSelectedEntity={setSelectedEntity} />
                 );
             })}
         </div>

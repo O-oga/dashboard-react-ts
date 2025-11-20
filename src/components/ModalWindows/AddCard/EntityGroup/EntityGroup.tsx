@@ -5,9 +5,10 @@ import './EntityGroup.css';
 interface EntityGroupProps {
     groupName: string;
     entities: string[];
+    setSelectedEntity: (entity: string) => void;
 }
 
-function EntityGroup({ groupName, entities }: EntityGroupProps) {
+function EntityGroup({ groupName, entities, setSelectedEntity }: EntityGroupProps) {
     const { isOpen, toggle } = useDisclosure(false, {});
 
     const getEntityGroupName = useCallback((name: string) => {
@@ -42,7 +43,7 @@ function EntityGroup({ groupName, entities }: EntityGroupProps) {
                     <section className={`entity-of-tab-item-container ${isOpen ? 'entity-of-tab-item-container-open' : ''}`}>
                         {entities.map((entity: string) => {
                             return (
-                                <article key={entity} className="entity-of-tab-item">
+                                <article key={entity} className="entity-of-tab-item" onClick={() => setSelectedEntity(entity)}>
                                     <span className="entity-of-tab-item-info">{convertEntityInfo(entity)}</span>
                                 </article>
                             );
