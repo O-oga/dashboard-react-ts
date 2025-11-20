@@ -1,0 +1,9 @@
+.entity-of-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}

@@ -9,15 +9,21 @@ import { ENTITY_TYPES } from '../../../types/space.types';
 import Sensor from '../../SpaceCards/Devices/Sensor/Sensor';
 import type { CardIconTypes } from '../../../types/Icons.types';
 import { getIconButtons } from '../../Icons';
+import EntityOfTab from './EntityOfTab/EntityOfTab';
+import CardCreation from './CardCreation/CardCreation';
 
 function AddCardModal(props: any) {
     const { isModalOpen, closeModal } = props;
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [loadedEntitys, setLoadedEntitys] = useState<Record<string, string>>({});
-    // const [selectedEntity, setSelectedEntity] = useState<EntityTypes>();
     const [tabs, setTabs] = useState<EntityTypes[]>([]);
+    const [selectedEntity, setSelectedEntity] = useState<EntityTypes>();
+    const [selectedTab, setSelectedTab] = useState<EntityTypes>();
     const [selectedIcon, setSelectedIcon] = useState<CardIconTypes>('SensorIcon');
+    
+    const [tabsEntitys, setTabsEntitys] = useState<Record<EntityTypes, string[]>>({} as Record<EntityTypes, string[]>);
+    
 
     const getExistingTypes = (entitys: Record<string, string>) => {
         const allowedTypesSet = new Set(ENTITY_TYPES);
@@ -30,12 +36,28 @@ function AddCardModal(props: any) {
             .filter((type) => allowedTypesSet.has(type as typeof ENTITY_TYPES[number])) // Only allowed types from Entity type
             .sort();
     }
+
+    const createTabsEntitys = (entitys: Record<string, string>) => {
+        const entitysByTypes = {} as Record<EntityTypes, string[]>;
+        tabs.map((tab: EntityTypes) => {
+            entitysByTypes[tab] = [];
+        });
+        Object.keys(entitys).map((entity: string) => {
+            const type = entity.split('.')[0];
+            if (entitysByTypes[type as EntityTypes]) {
+                entitysByTypes[type as EntityTypes].push(entity);
+            }
+        });
+        return entitysByTypes;
+    }
+
     
 
 
     useEffect(() => {
         setTabs(getExistingTypes(loadedEntitys) as EntityTypes[]);
-
+        setTabsEntitys(createTabsEntitys(loadedEntitys));
+        setSelectedTab(tabs[0]);
     }, [loadedEntitys]);
 
     useEffect(() => {
@@ -83,21 +105,22 @@ function AddCardModal(props: any) {
                                 <nav className='add-card-tabs' aria-label={t('addCard.entityTypeNavigation')}>
                                     {
                                         tabs.length > 0 && tabs.map((tab) => (
-                                            <button key={tab} className='button-text tab-button'>{tab}</button>
+                                            <button key={tab} className='button-text tab-button' onClick={() => setSelectedTab(tab)}>{tab}</button>
                                         ))
                                     }
                                 </nav>
                                 <section className='entity-selection-window' aria-label={t('addCard.entitySelection')}>
-                                    <Sensor></Sensor>
+                                    {
+                                        selectedTab && <EntityOfTab key={selectedTab} entities={tabsEntitys[selectedTab]} />
+                                    }
                                 </section>
                             </section>
                             <section className='right-container'>
-                                <section className='card-preview-window'>
-                                    <Sensor entity={['sensor.sensor']} icon={selectedIcon}></Sensor>
-                                </section>
-                                <section className='icon-selection-window' aria-label={t('addCard.iconSelection')}>
-                                    {getIconButtons(setSelectedIcon)}
-                                </section>
+                               <CardCreation 
+                               entity={selectedEntity} 
+                               selectedTab={selectedTab} 
+                               selectedIcon={selectedIcon}
+                               setSelectedIcon={setSelectedIcon}/>
                             </section>
                         </main>
                         <footer className='footer-container'>
