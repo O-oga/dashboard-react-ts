@@ -2,9 +2,7 @@ import type { IconProps } from './types';
 
 export function EmptyIcon({ 
   className = '', 
-  size = 24, 
-  color = 'currentColor',
-  strokeWidth = 1.5 
+  size = 24
 }: IconProps) {
   return (
     <svg 

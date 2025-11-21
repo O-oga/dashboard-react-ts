@@ -21,10 +21,10 @@ function Space(props: any) {
     const getCardComponent = (card: any) => {
         switch (card.type) {
             case 'switch': {
-                return <Switch title={[card.title]} entity={[card.entity]} img={[card.img]}></Switch>
+                return <Switch></Switch>
             }
             case 'sensor': {
-                return <Sensor title={[card.title]} entity={[card.entity]} img={[card.img]}></Sensor>
+                return <Sensor></Sensor>
             }
         }
     }
