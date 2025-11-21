@@ -42,22 +42,29 @@ function AddCardModal(props: any) {
 
     const createTabsEntitys = (entitys: Record<string, string>) => {
         const entitysByTypes = {} as Record<EntityTypes, string[]>;
-        tabs.map((tab: EntityTypes) => {
-            entitysByTypes[tab] = [];
-        });
-        Object.keys(entitys).map((entity: string) => {
+        const allowedTypesSet = new Set(ENTITY_TYPES);
+        
+        Object.keys(entitys).forEach((entity: string) => {
             const type = entity.split('.')[0];
-            if (entitysByTypes[type as EntityTypes]) {
-                entitysByTypes[type as EntityTypes].push(entity);
+            if (allowedTypesSet.has(type as typeof ENTITY_TYPES[number])) {
+                const entityType = type as EntityTypes;
+                if (!entitysByTypes[entityType]) {
+                    entitysByTypes[entityType] = [];
+                }
+                entitysByTypes[entityType].push(entity);
             }
         });
+        
         return entitysByTypes;
     }  
 
     useEffect(() => {
-        setTabs(getExistingTypes(loadedEntitys) as EntityTypes[]);
+        const newTabs = getExistingTypes(loadedEntitys) as EntityTypes[];
+        setTabs(newTabs);
         setTabsEntitys(createTabsEntitys(loadedEntitys));
-        setSelectedTab(tabs[0]);
+        if (newTabs.length > 0) {
+            setSelectedTab(newTabs[0]);
+        }
     }, [loadedEntitys]);
 
     useEffect(() => {
@@ -122,7 +129,13 @@ function AddCardModal(props: any) {
                                 </nav>
                                 <section className='entity-selection-window' aria-label={t('addCard.entitySelection')}>
                                     {
-                                        selectedTab && <EntityOfTab key={selectedTab} entities={tabsEntitys[selectedTab]} setSelectedEntity={setSelectedEntity} />
+                                        selectedTab && tabsEntitys[selectedTab] && (
+                                            <EntityOfTab 
+                                                key={selectedTab} 
+                                                entities={tabsEntitys[selectedTab] || []} 
+                                                setSelectedEntity={setSelectedEntity} 
+                                            />
+                                        )
                                     }
                                 </section>
                             </section>

@@ -7,18 +7,44 @@ function EntityOfTab(props: any) {
 
     const groupEntities = useMemo(() => {
         let groupedEntities: Record<string, { name: string, entities: string[] }> = {};
-        entities.map((entity: string) => {
-            const name: string = entity.split('.')[1].split('_')[0];
+        
+        // Check if entities is an array and not empty
+        if (!Array.isArray(entities) || entities.length === 0) {
+            return groupedEntities;
+        }
+        
+        entities.forEach((entity: string) => {
+            // Validate entity format and safely parse
+            if (!entity || typeof entity !== 'string') {
+                console.warn('Invalid entity format:', entity);
+                return;
+            }
+            
+            const parts = entity.split('.');
+            if (parts.length < 2) {
+                console.warn('Entity does not contain domain separator:', entity);
+                return;
+            }
+            
+            const entityName = parts[1];
+            if (!entityName) {
+                console.warn('Entity name is empty:', entity);
+                return;
+            }
+            
+            // Extract group name (part before first underscore, or full name if no underscore)
+            const name = entityName.split('_')[0] || entityName;
+            
             if (!groupedEntities[name]) {
                 groupedEntities[name] = {
                     name: name,
                     entities: [entity]
-                }
-            } else{
+                };
+            } else {
                 groupedEntities[name].entities.push(entity);
             }
-            
         });
+        
         console.log(groupedEntities);
         return groupedEntities;
     }, [entities]);
