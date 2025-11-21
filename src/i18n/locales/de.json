@@ -43,7 +43,13 @@
     "iconSelection": "Symbolauswahl",
     "cardNamePlaceholder": "Kartenname",
     "create": "Erstellen",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "size": {
+      "small": "Klein",
+      "medium": "Mittel",
+      "large": "Groß"
+    },
+    "entities": "Entitäten"
   },
   "loading": "Lädt...",
   "naviPanel": {

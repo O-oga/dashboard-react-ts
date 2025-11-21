@@ -38,8 +38,17 @@ body {
   transition: stroke var(--transition), fill var(--transition);
   stroke: currentColor;
   fill: none;
+  animation: to-appear var(--transition);
 }
 
+@keyframes to-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /* Size modifiers */
 .button-svg-small {
   border-radius: 50%;

@@ -43,7 +43,13 @@
     "iconSelection": "Вибір іконки",
     "cardNamePlaceholder": "Назва картки",
     "create": "Створити",
-    "cancel": "Скасувати"
+    "cancel": "Скасувати",
+    "size": {
+      "small": "Мала",
+      "medium": "Середня",
+      "large": "Велика"
+    },
+    "entities": "сутностей"
   },
   "loading": "Завантаження...",
   "naviPanel": {

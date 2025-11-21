@@ -4,6 +4,7 @@ import type { IconProps } from './types';
 import { AddIcon } from './AddIcon';
 import { ButtonIcon } from './ButtonIcon';
 import { Chair2Icon } from './Chair2Icon';
+import { EmptyIcon } from './EmptyIcon';
 import { ExitIcon } from './ExitIcon';
 import { HelpIcon } from './HelpIcon';
 import { HomeIcon } from './HomeIcon';
@@ -26,6 +27,7 @@ import { WidgetIcon } from './WidgetIcon';
 export type { IconProps } from './types';
 
 export const SpacesIcons: Record<SpaceIconTypes, React.ComponentType<IconProps>> = {
+    EmptyIcon: EmptyIcon,
     HomeIcon: HomeIcon,
     Chair2Icon: Chair2Icon,
     SmartHomeIcon: SmartHomeIcon,
@@ -45,6 +47,7 @@ export const getSpaceIconButtons = (setIcon: (icon: SpaceIconTypes) => void) => 
 }
 
 export const CardsIcons : Record<CardIconTypes, React.ComponentType<IconProps>> = {
+    EmptyIcon: EmptyIcon,
     LightbulbIcon: LightbulbIcon,
     PlugCircleIcon: PlugCircleIcon,
     SensorIcon: SensorIcon,

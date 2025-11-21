@@ -1,5 +1,6 @@
 
 export type SpaceIconTypes =
+  | 'EmptyIcon'
   | 'HomeIcon'
   | 'LightbulbIcon'
   | 'MonitorIcon'
@@ -10,6 +11,7 @@ export type SpaceIconTypes =
   | 'Chair2Icon';
 
 export type CardIconTypes =
+  | 'EmptyIcon'
   | 'LightbulbIcon'
   | 'PlugCircleIcon'
   | 'SensorIcon'

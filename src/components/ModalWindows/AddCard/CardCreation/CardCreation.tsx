@@ -4,39 +4,71 @@ import Switch from '../../../SpaceCards/Devices/Switch/Switch';
 import Button from '../../../SpaceCards/Devices/Button/Button';
 import './CardCreation.css';
 import { t } from 'i18next';
+import { useContext, useMemo } from 'react';
+import { CardCreationDataContext } from '../AddCardModal';
+import CardSizeSelection from './CardSizeSelection/CardSizeSelection';
+import Camera from '../../../SpaceCards/Devices/Camera/Camera';
+import Weather from '../../../SpaceCards/Weather/Weather';
 
-function CardCreation(props: any) {
-    const { entity, selectedTab, selectedIcon, setSelectedIcon } = props;
+function CardCreation() {
+    const cardCreationData = useContext(CardCreationDataContext);
+    if (!cardCreationData) {
+        return null;
+    }
+    const { tab, setSelectedIcon } = cardCreationData;
 
-    switch (selectedTab) {
+    const IconButtonComponent = useMemo(() => {
+        return getIconButtons(setSelectedIcon);
+    }, [setSelectedIcon]);
+
+    switch (tab) {
         case 'sensor': {
             return <>
                 <section className='card-preview-window'>
-                    <Sensor entity={entity} icon={selectedIcon}></Sensor>
+                    <Sensor></Sensor>
                 </section>
+                <CardSizeSelection />
                 <section className='icon-selection-window' aria-label={t('addCard.iconSelection')}>
-                    {getIconButtons(setSelectedIcon)}
+                    {IconButtonComponent}
                 </section>
             </>
         }
         case 'switch': {
             return <>
                 <section className='card-preview-window'>
-                    <Switch entity={entity} icon={selectedIcon}></Switch>
+                    <Switch></Switch>
                 </section>
+                <CardSizeSelection />
                 <section className='icon-selection-window' aria-label={t('addCard.iconSelection')}>
-                    {getIconButtons(setSelectedIcon)}
+                    {IconButtonComponent}
                 </section>
             </>
         }
         case 'button': {
             return <>
                 <section className='card-preview-window'>
-                    <Button entity={entity} icon={selectedIcon}></Button>
+                    <Button></Button>
                 </section>
+                <CardSizeSelection />
                 <section className='icon-selection-window' aria-label={t('addCard.iconSelection')}>
-                    {getIconButtons(setSelectedIcon)}
+                    {IconButtonComponent}
                 </section>
+            </>
+        }
+        case 'weather': {
+            return <>
+                <section className='card-preview-window'>
+                    <Weather></Weather>
+                </section>
+                <CardSizeSelection />
+            </>
+        }
+        case 'camera': {
+            return <>
+                <section className='card-preview-window'>
+                    <Camera></Camera>
+                </section>
+                <CardSizeSelection />
             </>
         }
         default: {

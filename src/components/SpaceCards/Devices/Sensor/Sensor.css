@@ -1,4 +1,4 @@
-.sensor {
+.sensor-small {
  display: flex;
  flex-direction: column;
  align-items: center;
@@ -6,9 +6,36 @@
  border: var(--border);
  border-radius: var(--border-radius);
  padding: 5px;
- width: 100px;
- height: 100px;
+ width: 80px;
+ aspect-ratio: 1;
  box-sizing: border-box;
+ transition: width var(--transition);
+}
+
+.sensor-medium {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 5px;
+    width: 160px;
+    aspect-ratio: 1;
+    transition: width var(--transition);
+}
+
+.sensor-large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 5px;
+    width: 320px;
+    height: 160px;
+    transition: width var(--transition);
 }
 
 .sensor .svg-icon svg,

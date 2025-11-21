@@ -1,6 +1,8 @@
-import { useCallback } from 'react';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDisclosure } from '../../../../hooks/useDisclosure';
 import './EntityGroup.css';
+import { useScrollIntoView } from '../../../../hooks/useScrollIntoView';
 
 interface EntityGroupProps {
     groupName: string;
@@ -9,14 +11,28 @@ interface EntityGroupProps {
 }
 
 function EntityGroup({ groupName, entities, setSelectedEntity }: EntityGroupProps) {
+    const { t } = useTranslation();
+    const { ref, scrollIntoView } = useScrollIntoView<HTMLDivElement>();
     const { isOpen, toggle } = useDisclosure(false, {});
 
-    const getEntityGroupName = useCallback((name: string) => {
+    useEffect(() => {
+        if (isOpen) {
+            const timer = setTimeout(() => {
+                requestAnimationFrame(() => {
+                    scrollIntoView();
+                });
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen, scrollIntoView]);
+
+    const getEntityGroupName = (name: string) => {
         return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    }, []);
+    };
 
     const convertEntityInfo = (entity: string) => {
-        return entity.split('.').pop()!.split('_').slice(1).join(' ') ? entity.split('.').pop()!.split('_').slice(1).join(' ') : entity.split('.').pop();
+        let info = entity.split('.').pop()!.split('_').slice(1).join(' ')
+        return info ? info : entity.split('.').pop();
     };
 
     return (
@@ -28,9 +44,10 @@ function EntityGroup({ groupName, entities, setSelectedEntity }: EntityGroupProp
                 aria-controls={`entity-group-content-${groupName}`}
             >
                 <span className="entity-group-name">{getEntityGroupName(groupName)}</span>
+                <span className="entity-group-count">{entities.length} {t('addCard.entities')}</span>
                 <span className={`entity-group-chevron ${isOpen ? 'entity-group-chevron-open' : ''}`} aria-hidden="true">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </span>
             </button>
@@ -39,7 +56,7 @@ function EntityGroup({ groupName, entities, setSelectedEntity }: EntityGroupProp
                 id={`entity-group-content-${groupName}`}
                 aria-hidden={!isOpen}
             >
-                <div className="entity-group-content-inner">
+                <div className="entity-group-content-inner" ref={ref}>
                     <section className={`entity-of-tab-item-container ${isOpen ? 'entity-of-tab-item-container-open' : ''}`}>
                         {entities.map((entity: string) => {
                             return (

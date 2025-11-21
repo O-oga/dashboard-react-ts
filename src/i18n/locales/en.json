@@ -43,7 +43,13 @@
     "iconSelection": "Icon selection",
     "cardNamePlaceholder": "Card name",
     "create": "Create",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "size": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "entities": "entities"
   },
   "loading": "Loading...",
   "naviPanel": {

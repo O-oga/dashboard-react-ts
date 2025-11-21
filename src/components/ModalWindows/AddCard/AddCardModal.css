@@ -92,7 +92,7 @@
 .entity-selection-window {
     flex: 1 1 auto;
     min-height: 0;
-    padding: 10px;
+    padding: 10px 5px;
     box-sizing: border-box;
     border: var(--border);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -102,6 +102,7 @@
     flex-direction: column;
     gap: 5px;
     align-items: stretch;
+    scrollbar-gutter: stable both-edges;
 }
 
 .icon-selection-window{    

@@ -1,16 +1,7 @@
 import type { SpaceIconTypes } from './Icons.types';
+import type { Card } from './card.types';
 
-export const ENTITY_TYPES = ['switch', 'sensor', 'weather', 'camera', 'button'] as const;
 
-export type EntityTypes = typeof ENTITY_TYPES[number];
-
-export type Card = {
-    id: number;
-    title: string;
-    entity: string;
-    img: string;
-    type: EntityTypes
-}
 export type Space = {
     id: number;
     title: string;

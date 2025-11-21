@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect, useCallback, useRef, type ReactNode } from 'react';
-import type { Action, Space, Card, SpacesState } from '../types/space.types';
+import type { Action, Space, SpacesState } from '../types/space.types';
+import type { Card } from '../types/card.types';
 import { saveSpaces, getSpaces } from '../modules/loader';
 
 type SpacesContextType = {
@@ -65,7 +66,7 @@ const getInitialSpacesState = (): SpacesState => {
 };
 
 
-const SpacesContext = createContext<SpacesContextType | undefined>(undefined);
+const SpacesContext = createContext<SpacesContextType | null>(null);
 
 /**
  * Provider component for Spaces context
@@ -143,7 +144,7 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
  */
 export const useSpaces = () => {
     const context = useContext(SpacesContext);
-    if (context === undefined) {
+    if (context === null) {
         throw new Error('useSpaces must be used within a SpacesProvider');
     }
     return context;

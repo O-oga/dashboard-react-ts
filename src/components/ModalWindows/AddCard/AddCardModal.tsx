@@ -1,25 +1,31 @@
 import { createPortal } from 'react-dom';
 import './AddCardModal.css';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { createEntitysStateList } from '../../../modules/loader';
 import LoadingIndicator from '../../LoadingIndicator/LoadingIndicator';
-import type { EntityTypes } from '../../../types/space.types';
-import { ENTITY_TYPES } from '../../../types/space.types';
-import type { CardIconTypes } from '../../../types/Icons.types';
+import type { CardCreationData, EntityTypes } from '../../../types/card.types';
+import { ENTITY_TYPES } from '../../../types/card.types';
+import type { CardIconTypes, IconComponent } from '../../../types/Icons.types';
 import EntityOfTab from './EntityOfTab/EntityOfTab';
 import CardCreation from './CardCreation/CardCreation';
+import type { CardSizeTypes } from '../../../types/card.types';
+
+
+export const CardCreationDataContext = createContext<CardCreationData | null>(null);
 
 function AddCardModal(props: any) {
     const { isModalOpen, closeModal } = props;
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [loadedEntitys, setLoadedEntitys] = useState<Record<string, string>>({});
+
+    const [title, setTitle] = useState('');
     const [tabs, setTabs] = useState<EntityTypes[]>([]);
     const [selectedEntity, setSelectedEntity] = useState<EntityTypes>();
     const [selectedTab, setSelectedTab] = useState<EntityTypes>();
     const [selectedIcon, setSelectedIcon] = useState<CardIconTypes>('SensorIcon');
-    
+    const [selectedSize, setSelectedSize] = useState<CardSizeTypes>('small');
     const [tabsEntitys, setTabsEntitys] = useState<Record<EntityTypes, string[]>>({} as Record<EntityTypes, string[]>);
     
 
@@ -27,11 +33,10 @@ function AddCardModal(props: any) {
         const allowedTypesSet = new Set(ENTITY_TYPES);
         return Object.keys(entitys)
             .map(key => {
-                const dotIndex = key.indexOf('.');
-                return dotIndex !== -1 ? key.substring(0, dotIndex) : key;
+                return key.split('.')[0];
             })
             .filter((type, index, self) => self.indexOf(type) === index)
-            .filter((type) => allowedTypesSet.has(type as typeof ENTITY_TYPES[number])) // Only allowed types from Entity type
+            .filter((type) => allowedTypesSet.has(type as typeof ENTITY_TYPES[number])) //types from EntityTypes
             .sort();
     }
 
@@ -94,7 +99,18 @@ function AddCardModal(props: any) {
             <div className="add-card-modal" onClick={(e) => e.stopPropagation()}>
                 {isLoading && <LoadingIndicator />}
                 {!isLoading && (
-                    <>
+                    <CardCreationDataContext.Provider
+                        value={{
+                            entity: selectedEntity || '',
+                            tab: selectedTab as EntityTypes,
+                            icon: selectedIcon,
+                            title: title,
+                            size: selectedSize,
+                            type: selectedTab as EntityTypes,
+                            setSelectedIcon: (icon: IconComponent) => setSelectedIcon(icon as CardIconTypes),
+                            setSize: (size: CardSizeTypes) => setSelectedSize(size as CardSizeTypes),
+                        }}
+                    >
                         <main className='add-card-content-container'>
                             <section className='left-container'>
                                 <nav className='add-card-tabs' aria-label={t('addCard.entityTypeNavigation')}>
@@ -111,11 +127,7 @@ function AddCardModal(props: any) {
                                 </section>
                             </section>
                             <section className='right-container'>
-                               <CardCreation 
-                               entity={selectedEntity} 
-                               selectedTab={selectedTab} 
-                               selectedIcon={selectedIcon}
-                               setSelectedIcon={setSelectedIcon}/>
+                                <CardCreation />
                             </section>
                         </main>
                         <footer className='footer-container'>
@@ -123,6 +135,7 @@ function AddCardModal(props: any) {
                                 <div className='add-card-input-container'>
                                     <input
                                         className='form-input'
+                                        onChange={(e) => setTitle(e.target.value)}
                                         type="text"
                                         placeholder={t('addCard.cardNamePlaceholder')}
                                         aria-label={t('addCard.cardNamePlaceholder')}
@@ -134,7 +147,7 @@ function AddCardModal(props: any) {
                                 </div>
                             </form>
                         </footer>
-                    </>
+                    </CardCreationDataContext.Provider>
                 )}
             </div>
         </div>

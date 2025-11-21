@@ -43,7 +43,13 @@
     "iconSelection": "Выбор иконки",
     "cardNamePlaceholder": "Название карточки",
     "create": "Создать",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "size": {
+      "small": "Маленькая",
+      "medium": "Средняя",
+      "large": "Большая"
+    },
+    "entities": "сущностей"
   },
   "loading": "Загрузка...",
   "naviPanel": {
