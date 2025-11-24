@@ -28,7 +28,6 @@ function Switch(props?: SwitchProps) {
     }
 
     const IconComponent = icon ? CardsIcons[icon as CardIconTypes] : CardsIcons['SwitchIcon'];
-    const SwitchIconComponent = CardsIcons['SwitchIcon'];
 
     const displayTitle = title || (entity ? entity.split('.')[1]?.split('_')[0] : '');
 

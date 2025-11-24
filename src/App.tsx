@@ -6,7 +6,6 @@ import SpaceComponent from './components/Space/Space'
 import LoginPage from './components/LoginPage/LoginPage'
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
 import { useAuthenticationVerification } from './modules/autenticationVerification'
-import type { Space } from './types/space.types'
 import { SpacesProvider } from './contexts/SpacesContext'
 
 function App() {
