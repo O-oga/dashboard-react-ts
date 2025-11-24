@@ -14,7 +14,7 @@ function App() {
   const [currentSpaceId, setCurrentSpaceId] = useState<number>(0);
   const { isAuthenticated, isCheckingAuth, setIsAuthenticated } = useAuthenticationVerification();
 
-  const handleSpaceSelect = useCallback((space: Space, spaceId: number) => {
+  const handleSpaceSelect = useCallback((spaceId: number) => {
     setCurrentSpaceId(spaceId);
   }, []);
 
