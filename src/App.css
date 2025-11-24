@@ -3,18 +3,17 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  height: calc(var(--vh, 1vh) * 100);
-  width: calc(var(--vw, 1vw) * 100);
   overflow: hidden;
   position: relative;
+  flex: 1;
+  min-height: 100dvh;
+  min-width: 100dvw;
 }
 
 body {
   background: var(--body-background);
   background-image: var(--body-background-gradient);
-  /* height: 100vh; */
   margin: 0;
-  /* width: 100vw; */
 }
 
 /* Base button classes with effects */

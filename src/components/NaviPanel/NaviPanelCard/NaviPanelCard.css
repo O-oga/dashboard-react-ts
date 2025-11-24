@@ -1,8 +1,11 @@
 .navi-panel-card-container {
-    position: relative;
     max-width: 140px;
     height: 75%;
     aspect-ratio: 1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
 }
 
 .navi-panel-card {

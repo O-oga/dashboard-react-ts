@@ -61,10 +61,6 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
         }
     }, []);
 
-    const spaceSelect = useCallback((space: Space, spaceId: number) => {
-        onSpaceSelect(space, spaceId);
-    }, [onSpaceSelect]);
-
     return (
         <div
             className={`navi-panel ${isAddCardModalOpen ? 'navi-panel-disabled' : ''}`}
@@ -75,7 +71,7 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
                     key={space.id}
                     space={space}
                     isChangable={isChangable}
-                    onSpaceSelect={spaceSelect}
+                    onSpaceSelect={onSpaceSelect}
                 // onTitleChange={(next: string) => dispatch({ type: 'changeSpaceTitle', id: space.id, title: next })}
                 // onOrderChange={(next: number) => dispatch({ type: 'changeSpaceOrder', id: space.id, order: next })}
                 />
@@ -101,6 +97,7 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
             <AddSpaceModal
                 isOpen={isAddCardModalOpen}
                 onClose={closeAddCardModal}
+                onSpaceSelect={onSpaceSelect}
                 onspacePreviewChange={handleSpacePreviewChange} />
         </div>
     );

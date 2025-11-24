@@ -2,20 +2,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-    width: 100vw;
-    width: calc(var(--vw, 1vw) * 100);
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-width: 100vw;
+    min-width: 100dvw;
     background: var(--body-background);
     background-image: var(--body-background-gradient);
-    /* position: fixed; */
-    /* top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0; */
-    /* overflow: hidden; */
-    /* touch-action: none; */
-    /* -webkit-overflow-scrolling: none; */
+    overflow: hidden;
+    flex: 1;
 }
 
 .login-container {

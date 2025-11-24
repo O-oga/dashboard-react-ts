@@ -100,12 +100,14 @@
 
 html,
 body {
-  height: calc(var(--vh, 1vh) * 100);
-  width: calc(var(--vw, 1vw) * 100);
+  min-width: 100dvw;
+  min-height: 100dvh;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: var(--font);
+  overflow: hidden;
+  flex: 1;
   -webkit-user-select: none;
   /* Safari */
   -moz-user-select: none;

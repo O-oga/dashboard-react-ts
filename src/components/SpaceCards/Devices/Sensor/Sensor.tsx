@@ -1,46 +1,79 @@
 import './Sensor.css';
-import { CardsIcons } from '../../../Icons';
+import { CardsIcons } from '../../../../components/Icons';
 import type { CardIconTypes } from '../../../../types/Icons.types';
 import { CardCreationDataContext } from '../../../ModalWindows/AddCard/AddCardModal';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { getHistory } from '../../../../modules/loader';
 
-function Sensor() {
+interface SensorProps {
+    title?: string;
+    entity?: string;
+    icon?: CardIconTypes;
+    size?: 'small' | 'medium' | 'large';
+    id?: number;
+}
+
+function Sensor(props?: SensorProps) {
     const cardCreationData = useContext(CardCreationDataContext);
-    if (!cardCreationData) {
+    
+    // Use props if provided, otherwise fall back to context (for creation mode)
+    const title = props?.title ?? cardCreationData?.title ?? '';
+    const entity = props?.entity ?? cardCreationData?.entity ?? '';
+    const icon = props?.icon ?? cardCreationData?.icon;
+    const size = props?.size ?? cardCreationData?.size ?? 'small';
+    const id = props?.id ?? 0;
+
+    // If neither props nor context are available, return null
+    if (!props && !cardCreationData) {
         return null;
     }
-    const {title, entity, icon, size} = cardCreationData;
-    const IconComponent = CardsIcons[icon as CardIconTypes];
-    const SensorIconComponent = CardsIcons['SensorIcon'];
+
+    const IconComponent = icon ? CardsIcons[icon as CardIconTypes] : CardsIcons['SensorIcon'];
+
+    useEffect(() => {
+        if (entity) {
+            getHistory([entity], undefined, undefined, 0, 60).then((history) => {
+                console.log(history);
+            });
+        }
+    }, [entity]);
     
+    const displayTitle = title || (entity ? entity.split('.')[1]?.split('_')[0] : '');
+
     switch (size) {
         case 'small': {
             return (
-                <button className="sensor-small button-svg-dark button-svg">
+                <button 
+                    key={id}
+                    className="sensor-small button-svg-dark button-svg">
                     <div className="svg-icon">
-                        {icon ? <IconComponent size={50} /> : <SensorIconComponent size={50} />}
+                        <IconComponent size={50}/>
                     </div>
-                    <div className="sensor-title">{title ? title : entity ? entity.split('.')[1].split('_')[0] : ''}</div>
+                    <div className="sensor-title">{displayTitle}</div>
                 </button>
             )
         }
         case 'medium': {
             return (
-                <button className="sensor-medium button-svg-dark button-svg">
+                <button 
+                    key={id}
+                    className="sensor-medium button-svg-dark button-svg">
                     <div className="svg-icon">
-                        {icon ? <IconComponent size={50} /> : <SensorIconComponent size={50} />}
+                        <IconComponent size={50}/>
                     </div>
-                    <div className="sensor-title">{title ? title : entity ? entity.split('.')[1].split('_')[0] : ''}</div>
+                    <div className="sensor-title">{displayTitle}</div>
                 </button>
             )
         }
         case 'large': {
             return (
-                <button className="sensor-large button-svg-dark button-svg">
+                <button 
+                    key={id}
+                    className="sensor-large button-svg-dark button-svg">
                     <div className="svg-icon">
-                        {icon ? <IconComponent size={50} /> : <SensorIconComponent size={50} />}
+                        <IconComponent size={50}/>
                     </div>
-                    <div className="sensor-title">{title ? title : entity ? entity.split('.')[1].split('_')[0] : ''}</div>
+                    <div className="sensor-title">{displayTitle}</div>
                 </button>
             )
         }

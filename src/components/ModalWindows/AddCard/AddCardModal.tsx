@@ -10,21 +10,22 @@ import type { CardIconTypes, IconComponent } from '../../../types/Icons.types';
 import EntityOfTab from './EntityOfTab/EntityOfTab';
 import CardCreation from './CardCreation/CardCreation';
 import type { CardSizeTypes } from '../../../types/card.types';
+import { useSpaces } from '../../../contexts/SpacesContext';
 
 
 export const CardCreationDataContext = createContext<CardCreationData | null>(null);
 
 function AddCardModal(props: any) {
-    const { isModalOpen, closeModal } = props;
+    const { isModalOpen, closeModal, spaceId } = props;
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [loadedEntitys, setLoadedEntitys] = useState<Record<string, string>>({});
-
+    const { addCard } = useSpaces();
     const [title, setTitle] = useState('');
     const [tabs, setTabs] = useState<EntityTypes[]>([]);
     const [selectedEntity, setSelectedEntity] = useState<EntityTypes>();
     const [selectedTab, setSelectedTab] = useState<EntityTypes>();
-    const [selectedIcon, setSelectedIcon] = useState<CardIconTypes>('SensorIcon');
+    const [selectedIcon, setSelectedIcon] = useState<CardIconTypes>('EmptyIcon');
     const [selectedSize, setSelectedSize] = useState<CardSizeTypes>('small');
     const [tabsEntitys, setTabsEntitys] = useState<Record<EntityTypes, string[]>>({} as Record<EntityTypes, string[]>);
     
@@ -101,6 +102,19 @@ function AddCardModal(props: any) {
 
     if (!isModalOpen) return null;
 
+    const createCard = () => {
+        if (!selectedEntity) return;
+        addCard(spaceId, {
+            id: Date.now(),
+            title: title,
+            entity: selectedEntity ,
+            icon: selectedIcon,
+            size: selectedSize,
+            type: selectedTab as EntityTypes,
+        });
+        closeModal();
+    }
+
     const modalContent = (
         <div className="add-card-modal-overlay" onClick={closeModal}>
             <div className="add-card-modal" onClick={(e) => e.stopPropagation()}>
@@ -155,7 +169,11 @@ function AddCardModal(props: any) {
                                     />
                                 </div>
                                 <div className='add-card-buttons-container'>
-                                    <button type="submit" className='add-card-create-button button-text'>{t('addCard.create')}</button>
+                                    <button 
+                                    type="submit" 
+                                    className='add-card-create-button button-text'
+                                    onClick={createCard}
+                                    >{t('addCard.create')}</button>
                                     <button type="button" className='add-card-cancel-button button-cancel' onClick={closeModal}>{t('addCard.cancel')}</button>
                                 </div>
                             </form>

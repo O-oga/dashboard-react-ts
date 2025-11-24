@@ -36,7 +36,7 @@ function CardCreation() {
         case 'switch': {
             return <>
                 <section className='card-preview-window'>
-                    <Switch></Switch>
+                    <Switch ></Switch>
                 </section>
                 <CardSizeSelection />
                 <section className='icon-selection-window' aria-label={t('addCard.iconSelection')}>

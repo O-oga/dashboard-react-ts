@@ -6,11 +6,12 @@ import { useSpaces } from '../../contexts/SpacesContext';
 import { useDisclosure } from '../../hooks/useDisclosure';
 import AddCardModal from '../ModalWindows/AddCard/AddCardModal';
 import { UIIcons } from '../Icons';
+import Button from '../SpaceCards/Devices/Button/Button';
 
 const AddIconComponent = UIIcons['AddIcon'];
 
 function Space(props: any) {
-    const { createdCards, spaceId } = props;
+    const { spaceId } = props;
     const { t } = useTranslation();
     const { spaces } = useSpaces();
     const { isOpen: isModalOpen, open: openModal, close: closeModal } = useDisclosure(false, { 
@@ -21,10 +22,18 @@ function Space(props: any) {
     const getCardComponent = (card: any) => {
         switch (card.type) {
             case 'switch': {
-                return <Switch></Switch>
+                console.log(card.id);
+                return <Switch key={card.id}></Switch>
             }
             case 'sensor': {
-                return <Sensor></Sensor>
+                return <Sensor key={card.id}></Sensor>
+            }
+            case 'button': {
+                console.log(card.id);
+                return <Button key={card.id}></Button>
+            }
+            default: {
+                return null;
             }
         }
     }
@@ -35,9 +44,10 @@ function Space(props: any) {
 
     return (
         <div className="space">
-            {currentSpace?.cards.length === 0 &&
+            {currentSpace && currentSpace.cards.length >= 0 &&
                 <div className='container'>
-                        {createdCards.map((card: any) => getCardComponent(card))}
+                        {currentSpace.cards.map((card: any) => {
+                            return getCardComponent(card)})}
 
                     <button 
                     className="card-svg button-svg button-svg-large button-svg-dark" 
@@ -49,7 +59,11 @@ function Space(props: any) {
                     </button>
                 </div>
             }
-            {isModalOpen && <AddCardModal isModalOpen={isModalOpen} closeModal={closeModal} />}
+            {isModalOpen && <AddCardModal 
+            isModalOpen={isModalOpen} 
+            closeModal={closeModal} 
+            spaceId={spaceId} 
+            />}
         </div >
     );
 }

@@ -6,18 +6,15 @@ import SpaceComponent from './components/Space/Space'
 import LoginPage from './components/LoginPage/LoginPage'
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
 import { useAuthenticationVerification } from './modules/autenticationVerification'
-import type { Card } from './types/card.types'
 import type { Space } from './types/space.types'
 import { SpacesProvider } from './contexts/SpacesContext'
 
 function App() {
   const { t } = useTranslation();
-  const [currentSpaceCards, setCurrentSpaceCards] = useState<Card[]>([]);
   const [currentSpaceId, setCurrentSpaceId] = useState<number>(0);
   const { isAuthenticated, isCheckingAuth, setIsAuthenticated } = useAuthenticationVerification();
 
   const handleSpaceSelect = useCallback((space: Space, spaceId: number) => {
-    setCurrentSpaceCards(space.cards);
     setCurrentSpaceId(spaceId);
   }, []);
 
@@ -48,7 +45,7 @@ function App() {
   return (
     <SpacesProvider>
       <div className="app">
-        <SpaceComponent spaceId={currentSpaceId} createdCards={currentSpaceCards}></SpaceComponent>
+        <SpaceComponent spaceId={currentSpaceId}></SpaceComponent>
         <NaviPanel onSpaceSelect={handleSpaceSelect}></NaviPanel>
       </div>
     </SpacesProvider>

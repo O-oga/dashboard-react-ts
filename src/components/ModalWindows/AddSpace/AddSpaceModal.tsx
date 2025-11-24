@@ -6,8 +6,9 @@ import { createPortal } from 'react-dom';
 import type { SpaceIconTypes } from '../../../types/Icons.types';
 import { getSpaceIconButtons } from '../../Icons';
 import { useSpaces } from '../../../contexts/SpacesContext';
+import type { Space } from '../../../types/space.types';
 
-const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
+const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange, onSpaceSelect }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void, onSpaceSelect: (space: Space, spaceId: number) => void }) => {
     const { t } = useTranslation();
     const { addSpace, spaces } = useSpaces();
     const [newSpaceName, setNewSpaceName] = useState<string>('');
@@ -15,14 +16,16 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & {
     const [selectedIcon, setSelectedIcon] = useState<SpaceIconTypes>('HomeIcon');
 
     const onAddSpace = useCallback((space: { id: number; name: string; description: string; icon: SpaceIconTypes; order: number }) => {
-        addSpace({
+        const newSpace : Space = {
             id: space.id ?? Date.now(),
             title: space.name,
             description: space.description,
             icon: space.icon,
             cards: [],
             order: space.order
-        });
+        };
+        addSpace(newSpace);
+        onSpaceSelect(newSpace, newSpace.id);
         onClose();
     }, [addSpace, onClose]);
 

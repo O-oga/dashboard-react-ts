@@ -1,12 +1,35 @@
 'use strict';
 import type { SpacesState } from '../types/space.types';
+import type {
+    AuthMessage,
+    BaseMessage,
+    GetStatesMessage,
+    SubscribeEventsMessage,
+    SubscribeEntityIdEventMessage,
+    SubscribeTriggerMessage,
+    UnsubscribeEventsMessage,
+    PingMessage,
+    GetHistoryMessage,
+    ChangeStateMessage,
+    IncomingMessage,
+    EventData,
+    StateChangedEventData,
+    EntityStateItem,
+    GetStatesResponse,
+    HistoryResponseAPI,
+    HistoryItemAPI,
+    PendingRequest,
+    AuthData,
+    EntityStateList,
+    EventMessage
+} from '../types/loaderData.types';
 import { getCookie, setCookie } from './cookies';
 
-export const entities: Record<string, string> = {};
+export const entities: EntityStateList = {};
 
 export let connection: WebSocket;
 let id = 1;
-const pendingRequests = new Map();
+const pendingRequests = new Map<number, PendingRequest>();
 let pingLatency: number | null = null;
 let lastPingTime: number | null = null;
 let heartbeatIntervalId: number | null = null;
@@ -17,21 +40,21 @@ export const messages = {
     auth: {
         type: "auth",
         access_token: ''
-    },
+    } as AuthMessage,
     get_states: {
         "id": id,
         "type": "get_states"
-    },
+    } as GetStatesMessage,
     subscribe_events: {
         id: id,
         type: "subscribe_events",
         event_type: "state_changed"
-    },
+    } as SubscribeEventsMessage,
     subscribe_entity_id_event: {
         id: id,
         type: "subscribe_events",
         event_type: "state_changed"
-    },
+    } as SubscribeEntityIdEventMessage,
     subscribe_trigger: {
         id: id,
         type: "subscribe_trigger",
@@ -41,26 +64,28 @@ export const messages = {
             from: "off",
             to: "on"
         }
-    },
+    } as SubscribeTriggerMessage,
     unsubscribe_events: {
         id: id,
         type: "unsubscribe_events",
         subscription: 18
-    },
+    } as UnsubscribeEventsMessage,
     ping: {
         "id": id,
         "type": "ping",
         // timestamp: null
-    },
+    } as PingMessage,
     getHistory: {
         type: "history/history_during_period",
         id: id,
-        start_time: "2023-01-01T00:00:00Z",
-        end_time: "2024-12-31T23:59:59Z",
-        entity_ids: ["sensor.voltage", "sensor.current_ma"],
+        start_time: new Date(Date.now() - 3600_000).toISOString(),
+        end_time: new Date().toISOString(),
+        entity_ids: [],
+        include_start_time_state: true,
+        no_attributes: false,
         minimal_response: false,
-        significant_changes_only: false
-    },
+        significant_changes_only: true
+    } as GetHistoryMessage,
     changeState: {
         id: id,
         type: "call_service",
@@ -69,14 +94,17 @@ export const messages = {
         service_data: {
             entity_id: ""
         }
-    }
+    } as ChangeStateMessage
 
 }
 
-export let sendToHA = (data: any) => {
-    data.id = id++;
+export let sendToHA = (data: AuthMessage | GetStatesMessage | SubscribeEventsMessage | SubscribeEntityIdEventMessage | SubscribeTriggerMessage | UnsubscribeEventsMessage | PingMessage | GetHistoryMessage | ChangeStateMessage): Promise<IncomingMessage> => {
+    // AuthMessage doesn't have id, so we handle it separately
+    if (data.type !== 'auth') {
+        (data as BaseMessage).id = id++;
+    }
 
-    return new Promise((resolve, reject) => {
+    return new Promise<IncomingMessage>((resolve, reject) => {
         // Check if connection exists
         if (!connection) {
             reject(new Error('WebSocket connection is not initialized'));
@@ -95,13 +123,23 @@ export let sendToHA = (data: any) => {
             return;
         }
 
-        pendingRequests.set(data.id, {resolve, reject});
-        
+        // Only add to pending requests if message has id (not auth message)
+        if (data.type !== 'auth' && 'id' in data) {
+            pendingRequests.set(data.id, { resolve: resolve as (value: unknown) => void, reject: reject as (error: Error | unknown) => void });
+        }
+
         try {
             connection.send(JSON.stringify(data));
             // console.log('Sent data:', data);
+            // Auth messages don't wait for response via pendingRequests
+            if (data.type === 'auth') {
+                // Auth response is handled separately in sendAuthMessage
+                resolve({ type: 'auth_ok' } as IncomingMessage);
+            }
         } catch (error) {
-            pendingRequests.delete(data.id);
+            if (data.type !== 'auth' && 'id' in data) {
+                pendingRequests.delete(data.id);
+            }
             reject(error);
         }
     });
@@ -112,7 +150,7 @@ export const pushAuthData = (link: string, token: string) => {
     setCookie('HA_TOKEN', token, 30);
 }
 
-export const getAuthData = (): { url: string; token: string } | null => {
+export const getAuthData = (): AuthData | null => {
     const url = getCookie('HA_URL');
     const token = getCookie('HA_TOKEN');
     if (url && token) {
@@ -130,9 +168,9 @@ export const getPingLatency = (): number | null => {
  * @returns true if connection exists and is ready
  */
 export const isConnectionActive = (): boolean => {
-    return connection !== undefined && 
-           connection !== null && 
-           (connection.readyState === WebSocket.OPEN || connection.readyState === WebSocket.CONNECTING);
+    return connection !== undefined &&
+        connection !== null &&
+        (connection.readyState === WebSocket.OPEN || connection.readyState === WebSocket.CONNECTING);
 }
 
 /**
@@ -152,7 +190,7 @@ export const closeConnection = (): void => {
 export const convertToWebSocketUrl = (url: string): string => {
     let wsUrl = url.trim();
     console.log('Converting URL:', wsUrl);
-    
+
     // If URL already contains /api/websocket, use it as is
     if (wsUrl.includes('/api/websocket')) {
         // Ensure protocol is correct
@@ -166,7 +204,7 @@ export const convertToWebSocketUrl = (url: string): string => {
         console.log('URL already contains /api/websocket, result:', wsUrl);
         return wsUrl;
     }
-    
+
     // Convert protocol if needed
     if (!wsUrl.startsWith('ws://') && !wsUrl.startsWith('wss://')) {
         if (wsUrl.startsWith('http://')) {
@@ -177,15 +215,15 @@ export const convertToWebSocketUrl = (url: string): string => {
             wsUrl = `ws://${wsUrl}`;
         }
     }
-    
+
     // Remove trailing slash before adding /api/websocket
     wsUrl = wsUrl.replace(/\/$/, '');
-    
+
     // Add /api/websocket if it's not present
     if (!wsUrl.includes('/api/websocket')) {
         wsUrl = `${wsUrl}/api/websocket`;
     }
-    
+
     console.log('Converted URL:', wsUrl);
     return wsUrl;
 }
@@ -210,7 +248,7 @@ export const getSpaces = (): SpacesState | null => {
 
 
 let handleMessage = (event: MessageEvent) => {
-    const data = JSON.parse(event.data);
+    const data = JSON.parse(event.data) as IncomingMessage;
     // console.log(`Received data: ${JSON.stringify(data)}`);
 
     // auth_required message is normal - server just indicates authentication is needed
@@ -220,8 +258,8 @@ let handleMessage = (event: MessageEvent) => {
         return;
     }
 
-    if (data.id && pendingRequests.has(data.id)) {
-        const {resolve, reject} = pendingRequests.get(data.id);
+    if ('id' in data && data.id && pendingRequests.has(data.id)) {
+        const { resolve, reject } = pendingRequests.get(data.id)!;
         pendingRequests.delete(data.id);
         if (data.type === 'pong') {
             // Calculate ping latency
@@ -230,23 +268,25 @@ let handleMessage = (event: MessageEvent) => {
                 lastPingTime = null;
             }
             resolve(data);
-        } else if (data.success) {
+        } else if ('success' in data && data.success) {
             resolve(data);
         } else {
             reject(data);
         }
     } else if (data.type === 'event') {
-        handleEvent(data.event);
+        const eventMessage = data as EventMessage;
+        handleEvent(eventMessage.event);
     } else {
         // other
         console.log('Unexpected message:', data);
     }
 }
 
-function handleEvent(event: { event_type: string; data: { entity_id: string; new_state: { state: string }; old_state: { state: string } } }) {
+function handleEvent(event: EventData) {
     if (event.event_type === 'state_changed') {
-        // console.log('State changed:', event.data);
-        changeDeviceState(event.data.entity_id, event.data.new_state.state, event.data.old_state.state, true).then(()=>{});
+        const eventData = event.data as StateChangedEventData;
+        // console.log('State changed:', eventData);
+        changeDeviceState(eventData.entity_id, eventData.new_state.state, eventData.old_state.state, true).then(() => { });
     }
 }
 
@@ -264,7 +304,7 @@ const waitForConnectionReady = (timeout: number = 2000): Promise<void> => {
         }
 
         const startTime = Date.now();
-        
+
         const checkReady = () => {
             if (!connection) {
                 reject(new Error('Connection is not initialized'));
@@ -292,9 +332,9 @@ let sendAuthMessage = (token: string): Promise<void> => {
         try {
             // Wait for connection to be ready to send messages
             await waitForConnectionReady(2000); // Wait maximum 2 seconds
-            
+
             const authHandler = (message: MessageEvent) => {
-                const data = JSON.parse(message.data);
+                const data = JSON.parse(message.data) as IncomingMessage;
                 if (data.type === 'auth_ok') {
                     connection.removeEventListener('message', authHandler);
                     resolve();
@@ -313,7 +353,7 @@ let sendAuthMessage = (token: string): Promise<void> => {
                 return;
             }
 
-            let newAuthMessage = {...messages.auth}
+            let newAuthMessage = { ...messages.auth }
             newAuthMessage.access_token = token;
 
             connection.send(JSON.stringify(newAuthMessage));
@@ -412,7 +452,7 @@ export const createConnection = (url: string, token: string): Promise<WebSocket>
 const createNewConnection = (url: string, token: string, resolve: (ws: WebSocket) => void, reject: (error: Error) => void): void => {
     console.log('Creating new WebSocket connection to:', url);
     connection = new WebSocket(url);
-    
+
     let isResolved = false; // Flag to track if Promise was already resolved
 
     connection.onopen = () => {
@@ -427,7 +467,7 @@ const createNewConnection = (url: string, token: string, resolve: (ws: WebSocket
                 console.log('Authentication successful');
                 setupHeartbeat();
                 subscribeToEvents();
-                createEntitysStateList().then((request)=>{
+                createEntitysStateList().then((request) => {
                     Object.assign(entities, request);
                     console.log('Entitys state list created', entities);
                 }).catch(error => {
@@ -459,16 +499,16 @@ const createNewConnection = (url: string, token: string, resolve: (ws: WebSocket
 
     connection.onclose = (event) => {
         console.log(`WebSocket connection closed: ${event.code}`);
-        
+
         // Clear heartbeat when connection closes
         clearHeartbeat();
-        
+
         // Clear any pending reconnect timeout
         if (reconnectTimeoutId !== null) {
             clearTimeout(reconnectTimeoutId);
             reconnectTimeoutId = null;
         }
-        
+
         // If connection closed before successful authentication, try to reconnect
         if (!isResolved && event.code !== 1000) { // 1000 = normal closure
             let newAuthData = getAuthData();
@@ -519,9 +559,9 @@ export const changeDeviceState = async (entity_id: string, new_state: string, _o
     if (serverEvent) {
         //make client changes
     } else {
-        let newMessage = {...messages.changeState}
+        let newMessage: ChangeStateMessage = { ...messages.changeState }
         newMessage.service = new_state ? "turn_on" : "turn_off";
-        newMessage.service_data = {entity_id: entity_id};
+        newMessage.service_data = { entity_id: entity_id };
 
         try {
             const response = await sendToHA(newMessage);
@@ -541,13 +581,16 @@ export const createEntitysStateList = async () => {
         if (!connection) {
             throw new Error('WebSocket connection is not initialized. Please establish a connection first.');
         }
-        
+
         if (connection.readyState !== WebSocket.OPEN) {
             await waitForConnectionReady(5000); // Wait up to 5 seconds
         }
-        
-        const request = await sendToHA(messages.get_states) as { result: Array<{ entity_id: string; state: string }> };
-        return request.result.reduce((entitys: Record<string, string>, item: { entity_id: string; state: string }) => {
+
+        const request = await sendToHA(messages.get_states) as GetStatesResponse;
+        if (!request.result) {
+            throw new Error('No result in get_states response');
+        }
+        return request.result.reduce((entitys: EntityStateList, item: EntityStateItem) => {
             entitys[item.entity_id] = item.state;
             return entitys;
         }, {});
@@ -557,12 +600,22 @@ export const createEntitysStateList = async () => {
     }
 }
 
-export const getHistory = async (_entity_ids: string[], _start_time: string, _end_time: string) => {
-    // TODO: Implement history retrieval
+export const getHistory = async (_entity_ids: string[], _start_time?: string, _end_time: string = new Date().toISOString(), pastHours: number = 1, pastDays: number = 0): Promise<Record<string, HistoryItemAPI[]>> => {
+    let newMessage: GetHistoryMessage = { ...messages.getHistory }
+    newMessage.entity_ids = _entity_ids;
+    newMessage.start_time = _start_time || new Date(Date.now() - (3600_000 * pastHours) - (86400_000 * pastDays)).toISOString();
+    newMessage.end_time = _end_time;
+    try {
+        const request = await sendToHA(newMessage) as HistoryResponseAPI;
+        if (!request.result) {
+            throw new Error('No result in getHistory response');
+        }
+        
+        return request.result;
+        
+    } catch (error) {
+        console.error("Error getting history:", error);
+        throw error;
+    }
 };
 
-// export const getAllEntity = () => {
-//     sendToHA(messages.get_states).then(request => {
-//         return request.result.map(item => item.entity_id);
-//     })
-// };
