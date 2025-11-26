@@ -23,7 +23,7 @@ import type {
     EntityStateList,
     EventMessage
 } from '@/types/loaderData.types';
-import { getCookie, setCookie } from '@/modules/cookies';
+import { getCookie, setCookie, deleteCookie } from '@/modules/cookies';
 
 export const entities: EntityStateList = {};
 
@@ -617,5 +617,31 @@ export const getHistory = async (_entity_ids: string[], _start_time?: string, _e
         console.error("Error getting history:", error);
         throw error;
     }
+};
+
+/**
+ * Logs out the user by closing the WebSocket connection and clearing authentication cookies
+ */
+export const logout = (): void => {
+    // Close WebSocket connection
+    closeConnection();
+    
+    // Clear authentication cookies
+    deleteCookie('HA_URL');
+    deleteCookie('HA_TOKEN');
+    
+    // Reset authentication state
+    isAuthenticated = false;
+    
+    // Clear any pending reconnect attempts
+    if (reconnectTimeoutId !== null) {
+        clearTimeout(reconnectTimeoutId);
+        reconnectTimeoutId = null;
+    }
+    
+    // Clear heartbeat interval
+    clearHeartbeat();
+    
+    console.log('User logged out successfully');
 };
 

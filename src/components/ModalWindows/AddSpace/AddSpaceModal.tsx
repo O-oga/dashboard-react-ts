@@ -8,7 +8,7 @@ import { getSpaceIconButtons } from '@/components/Icons';
 import { useSpaces } from '@/contexts/SpacesContext';
 import type { Space } from '@/types/space.types';
 
-const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange, onSpaceSelect }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void, onSpaceSelect: (spaceId: number) => void }) => {
+const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void }) => {
     const { t } = useTranslation();
     const { addSpace, spaces } = useSpaces();
     const [newSpaceName, setNewSpaceName] = useState<string>('');
@@ -25,7 +25,6 @@ const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange, onSpaceSelect }:
             order: space.order
         };
         addSpace(newSpace);
-        onSpaceSelect(newSpace.id);
         onClose();
     }, [addSpace, onClose]);
 

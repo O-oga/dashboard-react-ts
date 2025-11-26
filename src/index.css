@@ -3,6 +3,8 @@
   --body-background: #0f0f0f;
   --body-background-gradient: linear-gradient(135deg, #0f0f0f 0%, #121212 100%);
   --card-background-color: rgba(23, 23, 23, 0.6);
+  --card-background-color-hover: rgba(23, 23, 23, 0.9);
+  --card-background-color-unsaturated: rgba(23, 23, 23, 0.2);
   --card-background-color-highlight: rgba(29, 29, 29, 0.6);
   --active-card-background-color: rgba(23, 23, 23, 0.9);
   --background-modal-input: rgba(234, 234, 234, 0.06);
@@ -12,12 +14,15 @@
   --active-card-border: 1px solid rgba(234, 234, 234, 0.5);
   --invalid-border: 1px solid rgba(255, 0, 0, 0.4);
   --border-color: rgba(234, 234, 234, 0.05);
+  
   /* Dark theme - Buttons */
   --svg-button-collor: #1a1a1a;
   --svg-button-hover-color: #2a2a2a;
   --svg-button-focus-color: #333333;
   --svg-button-active-color: #3a3a3a;
   --button-text-color: #b0b0b0;
+  --button-svg-color: #b0b0b0;
+  --button-svg-color-unsaturated: rgba(176, 176, 176, 0.1);
   --button-hover-text-color: #d0d0d0;
   --button-focus-text-color: #e8e8e8;
   --button-active-text-color: #ffffff;
@@ -92,10 +97,23 @@
   --font-semibold: "Poppins-SemiBold", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-bold: "Poppins-Bold", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
+  --font-size-small: 0.875rem;
+  --font-size-medium: 1rem;
+  --font-size-large: 1.25rem;
+
   /* Scrollbar colors */
   --scrollbar-track-background: rgba(23, 23, 23, 0.3);
   --scrollbar-thumb-background: rgba(234, 234, 234, 0.2);
   --scrollbar-thumb-hover-background: rgba(234, 234, 234, 0.4);
+
+  /* Navi panel height */
+  --navi-panel-height: 13dvh;
+
+  /* Space Card size */
+  --space-card-small-size-gap: 10px;
+  --space-card-small-size: 80px;
+  --space-card-medium-size: calc(160px + var(--space-card-small-size-gap));
+  --space-card-large-size: calc(320px + var(--space-card-small-size-gap));
 }
 
 html,

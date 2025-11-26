@@ -1,5 +1,5 @@
-.navi-panel {
-    height: 13dvh;
+    .navi-panel {
+        height: var(--navi-panel-height);
     min-height: 90px;
     backdrop-filter: blur(20px);
     background: var(--card-background-color);
@@ -53,7 +53,7 @@
     cursor: pointer;
     
     /* Button appearance animation */
-    transition: transform var(--transition), opacity var(--transition);
+    transition: transform var(--transition), opacity var(--transition), border var(--transition), background var(--transition), color var(--transition);
     opacity: 1;
     transform: scale(1);
 }

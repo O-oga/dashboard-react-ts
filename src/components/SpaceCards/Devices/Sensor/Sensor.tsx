@@ -2,7 +2,7 @@ import './Sensor.css';
 import { CardsIcons } from '@/components/Icons';
 import type { CardIconTypes } from '@/types/Icons.types';
 import { CardCreationDataContext } from '@/components/ModalWindows/AddCard/AddCardModal';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, memo } from 'react';
 import { getHistory } from '@/modules/loader';
 
 interface SensorProps {
@@ -45,7 +45,7 @@ function Sensor(props?: SensorProps) {
             return (
                 <button 
                     key={id}
-                    className="sensor-small button-svg-dark button-svg">
+                    className="sensor card-small button-svg-dark button-svg">
                     <div className="svg-icon">
                         <IconComponent size={50}/>
                     </div>
@@ -57,7 +57,7 @@ function Sensor(props?: SensorProps) {
             return (
                 <button 
                     key={id}
-                    className="sensor-medium button-svg-dark button-svg">
+                    className="sensor card-medium button-svg-dark button-svg">
                     <div className="svg-icon">
                         <IconComponent size={50}/>
                     </div>
@@ -69,7 +69,7 @@ function Sensor(props?: SensorProps) {
             return (
                 <button 
                     key={id}
-                    className="sensor-large button-svg-dark button-svg">
+                    className="sensor card-large button-svg-dark button-svg">
                     <div className="svg-icon">
                         <IconComponent size={50}/>
                     </div>
@@ -83,4 +83,4 @@ function Sensor(props?: SensorProps) {
     }
 }
 
-export default Sensor;
+export default memo(Sensor);

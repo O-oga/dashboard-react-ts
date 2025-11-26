@@ -1,11 +1,58 @@
 .space {
+    box-sizing: border-box;
+    width: 100dvw;
+    height: calc(100dvh - var(--navi-panel-height));
+    padding: 25px;
+}
+
+.add-card-button {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid transparent;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    width: var(--space-card-small-size);
+    height: var(--space-card-small-size);
+    background: var(--card-background-color-unsaturated);
+    transition: background var(--transition) ease, border var(--transition) ease, color var(--transition) ease;
+}
+
+.add-card-button:hover {
+    border: var(--button-svg-color-unsaturated);
+}
+.add-card-button svg path {
+    stroke: var(--button-svg-color-unsaturated);
+    transition: stroke var(--transition) ease, border var(--transition) ease;
+}
+
+.add-card-button:hover svg path {
+    stroke: transparent;
+}
+
+.add-card-button .name-on-card{
+    opacity: 0;
+    position: absolute;
+    width: var(--space-card-small-size);
+    height: var(--space-card-small-size);
+    align-content: center;
+    transition: opacity var(--transition);
+}
+
+.add-card-button:hover .name-on-card{
+    opacity: 0.65;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    background: none;
-    padding: 25px;
+    align-content: flex-start;
+    justify-content: flex-start;
+    gap: var(--space-card-small-size-gap);
 }
 
 .add-item {
@@ -20,29 +67,37 @@
     padding: 5px;
 }
 
-.card-svg {
-    width: 120px;
-    height: 120px;
+.card-small {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: var(--space-card-small-size);
+    height: var(--space-card-small-size);
+    padding: 3px;
+
+    box-sizing: border-box;
+    transition: width ease var(--transition), height ease var(--transition), border var(--transition) ease, background var(--transition) ease, color var(--transition) ease;
+}
+
+.card-medium {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: var(--space-card-medium-size);
+    height: var(--space-card-medium-size);
+    padding: 5px;
+    transition: width ease var(--transition), height ease var(--transition), border var(--transition) ease, background var(--transition) ease, color var(--transition) ease;
+}
+
+.card-large {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: var(--space-card-large-size);
+    height: var(--space-card-medium-size);
+    padding: 5px;
+    transition: width ease var(--transition), height ease var(--transition), border var(--transition) ease, background var(--transition) ease, color var(--transition) ease;
 }
 
 /* Adaptive icon sizes for card SVG */
-@media screen and (max-width: 767px) {
-    .card-svg {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-    .card-svg {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-@media screen and (min-width: 1440px) {
-    .card-svg {
-        width: 140px;
-        height: 140px;
-    }
-}

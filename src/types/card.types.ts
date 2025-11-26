@@ -6,10 +6,17 @@ export type EntityTypes = typeof ENTITY_TYPES[number];
 
 export type CardSizeTypes = 'small' | 'medium' | 'large';
 
+export type CardDataTypes = {
+    name: string;
+    value: string | number | boolean | null;
+}
+
 export type Card = {
     id: number;
     title: string;
     entity: string;
+    state: string;
+    card_data: CardDataTypes[];
     icon: IconComponent;
     size: CardSizeTypes;
     type: EntityTypes

@@ -1,10 +1,12 @@
-import { createContext, useContext, useReducer, useEffect, useCallback, useRef, type ReactNode } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useRef, useState, type ReactNode } from 'react';
 import type { Action, Space, SpacesState } from '@/types/space.types';
 import type { Card } from '@/types/card.types';
 import { saveSpaces, getSpaces } from '@/modules/loader';
 
 type SpacesContextType = {
     spaces: Space[];
+    currentSpaceId: number | null;
+    setCurrentSpaceId: (id: number) => void;
     dispatch: React.Dispatch<Action>;
     addSpace: (space: Space) => void;
     removeSpace: (id: number) => void;
@@ -73,8 +75,19 @@ const SpacesContext = createContext<SpacesContextType | null>(null);
  */
 export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     const [spacesState, dispatch] = useReducer(spacesReducer, undefined, getInitialSpacesState);
+    const [currentSpaceId, setCurrentSpaceId] = useState<number | null>(null);
     const hasLoadedRef = useRef(false);
     const prevSpacesStateRef = useRef<SpacesState | null>(null);
+
+    // Auto-select first space
+    useEffect(() => {
+        if (spacesState.spaces.length > 0 && currentSpaceId === null) {
+            const firstSpace = [...spacesState.spaces].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))[0];
+            if (firstSpace) {
+                setCurrentSpaceId(firstSpace.id);
+            }
+        }
+    }, []);
 
     // Save data to localStorage whenever spaces state changes
     useEffect(() => {
@@ -103,14 +116,25 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
                 order: space.order
             } 
         });
+        setCurrentSpaceId(space.id);
     }, []);
 
     const removeSpace = useCallback((id: number) => {
         dispatch({ type: 'removeSpace', id });
+        if (currentSpaceId === id && spacesState.spaces.length > 2) {
+            setCurrentSpaceId([...spacesState.spaces].sort((a, b) => (a.order) - (b.order))[0].id);
+        } else if (spacesState.spaces.length === 1) {
+            setCurrentSpaceId(spacesState.spaces[0].id);
+        } else if (spacesState.spaces.length === 0) {
+            setCurrentSpaceId(null);
+        }
     }, []);
 
     const changeSpace = useCallback((space: Space) => {
         dispatch({ type: 'changeSpace', space });
+        if (currentSpaceId === space.id) {
+            setCurrentSpaceId(space.id);
+        }
     }, []);
 
     const addCard = useCallback((spaceId: number, card: Card) => {
@@ -125,6 +149,8 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
         <SpacesContext.Provider
             value={{
                 spaces: spacesState.spaces,
+                currentSpaceId,
+                setCurrentSpaceId,
                 dispatch,
                 addSpace,
                 removeSpace,

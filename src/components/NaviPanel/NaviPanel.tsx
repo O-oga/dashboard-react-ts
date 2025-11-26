@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import './NaviPanel.css';
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard';
 import type { Space } from '@/types/space.types';
@@ -9,14 +9,10 @@ import type { SpaceIconTypes } from '@/types/Icons.types';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useSpaces } from '@/contexts/SpacesContext';
 import { UIIcons } from '@/components/Icons';
+import { logout } from '@/modules/loader';
 
-type NaviPanelProps = {
-    onSpaceSelect: (spaceId: number) => void;
-};
-
-const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
-
-    const { spaces } = useSpaces();
+const NaviPanel = () => {
+    const { spaces, setCurrentSpaceId } = useSpaces();
     const [spacePreviewIconKey, setSpacePreviewIconKey] = useState<SpaceIconTypes>('HomeIcon');
     const [spacePreviewTitle, setSpacePreviewTitle] = useState<string>('');
     const [spacePreviewDescription, setSpacePreviewDescription] = useState<string>('');
@@ -54,12 +50,12 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
         return [...spaces].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     }, [spacesOrderKey]);
 
-    // Select first space's cards when mounted
-    useEffect(() => {
-        if (sortedSpaces.length > 0) {
-            onSpaceSelect(sortedSpaces[0].id);
-        }
+    const handleLogout = useCallback(() => {
+        logout();
+        // Reload the page to show login screen
+        window.location.reload();
     }, []);
+
 
     return (
         <div
@@ -71,7 +67,7 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
                     key={space.id}
                     space={space}
                     isChangable={isChangable}
-                    onSpaceSelect={onSpaceSelect}
+                    onSpaceSelect={setCurrentSpaceId}
                 // onTitleChange={(next: string) => dispatch({ type: 'changeSpaceTitle', id: space.id, title: next })}
                 // onOrderChange={(next: number) => dispatch({ type: 'changeSpaceOrder', id: space.id, order: next })}
                 />
@@ -89,7 +85,7 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
                     <SettingsIconComponent size={24} color="white" />
                 </button>
                 <button 
-                // onClick={logout}
+                onClick={handleLogout}
                 className='exit-button button-svg button-svg-small button-svg-dark'>
                     <ExitIconComponent size={24} color="white" />
                 </button>
@@ -97,7 +93,6 @@ const NaviPanel = ({ onSpaceSelect }: NaviPanelProps) => {
             <AddSpaceModal
                 isOpen={isAddCardModalOpen}
                 onClose={closeAddCardModal}
-                onSpaceSelect={onSpaceSelect}
                 onspacePreviewChange={handleSpacePreviewChange} />
         </div>
     );

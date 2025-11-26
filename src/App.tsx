@@ -1,4 +1,3 @@
-import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import '@/App.css'
 import NaviPanel from '@/components/NaviPanel/NaviPanel'
@@ -10,12 +9,8 @@ import { SpacesProvider } from '@/contexts/SpacesContext'
 
 function App() {
   const { t } = useTranslation();
-  const [currentSpaceId, setCurrentSpaceId] = useState<number>(0);
   const { isAuthenticated, isCheckingAuth, setIsAuthenticated } = useAuthenticationVerification();
 
-  const handleSpaceSelect = useCallback((spaceId: number) => {
-    setCurrentSpaceId(spaceId);
-  }, []);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -44,8 +39,8 @@ function App() {
   return (
     <SpacesProvider>
       <div className="app">
-        <SpaceComponent spaceId={currentSpaceId}></SpaceComponent>
-        <NaviPanel onSpaceSelect={handleSpaceSelect}></NaviPanel>
+        <SpaceComponent></SpaceComponent>
+        <NaviPanel></NaviPanel>
       </div>
     </SpacesProvider>
   )

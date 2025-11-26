@@ -2,7 +2,7 @@ import './Switch.css';
 import { CardsIcons } from '@/components/Icons';
 import type { CardIconTypes } from '@/types/Icons.types';
 import { CardCreationDataContext } from '@/components/ModalWindows/AddCard/AddCardModal';
-import { useContext } from 'react';
+import { useContext, memo } from 'react';
 
 interface SwitchProps {
     title?: string;
@@ -36,7 +36,7 @@ function Switch(props?: SwitchProps) {
             return (
                 <button 
                     key={id}
-                    className="switch switch-small button-svg-dark button-svg">
+                    className="switch card-small button-svg-dark button-svg">
                     <div className="svg-icon">
                         <IconComponent size={50}/>
                     </div>
@@ -48,7 +48,7 @@ function Switch(props?: SwitchProps) {
             return (
                 <button 
                     key={id} 
-                    className="switch switch-medium button-svg-dark button-svg">
+                    className="switch card-medium button-svg-dark button-svg">
                     <div className="svg-icon">
                     <IconComponent size={50}/>
                     </div>
@@ -60,7 +60,7 @@ function Switch(props?: SwitchProps) {
             return (
                 <button 
                     key={id} 
-                    className="switch switch-large button-svg-dark button-svg">
+                    className="switch card-large button-svg-dark button-svg">
                     <div className="svg-icon">
                     <IconComponent size={50}/>
                     </div>
@@ -74,4 +74,4 @@ function Switch(props?: SwitchProps) {
     }
 }
 
-export default Switch;
+export default memo(Switch);

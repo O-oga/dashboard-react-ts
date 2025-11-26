@@ -6,51 +6,78 @@ import { useSpaces } from '@/contexts/SpacesContext';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import AddCardModal from '@/components/ModalWindows/AddCard/AddCardModal';
 import { UIIcons } from '@/components/Icons';
-import Button from '@/components/SpaceCards/Devices/Button/Button';
+import { useMemo } from 'react';
+import type { Card } from '@/types/card.types';
+import type { CardIconTypes } from '@/types/Icons.types';
+import ButtonDevice from '@/components/SpaceCards/Devices/Button/ButtonDevice';
 
 const AddIconComponent = UIIcons['AddIcon'];
 
-function Space(props: any) {
-    const { spaceId } = props;
+function Space() {
     const { t } = useTranslation();
-    const { spaces } = useSpaces();
+    const { spaces, currentSpaceId } = useSpaces();
     const { isOpen: isModalOpen, open: openModal, close: closeModal } = useDisclosure(false, { 
         onOpen: () => { console.log('onOpen') }, 
         onClose: () => { console.log('onClose') } 
     });
 
-    const getCardComponent = (card: any) => {
+    // Memoize current space to avoid unnecessary recalculations
+    const currentSpace = useMemo(() => {
+        if (currentSpaceId === null) return null;
+        return spaces.find(space => space.id === currentSpaceId) || null;
+    }, [spaces, currentSpaceId]);
+
+    // Memoize cards array to prevent re-renders when other spaces change
+    const cards = useMemo(() => {
+        return currentSpace?.cards || [];
+    }, [currentSpace?.cards]);
+
+    const getCardComponent = (card: Card) => {
         switch (card.type) {
             case 'switch': {
-                console.log(card.id);
-                return <Switch key={card.id}></Switch>
+                return <Switch 
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    entity={card.entity}
+                    icon={card.icon as CardIconTypes}
+                    size={card.size}
+                />
             }
             case 'sensor': {
-                return <Sensor key={card.id}></Sensor>
+                return <Sensor 
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    entity={card.entity}
+                    icon={card.icon as CardIconTypes}
+                    size={card.size}
+                />
             }
             case 'button': {
-                console.log(card.id);
-                return <Button key={card.id}></Button>
+                return <ButtonDevice 
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    entity={card.entity}
+                    icon={card.icon as CardIconTypes}
+                    size={card.size}
+                />
             }
             default: {
                 return null;
             }
         }
     }
-
-
-
-    const currentSpace = spaces.find(space => space.id === spaceId);
-
     return (
         <div className="space">
             {currentSpace && currentSpace.cards.length >= 0 &&
                 <div className='container'>
-                        {currentSpace.cards.map((card: any) => {
-                            return getCardComponent(card)})}
+
+                    {cards.map((card: Card) => getCardComponent(card))}
 
                     <button 
-                    className="card-svg button-svg button-svg-large button-svg-dark" 
+                    className="add-card-button button-svg button-svg-large button-svg-dark" 
                     type="button" 
                     onClick={openModal}
                     aria-label={t('app.pinNewCard')}>
@@ -59,10 +86,10 @@ function Space(props: any) {
                     </button>
                 </div>
             }
-            {isModalOpen && <AddCardModal 
+            {isModalOpen && currentSpaceId !== null && <AddCardModal 
             isModalOpen={isModalOpen} 
             closeModal={closeModal} 
-            spaceId={spaceId} 
+            spaceId={currentSpaceId} 
             />}
         </div >
     );

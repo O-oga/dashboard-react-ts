@@ -2,9 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
     min-height: 100dvh;
-    min-width: 100vw;
     min-width: 100dvw;
     background: var(--body-background);
     background-image: var(--body-background-gradient);
@@ -161,7 +159,7 @@
     font-size: 16px;
     font-family: var(--font);
     cursor: pointer;
-    transition: flex 0.4s ease, padding 0.4s ease, font-size 0.4s ease, background var(--transition), color var(--transition), border var(--transition);
+    transition: flex 0.4s ease;
 }
 
 .login-button-connected {

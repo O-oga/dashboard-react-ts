@@ -1,7 +1,7 @@
 import { getIconButtons } from '@/components/Icons';
 import Sensor from '@/components/SpaceCards/Devices/Sensor/Sensor';
 import Switch from '@/components/SpaceCards/Devices/Switch/Switch';
-import Button from '@/components/SpaceCards/Devices/Button/Button';
+import Button from '@/components/SpaceCards/Devices/Button/ButtonDevice';
 import './CardCreation.css';
 import { t } from 'i18next';
 import { useContext, useMemo } from 'react';

@@ -6,6 +6,23 @@
     border: var(--border);
     overflow: hidden;
     background: var(--card-background-color);
+    opacity: 0;
+    animation: fadeInFromLeft 0.2s ease-out forwards;
+}
+
+@keyframes fadeInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.entity-group-open {
+    opacity: 1;
 }
 
 .entity-group-header {

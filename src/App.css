@@ -10,6 +10,13 @@
   min-width: 100dvw;
 }
 
+.app {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  background: none;
+}
+
 body {
   background: var(--body-background);
   background-image: var(--body-background-gradient);

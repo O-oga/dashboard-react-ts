@@ -1,10 +1,10 @@
-import { useContext } from 'react';
+import { useContext, memo } from 'react';
 import type { CardIconTypes } from '@/types/Icons.types';
 import { CardsIcons } from '@/components/Icons';
-import './Button.css';
+import './ButtonDevice.css';
 import { CardCreationDataContext } from '@/components/ModalWindows/AddCard/AddCardModal';
 
-interface ButtonProps {
+interface ButtonDeviceProps {
     title?: string;
     entity?: string;
     icon?: CardIconTypes;
@@ -12,7 +12,7 @@ interface ButtonProps {
     id?: number;
 }
 
-function Button(props?: ButtonProps) {
+function ButtonDevice(props?: ButtonDeviceProps) {
     const cardCreationData = useContext(CardCreationDataContext);
     
     // Use props if provided, otherwise fall back to context (for creation mode)
@@ -36,7 +36,7 @@ function Button(props?: ButtonProps) {
             return (
                 <button 
                     key={id}
-                    className="button-small button-svg-dark button-svg">
+                    className="button-device-small card-small button-svg-dark button-svg">
                     <div className="svg-icon">
                         <IconComponent size={50}/>
                     </div>
@@ -48,9 +48,9 @@ function Button(props?: ButtonProps) {
             return (
                 <button 
                     key={id}
-                    className="button-medium button-svg-dark button-svg">
+                    className="button-device-medium card-medium button-svg-dark button-svg">
                     <div className="svg-icon">
-                        <IconComponent size={50}/>
+                        <IconComponent size={100}/>
                     </div>
                     <div className="button-title">{displayTitle}</div>
                 </button>
@@ -60,11 +60,15 @@ function Button(props?: ButtonProps) {
             return (
                 <button 
                     key={id}
-                    className="button-large button-svg-dark button-svg">
+                    className="button-device-large card-large button-svg-dark button-svg">
                     <div className="svg-icon">
-                        <IconComponent size={50}/>
+                        <IconComponent size={100}/>
                     </div>
-                    <div className="button-title">{displayTitle}</div>
+                    <div className="button-device-large-content">
+                        {/* <span className="button-device-large-entity-state">{state}</span> */}
+                        <span className="button-device-large-entity-name">{entity}</span>
+                        <span className="button-title">{displayTitle}</span>
+                    </div>
                 </button>
             )
         }
@@ -75,4 +79,4 @@ function Button(props?: ButtonProps) {
 
 }
 
-export default Button;
+export default memo(ButtonDevice);
