@@ -8,7 +8,7 @@ import type { Space } from '@/types/space.types'
 interface NaviPanelCardProps {
   space: Space
   isChangable: boolean
-  onSpaceSelect: (spaceId: string) => void
+  onSpaceSelect: (spaceId: number) => void
 }
 
 const NaviPanelCard = ({
