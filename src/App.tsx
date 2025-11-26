@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import './App.css'
-import NaviPanel from './components/NaviPanel/NaviPanel'
-import SpaceComponent from './components/Space/Space'
-import LoginPage from './components/LoginPage/LoginPage'
-import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
-import { useAuthenticationVerification } from './modules/autenticationVerification'
-import { SpacesProvider } from './contexts/SpacesContext'
+import '@/App.css'
+import NaviPanel from '@/components/NaviPanel/NaviPanel'
+import SpaceComponent from '@/components/Space/Space'
+import LoginPage from '@/components/LoginPage/LoginPage'
+import LanguageSwitcher from '@/components/LanguageSwitcher/LanguageSwitcher'
+import { useAuthenticationVerification } from '@/modules/autenticationVerification'
+import { SpacesProvider } from '@/contexts/SpacesContext'
 
 function App() {
   const { t } = useTranslation();

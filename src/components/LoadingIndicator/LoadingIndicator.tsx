@@ -1,7 +1,7 @@
 import './LoadingIndicator.css';
 
 import {t} from 'i18next';
-import { UIIcons } from '../Icons';
+import { UIIcons } from '@/components/Icons';
 
 const SpinnerIconComponent = UIIcons['SpinnerIcon'];
 

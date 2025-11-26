@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import type { CardIconTypes } from '../../../../types/Icons.types';
-import { CardsIcons } from '../../../Icons';
+import type { CardIconTypes } from '@/types/Icons.types';
+import { CardsIcons } from '@/components/Icons';
 import './Button.css';
-import { CardCreationDataContext } from '../../../ModalWindows/AddCard/AddCardModal';
+import { CardCreationDataContext } from '@/components/ModalWindows/AddCard/AddCardModal';
 
 interface ButtonProps {
     title?: string;

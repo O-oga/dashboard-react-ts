@@ -1,10 +1,10 @@
 
 import './NaviPanelCard.css';
-import { SpacesIcons, UIIcons } from '../../Icons';
-import type { SpaceIconTypes } from '../../../types/Icons.types';
-import { useSpaces } from '../../../contexts/SpacesContext';
+import { SpacesIcons, UIIcons } from '@/components/Icons';
+import type { SpaceIconTypes } from '@/types/Icons.types';
+import { useSpaces } from '@/contexts/SpacesContext';
 import { useCallback } from 'react';
-import type { Space } from '../../../types/space.types';
+import type { Space } from '@/types/space.types';
 
 const NaviPanelCard = (props: any) => {
     const { space, isChangable, onSpaceSelect } = props;

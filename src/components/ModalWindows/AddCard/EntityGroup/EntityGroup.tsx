@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDisclosure } from '../../../../hooks/useDisclosure';
+import { useDisclosure } from '@/hooks/useDisclosure';
 import './EntityGroup.css';
-import { useScrollIntoView } from '../../../../hooks/useScrollIntoView';
+import { useScrollIntoView } from '@/hooks/useScrollIntoView';
 
 interface EntityGroupProps {
     groupName: string;

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import type { SpaceIconTypes } from '../../../types/Icons.types';
-import { SpacesIcons } from '../../Icons';
+import type { SpaceIconTypes } from '@/types/Icons.types';
+import { SpacesIcons } from '@/components/Icons';
 import './SpacePreviewCard.css';
 
 function SpacePreviewCard(props : any) {

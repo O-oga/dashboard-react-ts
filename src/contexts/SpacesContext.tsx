@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer, useEffect, useCallback, useRef, type ReactNode } from 'react';
-import type { Action, Space, SpacesState } from '../types/space.types';
-import type { Card } from '../types/card.types';
-import { saveSpaces, getSpaces } from '../modules/loader';
+import type { Action, Space, SpacesState } from '@/types/space.types';
+import type { Card } from '@/types/card.types';
+import { saveSpaces, getSpaces } from '@/modules/loader';
 
 type SpacesContextType = {
     spaces: Space[];

@@ -2,15 +2,15 @@ import { createPortal } from 'react-dom';
 import './AddCardModal.css';
 import { useTranslation } from 'react-i18next';
 import { createContext, useEffect, useState } from 'react';
-import { createEntitysStateList } from '../../../modules/loader';
-import LoadingIndicator from '../../LoadingIndicator/LoadingIndicator';
-import type { CardCreationData, EntityTypes } from '../../../types/card.types';
-import { ENTITY_TYPES } from '../../../types/card.types';
-import type { CardIconTypes, IconComponent } from '../../../types/Icons.types';
+import { createEntitysStateList } from '@/modules/loader';
+import LoadingIndicator from '@/components/LoadingIndicator/LoadingIndicator';
+import type { CardCreationData, EntityTypes } from '@/types/card.types';
+import { ENTITY_TYPES } from '@/types/card.types';
+import type { CardIconTypes, IconComponent } from '@/types/Icons.types';
 import EntityOfTab from './EntityOfTab/EntityOfTab';
 import CardCreation from './CardCreation/CardCreation';
-import type { CardSizeTypes } from '../../../types/card.types';
-import { useSpaces } from '../../../contexts/SpacesContext';
+import type { CardSizeTypes } from '@/types/card.types';
+import { useSpaces } from '@/contexts/SpacesContext';
 
 
 export const CardCreationDataContext = createContext<CardCreationData | null>(null);

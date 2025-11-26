@@ -1,12 +1,12 @@
 import './AddSpaceModal.css';
-import type { ModalProps } from '../../../types/modalProps.types';
+import type { ModalProps } from '@/types/modalProps.types';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
-import type { SpaceIconTypes } from '../../../types/Icons.types';
-import { getSpaceIconButtons } from '../../Icons';
-import { useSpaces } from '../../../contexts/SpacesContext';
-import type { Space } from '../../../types/space.types';
+import type { SpaceIconTypes } from '@/types/Icons.types';
+import { getSpaceIconButtons } from '@/components/Icons';
+import { useSpaces } from '@/contexts/SpacesContext';
+import type { Space } from '@/types/space.types';
 
 const AddSpaceModal = ({ isOpen, onClose, onspacePreviewChange, onSpaceSelect }: ModalProps & { onspacePreviewChange?: (space: { name: string; description: string; icon: SpaceIconTypes }) => void, onSpaceSelect: (spaceId: number) => void }) => {
     const { t } = useTranslation();

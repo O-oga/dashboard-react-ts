@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import './PrivacyModal.css';
-import type { ModalProps } from '../../../types/modalProps.types';
+import type { ModalProps } from '@/types/modalProps.types';
 
 
 const PrivacyModal = ({ isOpen, onClose }: ModalProps) => {

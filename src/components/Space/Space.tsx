@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import Sensor from '../SpaceCards/Devices/Sensor/Sensor';
-import Switch from '../SpaceCards/Devices/Switch/Switch';
+import Sensor from '@/components/SpaceCards/Devices/Sensor/Sensor';
+import Switch from '@/components/SpaceCards/Devices/Switch/Switch';
 import './Space.css';
-import { useSpaces } from '../../contexts/SpacesContext';
-import { useDisclosure } from '../../hooks/useDisclosure';
-import AddCardModal from '../ModalWindows/AddCard/AddCardModal';
-import { UIIcons } from '../Icons';
-import Button from '../SpaceCards/Devices/Button/Button';
+import { useSpaces } from '@/contexts/SpacesContext';
+import { useDisclosure } from '@/hooks/useDisclosure';
+import AddCardModal from '@/components/ModalWindows/AddCard/AddCardModal';
+import { UIIcons } from '@/components/Icons';
+import Button from '@/components/SpaceCards/Devices/Button/Button';
 
 const AddIconComponent = UIIcons['AddIcon'];
 

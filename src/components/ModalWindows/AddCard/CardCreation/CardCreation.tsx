@@ -1,14 +1,14 @@
-import { getIconButtons } from '../../../Icons';
-import Sensor from '../../../SpaceCards/Devices/Sensor/Sensor';
-import Switch from '../../../SpaceCards/Devices/Switch/Switch';
-import Button from '../../../SpaceCards/Devices/Button/Button';
+import { getIconButtons } from '@/components/Icons';
+import Sensor from '@/components/SpaceCards/Devices/Sensor/Sensor';
+import Switch from '@/components/SpaceCards/Devices/Switch/Switch';
+import Button from '@/components/SpaceCards/Devices/Button/Button';
 import './CardCreation.css';
 import { t } from 'i18next';
 import { useContext, useMemo } from 'react';
 import { CardCreationDataContext } from '../AddCardModal';
 import CardSizeSelection from './CardSizeSelection/CardSizeSelection';
-import Camera from '../../../SpaceCards/Devices/Camera/Camera';
-import Weather from '../../../SpaceCards/Weather/Weather';
+import Camera from '@/components/SpaceCards/Devices/Camera/Camera';
+import Weather from '@/components/SpaceCards/Weather/Weather';
 
 function CardCreation() {
     const cardCreationData = useContext(CardCreationDataContext);

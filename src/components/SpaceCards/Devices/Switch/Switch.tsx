@@ -1,7 +1,7 @@
 import './Switch.css';
-import { CardsIcons } from '../../../Icons';
-import type { CardIconTypes } from '../../../../types/Icons.types';
-import { CardCreationDataContext } from '../../../ModalWindows/AddCard/AddCardModal';
+import { CardsIcons } from '@/components/Icons';
+import type { CardIconTypes } from '@/types/Icons.types';
+import { CardCreationDataContext } from '@/components/ModalWindows/AddCard/AddCardModal';
 import { useContext } from 'react';
 
 interface SwitchProps {

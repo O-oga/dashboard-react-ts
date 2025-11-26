@@ -1,14 +1,14 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import './NaviPanel.css';
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard';
-import type { Space } from '../../types/space.types';
+import type { Space } from '@/types/space.types';
 import NaviPanelAddCard from './NaviPanelAddCard/NaviPanelAddCard';
-import AddSpaceModal from '../ModalWindows/AddSpace/AddSpaceModal';
+import AddSpaceModal from '@/components/ModalWindows/AddSpace/AddSpaceModal';
 import SpacePreviewCard from './SpacePreviewCard/SpacePreviewCard';
-import type { SpaceIconTypes } from '../../types/Icons.types';
-import { useDisclosure } from '../../hooks/useDisclosure';
-import { useSpaces } from '../../contexts/SpacesContext';
-import { UIIcons } from '../Icons';
+import type { SpaceIconTypes } from '@/types/Icons.types';
+import { useDisclosure } from '@/hooks/useDisclosure';
+import { useSpaces } from '@/contexts/SpacesContext';
+import { UIIcons } from '@/components/Icons';
 
 type NaviPanelProps = {
     onSpaceSelect: (spaceId: number) => void;

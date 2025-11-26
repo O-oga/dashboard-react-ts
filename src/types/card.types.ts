@@ -1,4 +1,4 @@
-import type { IconComponent } from "./Icons.types";
+import type { IconComponent } from "@/types/Icons.types";
 
 export const ENTITY_TYPES = ['switch', 'sensor', 'weather', 'camera', 'button'] as const;
 

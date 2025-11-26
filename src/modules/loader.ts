@@ -1,5 +1,5 @@
 'use strict';
-import type { SpacesState } from '../types/space.types';
+import type { SpacesState } from '@/types/space.types';
 import type {
     AuthMessage,
     BaseMessage,
@@ -22,8 +22,8 @@ import type {
     AuthData,
     EntityStateList,
     EventMessage
-} from '../types/loaderData.types';
-import { getCookie, setCookie } from './cookies';
+} from '@/types/loaderData.types';
+import { getCookie, setCookie } from '@/modules/cookies';
 
 export const entities: EntityStateList = {};
 

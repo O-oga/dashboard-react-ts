@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createConnection, getPingLatency, pushAuthData, convertToWebSocketUrl, getAuthData } from '../../modules/loader';
-import PrivacyModal from '../ModalWindows/Privacy/PrivacyModal';
+import { createConnection, getPingLatency, pushAuthData, convertToWebSocketUrl, getAuthData } from '@/modules/loader';
+import PrivacyModal from '@/components/ModalWindows/Privacy/PrivacyModal';
 import './LoginPage.css';
 
 type LoginPageProps = {

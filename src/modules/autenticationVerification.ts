@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAuthData, createConnection, convertToWebSocketUrl, isConnectionActive } from './loader';
+import { getAuthData, createConnection, convertToWebSocketUrl, isConnectionActive } from '@/modules/loader';
 
 export const useAuthenticationVerification = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

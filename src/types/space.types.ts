@@ -1,5 +1,5 @@
-import type { SpaceIconTypes } from './Icons.types';
-import type { Card } from './card.types';
+import type { SpaceIconTypes } from '@/types/Icons.types';
+import type { Card } from '@/types/card.types';
 
 
 export type Space = {
