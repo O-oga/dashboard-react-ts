@@ -4,10 +4,10 @@ services:
     # Формат: ghcr.io/YOUR_USERNAME/YOUR_REPO:latest
     # Например: ghcr.io/username/dashboard-react:latest
     image: ghcr.io/YOUR_USERNAME/dashboard-react:latest
-    
+
     container_name: dashboard-react
     ports:
-      - "99:80"
+      - '99:80'
     restart: unless-stopped
     networks:
       - dashboard-network

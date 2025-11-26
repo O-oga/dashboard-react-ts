@@ -1,69 +1,69 @@
 .sensor-small {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- border: var(--border);
- border-radius: var(--border-radius);
- padding: 5px;
- width: 80px;
- aspect-ratio: 1;
- box-sizing: border-box;
- transition: width var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 5px;
+  width: 80px;
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  transition: width var(--transition);
 }
 
 .sensor-medium {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: var(--border);
-    border-radius: var(--border-radius);
-    padding: 5px;
-    width: 160px;
-    aspect-ratio: 1;
-    transition: width var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 5px;
+  width: 160px;
+  aspect-ratio: 1;
+  transition: width var(--transition);
 }
 
 .sensor-large {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: var(--border);
-    border-radius: var(--border-radius);
-    padding: 5px;
-    width: 320px;
-    height: 160px;
-    transition: width var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 5px;
+  width: 320px;
+  height: 160px;
+  transition: width var(--transition);
 }
 
 .sensor .svg-icon svg,
 .sensor .svg-icon svg path {
-    stroke: var(--button-text-color);
-    transition: stroke var(--transition);
+  stroke: var(--button-text-color);
+  transition: stroke var(--transition);
 }
 
 .sensor:hover .svg-icon svg,
 .sensor:hover .svg-icon svg path {
-    stroke: var(--button-svg-light-hover-color);
+  stroke: var(--button-svg-light-hover-color);
 }
 
 .sensor:focus .svg-icon svg,
 .sensor:focus .svg-icon svg path {
-    stroke: var(--button-focus-text-color);
+  stroke: var(--button-focus-text-color);
 }
 
 .sensor:active .svg-icon svg,
 .sensor:active .svg-icon svg path {
-    stroke: var(--button-active-text-color);
+  stroke: var(--button-active-text-color);
 }
 
 .sensor-entity {
-    font-size: 12px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    text-align: center;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
 }

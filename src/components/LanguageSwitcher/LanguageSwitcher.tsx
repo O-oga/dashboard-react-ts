@@ -1,60 +1,64 @@
-import { useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import './LanguageSwitcher.css';
+import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import './LanguageSwitcher.css'
 
 const languages = [
   { code: 'en', name: 'EN' },
   { code: 'ru', name: 'RU' },
   { code: 'de', name: 'DE' },
   { code: 'uk', name: 'UA' },
-];
+]
 
 function LanguageSwitcher() {
-  const { i18n } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { i18n } = useTranslation()
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLanguage =
+    languages.find(lang => lang.code === i18n.language) || languages[0]
 
   const handleLanguageChange = (langCode: string) => {
-    i18n.changeLanguage(langCode);
-    localStorage.setItem('i18nextLng', langCode);
-    setIsOpen(false);
-  };
+    i18n.changeLanguage(langCode)
+    localStorage.setItem('i18nextLng', langCode)
+    setIsOpen(false)
+  }
 
   // Close on click outside component
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
       }
-    };
+    }
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
 
   // Close on Escape key press
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener('keydown', handleEscape)
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen]);
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen])
 
   return (
     <div className="language-switcher" ref={dropdownRef}>
@@ -68,10 +72,10 @@ function LanguageSwitcher() {
       >
         {currentLanguage.name}
       </button>
-      
+
       {isOpen && (
         <div className="language-dropdown">
-          {languages.map((lang) => (
+          {languages.map(lang => (
             <button
               key={lang.code}
               type="button"
@@ -86,8 +90,7 @@ function LanguageSwitcher() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default LanguageSwitcher;
-
+export default LanguageSwitcher

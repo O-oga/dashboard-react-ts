@@ -1,199 +1,206 @@
-    .navi-panel {
-        height: var(--navi-panel-height);
-    min-height: 90px;
-    backdrop-filter: blur(20px);
-    background: var(--card-background-color);
-    
-    /* Width constrained by parent */
-    max-width: 100%;
-    width: fit-content;
-    min-width: 20dvw;
-    
-    /* Centering panel horizontally */
-    margin: 0 auto;
-    
-    border: var(--border);
-    border-radius: var(--border-radius);
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    
-    position: fixed;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    z-index: 1001;
-    
-    scrollbar-width: none;
-    
-    /* Panel expansion animation */
-    transition: width var(--transition), min-width var(--transition);
-    
-    /* Padding and spacing */
-    padding: 0 15px;
-    gap: 10px;
+.navi-panel {
+  height: var(--navi-panel-height);
+  min-height: 90px;
+  backdrop-filter: blur(20px);
+  background: var(--card-background-color);
+
+  /* Width constrained by parent */
+  max-width: 100%;
+  width: fit-content;
+  min-width: 20dvw;
+
+  /* Centering panel horizontally */
+  margin: 0 auto;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  z-index: 1001;
+  scrollbar-width: none;
+
+  /* Panel expansion animation */
+  transition:
+    width var(--transition),
+    min-width var(--transition);
+
+  /* Padding and spacing */
+  padding: 0 15px;
+  gap: 10px;
 }
 
 /* Hide scrollbar for all browsers */
 .navi-panel::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .navi-panel-button {
-    height: 75%;
-    aspect-ratio: 1;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    cursor: pointer;
-    
-    /* Button appearance animation */
-    transition: transform var(--transition), opacity var(--transition), border var(--transition), background var(--transition), color var(--transition);
-    opacity: 1;
-    transform: scale(1);
+  height: 75%;
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+
+  /* Button appearance animation */
+  transition:
+    transform var(--transition),
+    opacity var(--transition),
+    border var(--transition),
+    background var(--transition),
+    color var(--transition);
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Space cards appearance animation */
 .navi-panel-card {
-    animation: slideInFromLeft 0.4s ease-out forwards;
-    opacity: 0;
-    transform: translateX(-20px);
+  animation: slideInFromLeft 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 .space-card-title {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    text-align: center;
-    font-size: 11px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
 }
 
-@keyframes slideInFromRight {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+@keyframes slide-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-@keyframes slideInFromLeft {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+@keyframes slide-in-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .space-preview-card {
-    position: relative;
-    overflow: visible;
-    animation: slideInFromRight 0.4s ease-out forwards;
-    opacity: 0;
-    transform: translateX(-20px);
+  position: relative;
+  overflow: visible;
+  animation: slide-in-from-right 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 .space-preview-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(234, 234, 234, 0.5);
-    pointer-events: none;
-    opacity: 0;
-    transform: scale(1);
-    animation: outline-expand 3s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius);
+  border: 1px solid rgb(234 234 234 / 50%);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1);
+  animation: outline-expand 3s cubic-bezier(0.6, 0, 0.4, 1) infinite;
 }
 
 @keyframes outline-expand {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-        border-color: rgba(234, 234, 234, 0.5);
-    }
-    100% {
-        transform: scale(1.3);
-        opacity: 0;
-        border-color: rgba(234, 234, 234, 0);
-    }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    border-color: rgb(234 234 234 / 50%);
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+    border-color: rgb(234 234 234 / 0%);
+  }
 }
 
 /* Stagger animation for multiple cards */
 .navi-panel-card:nth-child(1) {
-    animation-delay: 0.1s;
+  animation-delay: 0.1s;
 }
 
 .navi-panel-card:nth-child(2) {
-    animation-delay: 0.2s;
+  animation-delay: 0.2s;
 }
 
 .navi-panel-card:nth-child(3) {
-    animation-delay: 0.3s;
+  animation-delay: 0.3s;
 }
 
-.navi-panel-card:nth-child(n+4) {
-    animation-delay: 0.4s;
+.navi-panel-card:nth-child(n + 4) {
+  animation-delay: 0.4s;
 }
 
 /* Disable NaviPanel interactions when modal is open */
 .navi-panel-disabled {
-    pointer-events: none;
-    user-select: none;
+  pointer-events: none;
+  user-select: none;
 }
 
 .navi-panel-disabled .navi-panel-card,
 .navi-panel-disabled .navi-panel-button {
-    cursor: default;
+  cursor: default;
 }
 
 .navi-panel-disabled .navi-panel-card:hover {
-    transform: none;
-    background: var(--card-background-color);
-    border: var(--border);
+  transform: none;
+  background: var(--card-background-color);
+  border: var(--border);
 }
 
 .settings-buttons-container {
-    position: absolute;
-    top: 0;
-    right: -40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    gap: 5px;
-    height: 100%;
-    width: 40px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    z-index: 1000;
+  position: absolute;
+  top: 0;
+  right: -40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 5px;
+  height: 100%;
+  width: 40px;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+  z-index: 1000;
 }
 
 .navi-panel:hover .settings-buttons-container {
-    animation: slideInFromLeft 0.3s ease-in-out forwards;
-    transform: translateX(0);
+  animation: slideInFromLeft 0.3s ease-in-out forwards;
+  transform: translateX(0);
 }
 
 @keyframes slideInFromLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

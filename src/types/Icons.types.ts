@@ -1,4 +1,3 @@
-
 export type SpaceIconTypes =
   | 'EmptyIcon'
   | 'HomeIcon'
@@ -8,7 +7,7 @@ export type SpaceIconTypes =
   | 'SmartHomeIcon'
   | 'WidgetIcon'
   | 'Widget4Icon'
-  | 'Chair2Icon';
+  | 'Chair2Icon'
 
 export type CardIconTypes =
   | 'EmptyIcon'
@@ -17,7 +16,7 @@ export type CardIconTypes =
   | 'SensorIcon'
   | 'SwitchIcon'
   | 'MediaIcon'
-  | 'ButtonIcon';
+  | 'ButtonIcon'
 
 export type UIIconTypes =
   | 'HomeIcon'
@@ -29,7 +28,6 @@ export type UIIconTypes =
   | 'SwapIcon'
   | 'ExitIcon'
   | 'SpinnerIcon'
-  | 'AddIcon';
+  | 'AddIcon'
 
-
-export type IconComponent = SpaceIconTypes | UIIconTypes | CardIconTypes;
+export type IconComponent = SpaceIconTypes | UIIconTypes | CardIconTypes

@@ -1,103 +1,121 @@
 .space {
-    box-sizing: border-box;
-    width: 100dvw;
-    height: calc(100dvh - var(--navi-panel-height));
-    padding: 25px;
+  box-sizing: border-box;
+  width: 100dvw;
+  height: calc(100dvh - var(--navi-panel-height));
+  padding: 25px;
 }
 
 .add-card-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid transparent;
-    justify-content: center;
-    border-radius: var(--border-radius);
-    width: var(--space-card-small-size);
-    height: var(--space-card-small-size);
-    background: var(--card-background-color-unsaturated);
-    transition: background var(--transition) ease, border var(--transition) ease, color var(--transition) ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid transparent;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  width: var(--space-card-small-size);
+  height: var(--space-card-small-size);
+  background: var(--card-background-color-unsaturated);
+  transition:
+    background var(--transition) ease,
+    border var(--transition) ease,
+    color var(--transition) ease;
 }
 
 .add-card-button:hover {
-    border: var(--button-svg-color-unsaturated);
+  border: var(--button-svg-color-unsaturated);
 }
+
 .add-card-button svg path {
-    stroke: var(--button-svg-color-unsaturated);
-    transition: stroke var(--transition) ease, border var(--transition) ease;
+  stroke: var(--button-svg-color-unsaturated);
+  transition:
+    stroke var(--transition) ease,
+    border var(--transition) ease;
 }
 
 .add-card-button:hover svg path {
-    stroke: transparent;
+  stroke: transparent;
 }
 
-.add-card-button .name-on-card{
-    opacity: 0;
-    position: absolute;
-    width: var(--space-card-small-size);
-    height: var(--space-card-small-size);
-    align-content: center;
-    transition: opacity var(--transition);
+.add-card-button .name-on-card {
+  opacity: 0;
+  position: absolute;
+  width: var(--space-card-small-size);
+  height: var(--space-card-small-size);
+  align-content: center;
+  transition: opacity var(--transition);
 }
 
-.add-card-button:hover .name-on-card{
-    opacity: 0.65;
+.add-card-button:hover .name-on-card {
+  opacity: 0.65;
 }
 
 .container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    align-content: flex-start;
-    justify-content: flex-start;
-    gap: var(--space-card-small-size-gap);
+  display: flex;
+  flex-flow: row wrap;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  place-content: flex-start flex-start;
+  gap: var(--space-card-small-size-gap);
 }
 
 .add-item {
-    backdrop-filter: var(--blur);
-    background: var(--card-background-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    height: var(--standart-item-size);
-    aspect-ratio: 1;
-    box-sizing: border-box;
-    margin: 5px;
-    padding: 5px;
+  backdrop-filter: var(--blur);
+  background: var(--card-background-color);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  height: var(--standart-item-size);
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 5px;
 }
 
 .card-small {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: var(--border);
-    border-radius: var(--border-radius);
-    width: var(--space-card-small-size);
-    height: var(--space-card-small-size);
-    padding: 3px;
-
-    box-sizing: border-box;
-    transition: width ease var(--transition), height ease var(--transition), border var(--transition) ease, background var(--transition) ease, color var(--transition) ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  width: var(--space-card-small-size);
+  height: var(--space-card-small-size);
+  padding: 3px;
+  box-sizing: border-box;
+  transition:
+    width ease var(--transition),
+    height ease var(--transition),
+    border var(--transition) ease,
+    background var(--transition) ease,
+    color var(--transition) ease;
 }
 
 .card-medium {
-    border: var(--border);
-    border-radius: var(--border-radius);
-    width: var(--space-card-medium-size);
-    height: var(--space-card-medium-size);
-    padding: 5px;
-    transition: width ease var(--transition), height ease var(--transition), border var(--transition) ease, background var(--transition) ease, color var(--transition) ease;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  width: var(--space-card-medium-size);
+  height: var(--space-card-medium-size);
+  padding: 5px;
+  transition:
+    width ease var(--transition),
+    height ease var(--transition),
+    border var(--transition) ease,
+    background var(--transition) ease,
+    color var(--transition) ease;
 }
 
 .card-large {
-    border: var(--border);
-    border-radius: var(--border-radius);
-    width: var(--space-card-large-size);
-    height: var(--space-card-medium-size);
-    padding: 5px;
-    transition: width ease var(--transition), height ease var(--transition), border var(--transition) ease, background var(--transition) ease, color var(--transition) ease;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  width: var(--space-card-large-size);
+  height: var(--space-card-medium-size);
+  padding: 5px;
+  transition:
+    width ease var(--transition),
+    height ease var(--transition),
+    border var(--transition) ease,
+    background var(--transition) ease,
+    color var(--transition) ease;
 }
 
 /* Adaptive icon sizes for card SVG */

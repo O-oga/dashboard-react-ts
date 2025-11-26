@@ -1,139 +1,141 @@
 .privacy-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(15px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    animation: fadeIn 0.2s ease-out;
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fade-in 0.2s ease-out;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .privacy-modal-content {
-    background: rgba(23, 23, 23, 0.9);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 8px 32px var(--shadow);
-    animation: slideUp 0.3s ease-out;
+  background: rgb(23 23 23 / 90%);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px var(--shadow);
+  animation: slide-up 0.3s ease-out;
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .privacy-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 24px;
-    border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: var(--border);
 }
 
 .privacy-modal-title {
-    color: var(--button-text-color);
-    font-size: 20px;
-    font-family: var(--font);
-    margin: 0;
-    font-weight: 500;
+  color: var(--button-text-color);
+  font-size: 20px;
+  font-family: var(--font);
+  margin: 0;
+  font-weight: 500;
 }
 
 .privacy-modal-close {
-    background: transparent;
-    border: none;
-    color: var(--button-text-color);
-    font-size: 28px;
-    cursor: pointer;
-    padding: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--border-radius);
-    transition: background var(--transition), color var(--transition);
-    line-height: 1;
+  background: transparent;
+  border: none;
+  color: var(--button-text-color);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  transition:
+    background var(--transition),
+    color var(--transition);
+  line-height: 1;
 }
 
 .privacy-modal-close:hover {
-    background: var(--svg-button-hover-color);
-    color: var(--button-hover-text-color);
+  background: var(--svg-button-hover-color);
+  color: var(--button-hover-text-color);
 }
 
 .privacy-modal-close:focus {
-    outline: 2px solid var(--svg-button-focus-color);
-    outline-offset: 2px;
+  outline: 2px solid var(--svg-button-focus-color);
+  outline-offset: 2px;
 }
 
 .privacy-modal-body {
-    padding: 24px;
-    overflow-y: auto;
-    flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .privacy-modal-description {
-    color: var(--button-text-color);
-    font-size: 14px;
-    font-family: var(--font);
-    line-height: 1.6;
-    margin: 0;
+  color: var(--button-text-color);
+  font-size: 14px;
+  font-family: var(--font);
+  line-height: 1.6;
+  margin: 0;
 }
 
 .privacy-modal-footer {
-    padding: 16px 24px;
-    border-top: var(--border);
-    display: flex;
-    justify-content: flex-end;
+  padding: 16px 24px;
+  border-top: var(--border);
+  display: flex;
+  justify-content: flex-end;
 }
 
 .privacy-modal-button {
-    background: var(--svg-button-collor);
-    color: var(--button-text-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    padding: 10px 20px;
-    font-size: 14px;
-    font-family: var(--font);
-    cursor: pointer;
-    transition: background var(--transition), color var(--transition);
+  background: var(--svg-button-collor);
+  color: var(--button-text-color);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: var(--font);
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
 .privacy-modal-button:hover {
-    background: var(--svg-button-hover-color);
-    color: var(--button-hover-text-color);
+  background: var(--svg-button-hover-color);
+  color: var(--button-hover-text-color);
 }
 
 .privacy-modal-button:focus {
-    outline: 2px solid var(--svg-button-focus-color);
-    outline-offset: 2px;
+  outline: 2px solid var(--svg-button-focus-color);
+  outline-offset: 2px;
 }
 
 .privacy-modal-button:active {
-    background: var(--svg-button-active-color);
-    color: var(--button-active-text-color);
+  background: var(--svg-button-active-color);
+  color: var(--button-active-text-color);
 }
-

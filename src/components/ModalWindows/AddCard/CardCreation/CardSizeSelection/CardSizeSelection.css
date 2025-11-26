@@ -1,26 +1,25 @@
 .card-size-selection {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: space-around;
-    align-items: center;
-    padding: 30px 10px;
-    box-sizing: border-box;
-    border-bottom: var(--border);
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 30px 10px;
+  box-sizing: border-box;
+  border-bottom: var(--border);
 }
 
 .size-small {
-    width: 40px;
-    aspect-ratio: 1;
+  width: 40px;
+  aspect-ratio: 1;
 }
 
 .size-medium {
-    width: 80px;
-    aspect-ratio: 1;
+  width: 80px;
+  aspect-ratio: 1;
 }
 
 .size-large {
-    width: 160px;
-    height: 80px;
+  width: 160px;
+  height: 80px;
 }
-

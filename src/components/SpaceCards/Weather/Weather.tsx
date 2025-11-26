@@ -1,11 +1,11 @@
-import './Weather.css';
+import './Weather.css'
 
 function Weather() {
-    return (
-        <div className="weather">
-            <img  alt="Weather" />
-        </div>
-    );
+  return (
+    <div className="weather">
+      <img alt="Weather" />
+    </div>
+  )
 }
 
-export default Weather;
+export default Weather

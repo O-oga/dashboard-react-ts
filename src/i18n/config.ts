@@ -1,9 +1,9 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import translationEN from './locales/en.json';
-import translationRU from './locales/ru.json';
-import translationDE from './locales/de.json';
-import translationUK from './locales/uk.json';
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import translationEN from './locales/en.json'
+import translationRU from './locales/ru.json'
+import translationDE from './locales/de.json'
+import translationUK from './locales/uk.json'
 
 const resources = {
   en: {
@@ -18,38 +18,35 @@ const resources = {
   uk: {
     translation: translationUK,
   },
-};
+}
 
 // Detect language from localStorage or browser
 const getInitialLanguage = (): string => {
-  const savedLanguage = localStorage.getItem('i18nextLng');
+  const savedLanguage = localStorage.getItem('i18nextLng')
   if (savedLanguage && ['en', 'ru', 'de', 'uk'].includes(savedLanguage)) {
-    return savedLanguage;
+    return savedLanguage
   }
-  
+
   // Try to detect from browser
-  const browserLang = navigator.language.split('-')[0];
+  const browserLang = navigator.language.split('-')[0]
   if (['en', 'ru', 'de', 'uk'].includes(browserLang)) {
-    return browserLang;
+    return browserLang
   }
-  
+
   // Default to English
-  return 'en';
-};
+  return 'en'
+}
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: getInitialLanguage(),
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false, // React already escapes values
-    },
-    react: {
-      useSuspense: false, // Avoid suspense requirement
-    },
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: getInitialLanguage(),
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false, // React already escapes values
+  },
+  react: {
+    useSuspense: false, // Avoid suspense requirement
+  },
+})
 
-export default i18n;
-
+export default i18n

@@ -1,41 +1,45 @@
-import { useState, useEffect } from 'react';
-import { getAuthData, createConnection, convertToWebSocketUrl, isConnectionActive } from '@/modules/loader';
+import { useState, useEffect } from 'react'
+import {
+  getAuthData,
+  createConnection,
+  convertToWebSocketUrl,
+  isConnectionActive,
+} from '@/modules/loader'
 
 export const useAuthenticationVerification = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true)
 
   useEffect(() => {
     if (isConnectionActive()) {
-      console.log('Connection already active, skipping new connection');
-      setIsAuthenticated(true);
-      setIsCheckingAuth(false);
-      return;
+      console.log('Connection already active, skipping new connection')
+      setIsAuthenticated(true)
+      setIsCheckingAuth(false)
+      return
     }
 
-    const authData = getAuthData();
+    const authData = getAuthData()
     if (authData) {
-      const wsUrl = convertToWebSocketUrl(authData.url);
+      const wsUrl = convertToWebSocketUrl(authData.url)
       createConnection(wsUrl, authData.token)
         .then(() => {
-          setIsAuthenticated(true);
+          setIsAuthenticated(true)
         })
-        .catch((error) => {
-          console.error('Auto-connection failed:', error);
-          setIsAuthenticated(false);
+        .catch(error => {
+          console.error('Auto-connection failed:', error)
+          setIsAuthenticated(false)
         })
         .finally(() => {
-          setIsCheckingAuth(false);
-        });
+          setIsCheckingAuth(false)
+        })
     } else {
-      setIsCheckingAuth(false);
+      setIsCheckingAuth(false)
     }
 
     return () => {
       // may be used after navigation
-    };
-  }, []);
+    }
+  }, [])
 
-  return { isAuthenticated, isCheckingAuth, setIsAuthenticated };
-};
-
+  return { isAuthenticated, isCheckingAuth, setIsAuthenticated }
+}

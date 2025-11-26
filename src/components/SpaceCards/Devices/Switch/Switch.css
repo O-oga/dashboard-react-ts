@@ -1,32 +1,29 @@
-
-
 .switch .svg-icon svg,
 .switch .svg-icon svg path {
-    stroke: var(--button-text-color);
-    transition: stroke var(--transition);
+  stroke: var(--button-text-color);
+  transition: stroke var(--transition);
 }
 
 .switch:hover .svg-icon svg,
 .switch:hover .svg-icon svg path {
-    stroke: var(--button-svg-light-hover-color);
+  stroke: var(--button-svg-light-hover-color);
 }
 
 .switch:focus .svg-icon svg,
 .switch:focus .svg-icon svg path {
-    stroke: var(--button-focus-text-color);
+  stroke: var(--button-focus-text-color);
 }
 
 .switch:active .svg-icon svg,
 .switch:active .svg-icon svg path {
-    stroke: var(--button-active-text-color);
+  stroke: var(--button-active-text-color);
 }
 
 .switch-title {
-    font-size: 12px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    text-align: center;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
 }
-
