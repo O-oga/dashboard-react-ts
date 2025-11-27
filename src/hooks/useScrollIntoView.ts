@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 
-export function useScrollIntoView<T extends HTMLElement>() {
+export const useScrollIntoView = <T extends HTMLElement>() => {
   const ref = useRef<T | null>(null)
 
   const scrollIntoView = useCallback((options?: ScrollIntoViewOptions) => {

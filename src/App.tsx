@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import '@/App.css'
-import NaviPanel from '@/components/NaviPanel/NaviPanel'
-import SpaceComponent from '@/components/Space/Space'
-import LoginPage from '@/components/LoginPage/LoginPage'
-import LanguageSwitcher from '@/components/LanguageSwitcher/LanguageSwitcher'
+import NaviPanel from '@/components/features/navigation/NaviPanel/NaviPanel'
+import Space from '@/components/features/spaces/Space/Space'
+import LoginPage from '@/components/pages/LoginPage/LoginPage'
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher/LanguageSwitcher'
 import { useAuthenticationVerification } from '@/modules/autenticationVerification'
 import { SpacesProvider } from '@/contexts/SpacesContext'
 
@@ -45,7 +45,7 @@ function App() {
   return (
     <SpacesProvider>
       <div className="app">
-        <SpaceComponent></SpaceComponent>
+        <Space></Space>
         <NaviPanel></NaviPanel>
       </div>
     </SpacesProvider>

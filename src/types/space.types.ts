@@ -17,3 +17,4 @@ export type Action =
   | { type: 'removeSpace'; id: number }
   | { type: 'addCard'; spaceId: number; card: Card }
   | { type: 'removeCard'; spaceId: number; cardId: number }
+  | { type: 'editCard'; spaceId: number; cardId: number; card: Card }

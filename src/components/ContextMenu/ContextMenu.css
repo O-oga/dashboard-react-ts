@@ -1,0 +1,12 @@
+.context-menu {
+    position: fixed;
+    top: var(--y, 0px);
+    left: var(--x, 0px);
+    width: 250px;
+    min-height: 100px;
+    background-color: var(--card-background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 10px;
+    z-index: 3000;
+}

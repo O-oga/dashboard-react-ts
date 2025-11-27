@@ -22,6 +22,7 @@ type SpacesContextType = {
   changeSpace: (space: Space) => void
   addCard: (spaceId: number, card: Card) => void
   removeCard: (spaceId: number, cardId: number) => void
+  editCard: (spaceId: number, cardId: number, card: Card) => void
 }
 
 /**
@@ -57,6 +58,15 @@ const spacesReducer = (state: SpacesState, action: Action): SpacesState => {
         spaces: state.spaces.map(s =>
           s.id === action.spaceId
             ? { ...s, cards: s.cards.filter(c => c.id !== action.cardId) }
+            : s
+        ),
+      }
+    case 'editCard':
+      return {
+        ...state,
+        spaces: state.spaces.map(s =>
+          s.id === action.spaceId
+            ? { ...s, cards: s.cards.map(c => c.id === action.cardId ? action.card : c) }
             : s
         ),
       }
@@ -164,6 +174,10 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: 'removeCard', spaceId, cardId })
   }, [])
 
+  const editCard = useCallback((spaceId: number, cardId: number, card: Card) => {
+    dispatch({ type: 'editCard', spaceId, cardId, card })
+  }, [])
+
   return (
     <SpacesContext.Provider
       value={{
@@ -176,6 +190,7 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
         changeSpace,
         addCard,
         removeCard,
+        editCard,
       }}
     >
       {children}
