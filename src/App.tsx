@@ -6,6 +6,9 @@ import LoginPage from '@/components/pages/LoginPage/LoginPage'
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher/LanguageSwitcher'
 import { useAuthenticationVerification } from '@/modules/autenticationVerification'
 import { SpacesProvider } from '@/contexts/SpacesContext'
+import { ContextMenuProvider } from '@/contexts/ContextMenuContext'
+import ContextMenu from '@/components/ContextMenu/ContextMenu'
+import { useContextMenuContext } from '@/contexts/ContextMenuContext'
 
 function App() {
   const { t } = useTranslation()
@@ -44,11 +47,36 @@ function App() {
 
   return (
     <SpacesProvider>
-      <div className="app">
-        <Space></Space>
-        <NaviPanel></NaviPanel>
-      </div>
+      <ContextMenuProvider>
+        <AppContent />
+      </ContextMenuProvider>
     </SpacesProvider>
+  )
+}
+
+const AppContent = () => {
+  const { menuState, handleRemoveCard, handleEditCard, handleAddCard, handleRemoveSpace, handleAddSpace, handleChangeSpace } = useContextMenuContext();
+
+  return (
+    <div className="app">
+      <Space></Space>
+      <NaviPanel></NaviPanel>
+      {menuState && menuState.visible && (
+        <ContextMenu
+          key={menuState.key}
+          x={menuState.position.x}
+          y={menuState.position.y}
+          contextType={menuState.contextType}
+          visible={menuState.visible}
+          handleRemoveCard={handleRemoveCard}
+          handleEditCard={handleEditCard}
+          handleAddCard={handleAddCard}
+          handleRemoveSpace={handleRemoveSpace}
+          handleAddSpace={handleAddSpace}
+          handleChangeSpace={handleChangeSpace}
+        />
+      )}
+    </div>
   )
 }
 

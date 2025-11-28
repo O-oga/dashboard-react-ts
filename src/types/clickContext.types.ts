@@ -1,10 +1,12 @@
 import type { Card } from "./card.types";
-import type { Space } from "./space.types";
+import type { SpaceType } from "./space.types";
 
 export type ClickContextTypes =
+    | 'navi-bar'
     | 'navi-bar-card'
     | 'space'
     | 'space-card'
+    | 'other'
 
 export type ContextMenuProps = {
     x: number;
@@ -19,12 +21,6 @@ export type ContextMenuProps = {
     visible: boolean;
 }
 
-export type MenuState = {
-    position: { x: number, y: number };
-    clickedItem: ClickedItem | null;
-    visible: boolean;
-}
-
 export type ClickedItem = {
     type: 'space-card';
     spaceId: number;
@@ -33,5 +29,5 @@ export type ClickedItem = {
 } | {
     type: 'space' | 'navi-bar-card';
     spaceId: number | null;
-    space: Space;
+    space: SpaceType;
 } | null;

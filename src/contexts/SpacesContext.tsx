@@ -9,18 +9,18 @@ import {
   type ReactNode,
   useMemo,
 } from 'react'
-import type { Action, Space, SpacesState } from '@/types/space.types'
+import type { Action, SpaceType, SpacesState } from '@/types/space.types'
 import type { Card } from '@/types/card.types'
 import { saveSpaces, getSpaces } from '@/modules/loader'
 
 type SpacesContextType = {
-  spaces: Space[]
+  spaces: SpaceType[]
   currentSpaceId: number | null
   setCurrentSpaceId: (id: number) => void
   dispatch: React.Dispatch<Action>
-  addSpace: (space: Space) => void
+  addSpace: (space: SpaceType) => void
   removeSpace: (id: number) => void
-  changeSpace: (space: Space) => void
+  changeSpace: (space: SpaceType) => void
   addCard: (spaceId: number, card: Card) => void
   removeCard: (spaceId: number, cardId: number) => void
   editCard: (spaceId: number, cardId: number, card: Card) => void
@@ -132,7 +132,7 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [spacesState])
 
-  const addSpace = useCallback((space: Space) => {
+  const addSpace = useCallback((space: SpaceType) => {
     dispatch({
       type: 'addSpace',
       space: {
@@ -160,7 +160,7 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [ currentSpaceId, dispatch, spacesState.spaces ])
 
-  const changeSpace = useCallback((space: Space) => {
+  const changeSpace = useCallback((space: SpaceType) => {
     dispatch({ type: 'changeSpace', space })
     if (currentSpaceId === space.id) {
       setCurrentSpaceId(space.id)

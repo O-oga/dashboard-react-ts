@@ -6,14 +6,13 @@ import { useSpaces } from '@/contexts/SpacesContext'
 import { useDisclosure } from '@/hooks/useDisclosure'
 import AddCardModal from '@/components/modals/AddCardModal/AddCardModal'
 import { UIIcons } from '@/components/ui/icons'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { Card } from '@/types/card.types'
 import type { CardIconTypes } from '@/types/Icons.types'
 import Button from '@/components/features/cards/devices/Button/Button'
-import type { Space } from '@/types/space.types'
+import type { SpaceType } from '@/types/space.types'
 import type { ClickedItem } from '@/types/clickContext.types'
-import ContextMenu from '@/components/ContextMenu/ContextMenu'
-import { useContextMenu } from '@/hooks/useContextMenu'
+import { useContextMenuContext } from '@/contexts/ContextMenuContext'
 
 const AddIconComponent = UIIcons['AddIcon']
 
@@ -33,11 +32,7 @@ function Space() {
     },
   })
 
-  const [contextMenuState, setContextMenuState] = useState<{
-    position: { x: number, y: number },
-    clickedItem: ClickedItem | null,
-    visible: boolean,
-  } | null>(null)
+  const { openContextMenu, setOnOpenAddCardModal } = useContextMenuContext();
 
   // Memoize current space to avoid unnecessary recalculations
   const currentSpace = useMemo(() => {
@@ -52,70 +47,75 @@ function Space() {
     return currentSpace?.cards || []
   }, [currentSpace?.cards])
 
-
+  // Register modal callbacks with context menu
+  useEffect(() => {
+    setOnOpenAddCardModal(openModal);
+    
+    return () => {
+      setOnOpenAddCardModal(null);
+    };
+  }, [openModal, setOnOpenAddCardModal]);
 
   const handleOpenSpaceContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (currentSpaceId) {
-      setContextMenuState({
-        position: { x: e.clientX, y: e.clientY },
-        clickedItem: {
-          type: 'space',
-          spaceId: currentSpaceId,
-          space: currentSpace as Space,
-        } as ClickedItem,
-        visible: true,
-      })
+    if (currentSpaceId && currentSpace) {
+      openContextMenu(e, {
+        type: 'space',
+        spaceId: currentSpaceId,
+        space: currentSpace as SpaceType,
+      } as ClickedItem, 'space');
     }
   }
 
-  // Хуки должны вызываться безусловно - всегда вызываем useContextMenu
-  const {handleRemoveSpace, handleAddSpace, handleChangeSpace} = useContextMenu(
-    contextMenuState 
-      ? { x: contextMenuState.position.x, y: contextMenuState.position.y }
-      : { x: 0, y: 0 }, // Значения по умолчанию
-    contextMenuState?.visible ?? false,
-    contextMenuState?.clickedItem ?? null,
-    openModal,
-    openModal,
-  );
-
   const getCardComponent = (card: Card) => {
+    const handleCardContextMenu = (e: React.MouseEvent) => {
+      if (currentSpaceId && currentSpace) {
+        openContextMenu(e, {
+          type: 'space-card',
+          spaceId: currentSpaceId,
+          cardId: card.id,
+          card: card,
+        } as ClickedItem, 'space-card');
+      }
+    };
+
     switch (card.type) {
       case 'switch': {
         return (
-          <Switch
-            key={card.id}
-            id={card.id}
-            title={card.title}
-            entity={card.entity}
-            icon={card.icon as CardIconTypes}
-            size={card.size}
-          />
+          <div key={card.id} onContextMenu={handleCardContextMenu}>
+            <Switch
+              id={card.id}
+              title={card.title}
+              entity={card.entity}
+              icon={card.icon as CardIconTypes}
+              size={card.size}
+            />
+          </div>
         )
       }
       case 'sensor': {
         return (
-          <Sensor
-            key={card.id}
-            id={card.id}
-            title={card.title}
-            entity={card.entity}
-            icon={card.icon as CardIconTypes}
-            size={card.size}
-          />
+          <div key={card.id} onContextMenu={handleCardContextMenu}>
+            <Sensor
+              id={card.id}
+              title={card.title}
+              entity={card.entity}
+              icon={card.icon as CardIconTypes}
+              size={card.size}
+            />
+          </div>
         )
       }
       case 'button': {
         return (
-          <Button
-            key={card.id}
-            id={card.id}
-            title={card.title}
-            entity={card.entity}
-            icon={card.icon as CardIconTypes}
-            size={card.size}
-          />
+          <div key={card.id} onContextMenu={handleCardContextMenu}>
+            <Button
+              id={card.id}
+              title={card.title}
+              entity={card.entity}
+              icon={card.icon as CardIconTypes}
+              size={card.size}
+            />
+          </div>
         )
       }
       default: {
@@ -148,17 +148,6 @@ function Space() {
           isModalOpen={isModalOpen}
           closeModal={closeModal}
           spaceId={currentSpaceId}
-        />
-      )}
-      {contextMenuState && contextMenuState.visible && (
-        <ContextMenu
-          x={contextMenuState.position.x}
-          y={contextMenuState.position.y}
-          contextType="space"
-          visible={contextMenuState.visible}
-          handleRemoveSpace={handleRemoveSpace}
-          handleAddSpace={handleAddSpace}
-          handleChangeSpace={handleChangeSpace}
         />
       )}
     </div>

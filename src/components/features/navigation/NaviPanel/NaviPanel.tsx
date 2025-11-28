@@ -1,7 +1,7 @@
-import { useMemo, memo, useRef, useCallback } from 'react'
+import { useMemo, memo, useRef, useCallback, useEffect } from 'react'
 import './NaviPanel.css'
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard'
-import type { Space } from '@/types/space.types'
+import type { SpaceType } from '@/types/space.types'
 import NaviPanelAddCard from './NaviPanelAddCard/NaviPanelAddCard'
 import AddSpaceModal from '@/components/modals/AddSpaceModal/AddSpaceModal'
 import SpacePreviewCard from './SpacePreviewCard/SpacePreviewCard'
@@ -12,9 +12,11 @@ import { SwapIcon } from '@/components/ui/icons/SwapIcon'
 import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
 import { ExitIcon } from '@/components/ui/icons/ExitIcon'
 import { logout } from '@/modules/loader'
+import { useContextMenuContext } from '@/contexts/ContextMenuContext'
 
 const NaviPanel = () => {
   const { spaces, setCurrentSpaceId } = useSpaces()
+  const { setOnOpenAddSpaceModal } = useContextMenuContext();
   const previewChangeRef = useRef<((space: {
     name: string
     description: string
@@ -74,6 +76,15 @@ const NaviPanel = () => {
     return [...spaces].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   }, [spacesOrderKey])
 
+  // Register modal callback with context menu
+  useEffect(() => {
+    setOnOpenAddSpaceModal(() => openAddCardModal);
+    
+    return () => {
+      setOnOpenAddSpaceModal(null);
+    };
+  }, [openAddCardModal, setOnOpenAddSpaceModal]);
+
   const handleLogout = () => {
     logout()
     // Reload the page to show login screen
@@ -85,7 +96,7 @@ const NaviPanel = () => {
       className={`navi-panel ${isAddCardModalOpen ? 'navi-panel-disabled' : ''}`}
     >
       {/* Display space cards */}
-      {sortedSpaces.map((space: Space) => (
+      {sortedSpaces.map((space: SpaceType) => (
         <NaviPanelCard
           key={space.id}
           space={space}

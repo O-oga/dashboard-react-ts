@@ -9,14 +9,14 @@ const ContextMenu = ({ x, y, handleRemoveCard, handleEditCard, handleAddCard, ha
     const { t } = useTranslation();
 
     return (
-        <div className="context-menu" style={{ '--x': x, '--y': y } as React.CSSProperties}>
+        <div className="context-menu" style={{ '--x': `${x}px`, '--y': `${y}px` } as React.CSSProperties}>
             <ul>
                 {(contextType === 'space-card') && (
                     <>
                         <li>
                             <button
                                 onClick={handleAddCard}
-                                className='button-svg-light'>
+                                className='button-svg-dark'>
                                 <span>{t('contextMenu.add')}</span>
                             </button>
                         </li>
@@ -36,12 +36,19 @@ const ContextMenu = ({ x, y, handleRemoveCard, handleEditCard, handleAddCard, ha
                         </li>
                     </>
                 )}
-                {(contextType === 'space' || contextType === 'navi-bar-card') && (
+                {(contextType === 'space') && (
                     <>
                         <li>
                             <button
+                                onClick={handleAddCard}
+                                className='button-svg-dark'>
+                                <span>{t('contextMenu.addCard')}</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
                                 onClick={handleAddSpace}
-                                className='button-svg-light'>
+                                className='button-svg-dark'>
                                 <span>{t('contextMenu.addSpace')}</span>
                             </button>
                         </li>
@@ -55,12 +62,31 @@ const ContextMenu = ({ x, y, handleRemoveCard, handleEditCard, handleAddCard, ha
                         <li>
                             <button
                                 onClick={handleRemoveSpace}
-                                className='button-svg-warn'>
+                                className='button-svg-error'>
                                 <span>{t('contextMenu.removeSpace')}</span>
                             </button>
                         </li>
                     </>
                 )}
+                {(contextType === 'navi-bar-card') && (
+                    <>
+                        <li>
+                            <button
+                                onClick={handleChangeSpace}
+                                className='button-svg-dark'>
+                                <span>{t('contextMenu.changeSpace')}</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={handleRemoveSpace}
+                                className='button-svg-error'>
+                                <span>{t('contextMenu.removeSpace')}</span>
+                            </button>
+                        </li>
+                    </>
+                )
+                }
             </ul>
         </div>
     );

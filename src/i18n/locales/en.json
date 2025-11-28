@@ -56,5 +56,13 @@
     "newSpace": "New Space",
     "createNewSpace": "Create new space",
     "anyName": "Any Name"
+  },
+  "contextMenu": {
+    "add": "Add",
+    "edit": "Edit",
+    "remove": "Remove",
+    "addSpace": "Add Space",
+    "changeSpace": "Change Space",
+    "removeSpace": "Remove Space"
   }
 }

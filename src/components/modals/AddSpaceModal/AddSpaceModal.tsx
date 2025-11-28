@@ -1,12 +1,12 @@
 import './AddSpaceModal.css'
 import type { ModalProps } from '@/types/modalProps.types'
-import { useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createPortal } from 'react-dom'
 import type { SpaceIconTypes } from '@/types/Icons.types'
 import { SpaceIconButtons } from '@/components/ui/icons'
 import { useSpaces } from '@/contexts/SpacesContext'
-import type { Space } from '@/types/space.types'
+import type { SpaceType } from '@/types/space.types'
 
 const AddSpaceModal = ({
   isOpen,
@@ -33,11 +33,11 @@ const AddSpaceModal = ({
       icon: SpaceIconTypes
       order: number
     }) => {
-      const newSpace: Space = {
+      const newSpace: SpaceType = {
         id: space.id ?? Date.now(),
         title: space.name,
         description: space.description,
-        icon: space.icon,
+        icon: space.icon as SpaceIconTypes,
         cards: [],
         order: space.order,
       }
@@ -148,4 +148,4 @@ const AddSpaceModal = ({
   return createPortal(modalContent, document.body)
 }
 
-export default AddSpaceModal
+export default memo(AddSpaceModal)

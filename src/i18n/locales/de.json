@@ -56,5 +56,13 @@
     "newSpace": "Neuer Raum",
     "createNewSpace": "Neuen Raum erstellen",
     "anyName": "Beliebiger Name"
+  },
+  "contextMenu": {
+    "add": "Hinzufügen",
+    "edit": "Bearbeiten",
+    "remove": "Entfernen",
+    "addSpace": "Raum hinzufügen",
+    "changeSpace": "Raum ändern",
+    "removeSpace": "Raum entfernen"
   }
 }
