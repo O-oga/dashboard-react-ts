@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 import { CardCreationDataContext } from './AddCardModal'
 import { t } from 'i18next'
 import './CardSizeSelection.css'
@@ -12,17 +12,11 @@ function CardSizeSelection() {
 
   const { setSize } = cardCreationData
 
-  const setSmallSize = useCallback(() => {
-    setSize('small')
-  }, [setSize])
+  const setSmallSize = () => setSize('small')
 
-  const setMediumSize = useCallback(() => {
-    setSize('medium')
-  }, [setSize])
+  const setMediumSize = () => setSize('medium')
 
-  const setLargeSize = useCallback(() => {
-    setSize('large')
-  }, [setSize])
+  const setLargeSize = () => setSize('large')
 
   return (
     <section className="card-size-selection">

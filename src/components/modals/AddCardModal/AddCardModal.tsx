@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import './AddCardModal.css'
 import { useTranslation } from 'react-i18next'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useMemo, useState } from 'react'
 import { createEntitysStateList } from '@/modules/loader'
 import LoadingIndicator from '@/components/ui/LoadingIndicator/LoadingIndicator'
 import type {
@@ -134,24 +134,26 @@ function AddCardModal({ isModalOpen, closeModal, spaceId }: AddCardModalProps) {
     closeModal()
   }
 
+  const cardCreationDataContextValue = useMemo(() => ({
+    entity: selectedEntity || '',
+    tab: selectedTab as EntityTypes,
+    icon: selectedIcon,
+    title: title,
+    size: selectedSize,
+    type: selectedTab as EntityTypes,
+    setSelectedIcon: (icon: IconComponent) =>
+      setSelectedIcon(icon as CardIconTypes),
+    setSize: (size: CardSizeTypes) =>
+      setSelectedSize(size as CardSizeTypes),
+  }), [selectedEntity, selectedTab, selectedIcon, title, selectedSize])
+  
   const modalContent = (
     <div className="add-card-modal-overlay" onClick={closeModal}>
       <div className="add-card-modal" onClick={e => e.stopPropagation()}>
         {isLoading && <LoadingIndicator />}
         {!isLoading && (
           <CardCreationDataContext.Provider
-            value={{
-              entity: selectedEntity || '',
-              tab: selectedTab as EntityTypes,
-              icon: selectedIcon,
-              title: title,
-              size: selectedSize,
-              type: selectedTab as EntityTypes,
-              setSelectedIcon: (icon: IconComponent) =>
-                setSelectedIcon(icon as CardIconTypes),
-              setSize: (size: CardSizeTypes) =>
-                setSelectedSize(size as CardSizeTypes),
-            }}
+            value={cardCreationDataContextValue}
           >
             <main className="add-card-content-container">
               <section className="left-container">

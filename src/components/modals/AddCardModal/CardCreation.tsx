@@ -1,10 +1,10 @@
-import { getIconButtons } from '@/components/ui/icons'
+import { CardIconButtons } from '@/components/ui/icons'
 import Sensor from '@/components/features/cards/devices/Sensor/Sensor'
 import Switch from '@/components/features/cards/devices/Switch/Switch'
 import Button from '@/components/features/cards/devices/Button/Button'
 import './CardCreation.css'
 import { t } from 'i18next'
-import { useContext, useMemo } from 'react'
+import { memo, useContext } from 'react'
 import { CardCreationDataContext } from './AddCardModal'
 import CardSizeSelection from './CardSizeSelection'
 import Camera from '@/components/features/cards/devices/Camera/Camera'
@@ -17,9 +17,7 @@ function CardCreation() {
   }
   const { tab, setSelectedIcon } = cardCreationData
 
-  const IconButtonComponent = useMemo(() => {
-    return getIconButtons(setSelectedIcon)
-  }, [setSelectedIcon])
+ 
 
   switch (tab) {
     case 'sensor': {
@@ -33,7 +31,7 @@ function CardCreation() {
             className="icon-selection-window"
             aria-label={t('addCard.iconSelection')}
           >
-            {IconButtonComponent}
+            <CardIconButtons setIcon={setSelectedIcon} />
           </section>
         </>
       )
@@ -49,7 +47,7 @@ function CardCreation() {
             className="icon-selection-window"
             aria-label={t('addCard.iconSelection')}
           >
-            {IconButtonComponent}
+            <CardIconButtons setIcon={setSelectedIcon} />
           </section>
         </>
       )
@@ -65,7 +63,7 @@ function CardCreation() {
             className="icon-selection-window"
             aria-label={t('addCard.iconSelection')}
           >
-            {IconButtonComponent}
+            <CardIconButtons setIcon={setSelectedIcon} />
           </section>
         </>
       )
@@ -96,4 +94,4 @@ function CardCreation() {
   }
 }
 
-export default CardCreation
+export default memo(CardCreation)

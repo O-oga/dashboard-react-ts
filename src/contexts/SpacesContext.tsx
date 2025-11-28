@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  useMemo,
 } from 'react'
 import type { Action, Space, SpacesState } from '@/types/space.types'
 import type { Card } from '@/types/card.types'
@@ -144,7 +145,7 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
       },
     })
     setCurrentSpaceId(space.id)
-  }, [])
+  }, [ dispatch, setCurrentSpaceId ])
 
   const removeSpace = useCallback((id: number) => {
     dispatch({ type: 'removeSpace', id })
@@ -157,41 +158,43 @@ export const SpacesProvider = ({ children }: { children: ReactNode }) => {
     } else if (spacesState.spaces.length === 0) {
       setCurrentSpaceId(null)
     }
-  }, [])
+  }, [ currentSpaceId, dispatch, spacesState.spaces ])
 
   const changeSpace = useCallback((space: Space) => {
     dispatch({ type: 'changeSpace', space })
     if (currentSpaceId === space.id) {
       setCurrentSpaceId(space.id)
     }
-  }, [])
+  }, [ currentSpaceId, setCurrentSpaceId ])
 
   const addCard = useCallback((spaceId: number, card: Card) => {
     dispatch({ type: 'addCard', spaceId, card })
-  }, [])
+  }, [ dispatch ])
 
   const removeCard = useCallback((spaceId: number, cardId: number) => {
     dispatch({ type: 'removeCard', spaceId, cardId })
-  }, [])
+  }, [ dispatch ])
 
   const editCard = useCallback((spaceId: number, cardId: number, card: Card) => {
     dispatch({ type: 'editCard', spaceId, cardId, card })
-  }, [])
+  }, [ dispatch ])
+
+  const contextValue = useMemo(() => ({
+    spaces: spacesState.spaces,
+    currentSpaceId,
+    setCurrentSpaceId,
+    dispatch,
+    addSpace,
+    removeSpace,
+    changeSpace,
+    addCard,
+    removeCard,
+    editCard,
+  }), [ spacesState.spaces, currentSpaceId, setCurrentSpaceId, dispatch, addSpace, removeSpace, changeSpace, addCard, removeCard, editCard ])
 
   return (
     <SpacesContext.Provider
-      value={{
-        spaces: spacesState.spaces,
-        currentSpaceId,
-        setCurrentSpaceId,
-        dispatch,
-        addSpace,
-        removeSpace,
-        changeSpace,
-        addCard,
-        removeCard,
-        editCard,
-      }}
+      value={contextValue}
     >
       {children}
     </SpacesContext.Provider>

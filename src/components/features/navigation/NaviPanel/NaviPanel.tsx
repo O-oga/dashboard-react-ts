@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useMemo, memo, useRef, useCallback } from 'react'
 import './NaviPanel.css'
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard'
 import type { Space } from '@/types/space.types'
@@ -8,16 +8,18 @@ import SpacePreviewCard from './SpacePreviewCard/SpacePreviewCard'
 import type { SpaceIconTypes } from '@/types/Icons.types'
 import { useDisclosure } from '@/hooks/useDisclosure'
 import { useSpaces } from '@/contexts/SpacesContext'
-import { UIIcons } from '@/components/ui/icons'
+import { SwapIcon } from '@/components/ui/icons/SwapIcon'
+import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
+import { ExitIcon } from '@/components/ui/icons/ExitIcon'
 import { logout } from '@/modules/loader'
 
 const NaviPanel = () => {
   const { spaces, setCurrentSpaceId } = useSpaces()
-  const [spacePreviewIconKey, setSpacePreviewIconKey] =
-    useState<SpaceIconTypes>('HomeIcon')
-  const [spacePreviewTitle, setSpacePreviewTitle] = useState<string>('')
-  const [spacePreviewDescription, setSpacePreviewDescription] =
-    useState<string>('')
+  const previewChangeRef = useRef<((space: {
+    name: string
+    description: string
+    icon: SpaceIconTypes
+  }) => void) | null>(null)
 
   const {
     isOpen: isAddCardModalOpen,
@@ -44,18 +46,22 @@ const NaviPanel = () => {
     }
   )
 
-  const SwapIconComponent = UIIcons['SwapIcon']
-  const SettingsIconComponent = UIIcons['SettingsIcon']
-  const ExitIconComponent = UIIcons['ExitIcon']
-  // Memoize callback to prevent unnecessary re-renders
-  const handleSpacePreviewChange = useCallback(
-    (space: { name: string; description: string; icon: SpaceIconTypes }) => {
-      setSpacePreviewIconKey(space.icon as SpaceIconTypes)
-      setSpacePreviewTitle(space.name)
-      setSpacePreviewDescription(space.description)
-    },
-    []
-  )
+  const { swapIcon, settingsIcon, exitIcon } = useMemo(() => ({
+    swapIcon: <SwapIcon size={24} color="white" />,
+    settingsIcon: <SettingsIcon size={24} color="white" />,
+    exitIcon: <ExitIcon size={24} color="white" />,
+  }), [])
+
+  // Stable callback
+  const handleSpacePreviewChange = useCallback((space: {
+    name: string
+    description: string
+    icon: SpaceIconTypes
+  }) => {
+    if (previewChangeRef.current) {
+      previewChangeRef.current(space)
+    }
+  }, [])
 
   // Memoize order values to prevent unnecessary re-sorting when only cards change
   const spacesOrderKey = useMemo(() => {
@@ -68,11 +74,11 @@ const NaviPanel = () => {
     return [...spaces].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   }, [spacesOrderKey])
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     logout()
     // Reload the page to show login screen
     window.location.reload()
-  }, [])
+  }
 
   return (
     <div
@@ -85,17 +91,13 @@ const NaviPanel = () => {
           space={space}
           isChangable={isChangable}
           onSpaceSelect={setCurrentSpaceId}
-          // onTitleChange={(next: string) => dispatch({ type: 'changeSpaceTitle', id: space.id, title: next })}
-          // onOrderChange={(next: number) => dispatch({ type: 'changeSpaceOrder', id: space.id, order: next })}
+        // onTitleChange={(next: string) => dispatch({ type: 'changeSpaceTitle', id: space.id, title: next })}
+        // onOrderChange={(next: number) => dispatch({ type: 'changeSpaceOrder', id: space.id, order: next })}
         />
       ))}
 
       {isAddCardModalOpen && (
-        <SpacePreviewCard
-          iconKey={spacePreviewIconKey}
-          title={spacePreviewTitle}
-          description={spacePreviewDescription}
-        />
+        <SpacePreviewCard previewChangeRef={previewChangeRef} />
       )}
 
       {/* Button to create new space */}
@@ -105,16 +107,16 @@ const NaviPanel = () => {
           className="change-button button-svg button-svg-small button-svg-dark"
           onClick={toggleChangable}
         >
-          <SwapIconComponent size={24} color="white" />
+          {swapIcon}
         </button>
         <button className="settings-button button-svg button-svg-small button-svg-dark">
-          <SettingsIconComponent size={24} color="white" />
+          {settingsIcon}
         </button>
         <button
           onClick={handleLogout}
           className="exit-button button-svg button-svg-small button-svg-dark"
         >
-          <ExitIconComponent size={24} color="white" />
+          {exitIcon}
         </button>
       </div>
       <AddSpaceModal
@@ -126,4 +128,4 @@ const NaviPanel = () => {
   )
 }
 
-export default NaviPanel
+export default memo(NaviPanel)

@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react'
 import type {
   CardIconTypes,
   SpaceIconTypes,
@@ -45,19 +46,28 @@ export const SpacesIcons: Record<
   PlugCircleIcon: PlugCircleIcon,
 }
 
-export const getSpaceIconButtons = (
-  setIcon: (icon: SpaceIconTypes) => void
-) => {
-  return Object.entries(SpacesIcons).map(([icon, Icon]) => (
-    <button
-      className="icon-button button-svg button-svg-medium button-svg-dark"
-      key={icon}
-      onClick={() => setIcon(icon as SpaceIconTypes)}
-    >
-      <Icon size={35} color="white" />
-    </button>
-  ))
-}
+// Memoized component for space icon buttons
+export const SpaceIconButtons = memo(
+  ({ setIcon }: { setIcon: (icon: SpaceIconTypes) => void }) => {
+    const iconButtons = useMemo(
+      () =>
+        Object.entries(SpacesIcons).map(([icon, Icon]) => (
+          <button
+            className="icon-button button-svg button-svg-medium button-svg-dark"
+            key={icon}
+            onClick={() => setIcon(icon as SpaceIconTypes)}
+          >
+            <Icon size={35} color="white" />
+          </button>
+        )),
+      [setIcon]
+    )
+
+    return <>{iconButtons}</>
+  }
+)
+
+SpaceIconButtons.displayName = 'SpaceIconButtons'
 
 export const CardsIcons: Record<
   CardIconTypes,
@@ -72,17 +82,28 @@ export const CardsIcons: Record<
   ButtonIcon: ButtonIcon,
 }
 
-export const getIconButtons = (setIcon: (icon: CardIconTypes) => void) => {
-  return Object.entries(CardsIcons).map(([icon, Icon]) => (
-    <button
-      className="icon-button button-svg button-svg-medium button-svg-dark"
-      key={icon}
-      onClick={() => setIcon(icon as CardIconTypes)}
-    >
-      <Icon size={35} color="white" />
-    </button>
-  ))
-}
+export const CardIconButtons = memo(
+  ({ setIcon }: { setIcon: (icon: CardIconTypes) => void }) => {
+    const iconButtons = useMemo(
+      () =>
+        Object.entries(CardsIcons).map(([icon, Icon]) => (
+          <button
+            className="icon-button button-svg button-svg-medium button-svg-dark"
+            key={icon}
+            onClick={() => setIcon(icon as CardIconTypes)}
+          >
+            <Icon size={35} color="white" />
+          </button>
+        )),
+      [setIcon]
+    )
+
+    return <>{iconButtons}</>
+  }
+)
+
+CardIconButtons.displayName = 'CardIconButtons'
+
 
 export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
   HomeIcon: HomeIcon,
@@ -97,14 +118,24 @@ export const UIIcons: Record<UIIconTypes, React.ComponentType<IconProps>> = {
   AddIcon: AddIcon,
 }
 
-export const getUIIconButtons = (setIcon: (icon: UIIconTypes) => void) => {
-  return Object.entries(UIIcons).map(([icon, Icon]) => (
-    <button
-      className="icon-button button-svg button-svg-medium button-svg-dark"
-      key={icon}
-      onClick={() => setIcon(icon as UIIconTypes)}
-    >
-      <Icon size={35} color="white" />
-    </button>
-  ))
-}
+export const UIIconButtons = memo(
+  ({ setIcon }: { setIcon: (icon: UIIconTypes) => void }) => {
+    const iconButtons = useMemo(
+      () =>
+        Object.entries(UIIcons).map(([icon, Icon]) => (
+          <button
+            className="icon-button button-svg button-svg-medium button-svg-dark"
+            key={icon}
+            onClick={() => setIcon(icon as UIIconTypes)}  
+          >
+            <Icon size={35} color="white" />
+          </button>
+        )),
+      [setIcon]
+    )
+
+    return <>{iconButtons}</>
+  }
+)
+
+UIIconButtons.displayName = 'UIIconButtons'

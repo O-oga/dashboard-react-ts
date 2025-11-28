@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createPortal } from 'react-dom'
 import type { SpaceIconTypes } from '@/types/Icons.types'
-import { getSpaceIconButtons } from '@/components/ui/icons'
+import { SpaceIconButtons } from '@/components/ui/icons'
 import { useSpaces } from '@/contexts/SpacesContext'
 import type { Space } from '@/types/space.types'
 
@@ -93,6 +93,7 @@ const AddSpaceModal = ({
     return null
   }
 
+
   const modalContent = (
     <div className="add-space-modal-overlay" onClick={onClose}>
       <div className="add-space-modal" onClick={e => e.stopPropagation()}>
@@ -100,7 +101,9 @@ const AddSpaceModal = ({
           className="icon-container"
           aria-label={t('addSpace.iconSelection')}
         >
-          <div className="icons">{getSpaceIconButtons(setSelectedIcon)}</div>
+          <div className="icons">
+            <SpaceIconButtons setIcon={setSelectedIcon} />
+          </div>
         </section>
         <div className="add-space-input-container">
           <input

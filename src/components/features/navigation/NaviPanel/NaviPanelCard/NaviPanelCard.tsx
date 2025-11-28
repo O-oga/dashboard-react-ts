@@ -2,7 +2,7 @@ import './NaviPanelCard.css'
 import { SpacesIcons, UIIcons } from '@/components/ui/icons'
 import type { SpaceIconTypes } from '@/types/Icons.types'
 import { useSpaces } from '@/contexts/SpacesContext'
-import { useCallback } from 'react'
+import { memo } from 'react'
 import type { Space } from '@/types/space.types'
 
 interface NaviPanelCardProps {
@@ -20,18 +20,12 @@ const NaviPanelCard = ({
   const SettingsIconComponent = UIIcons['SettingsIcon']
   const TrashIconComponent = UIIcons['TrashIcon']
   const { removeSpace, changeSpace } = useSpaces()
-  const handleSpaceSelect = useCallback(
-    (space: Space) => {
-      onSpaceSelect(space.id)
-    },
-    [onSpaceSelect]
-  )
 
   return (
     <div className="navi-panel-card-container">
       <button
         className="navi-panel-card button-svg button-svg-large button-svg-dark"
-        onClick={() => handleSpaceSelect(space)}
+        onClick={() => onSpaceSelect(space.id)}
         aria-label={space.description}
       >
         <IconComponent size={60} color="white" />
@@ -57,4 +51,4 @@ const NaviPanelCard = ({
   )
 }
 
-export default NaviPanelCard
+export default memo(NaviPanelCard)
