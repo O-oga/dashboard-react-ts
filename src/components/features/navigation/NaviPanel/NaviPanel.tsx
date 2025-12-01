@@ -1,69 +1,36 @@
-import { useMemo, memo, useRef, useCallback, useEffect } from 'react'
+import { useMemo, memo } from 'react'
 import './NaviPanel.css'
 import NaviPanelCard from './NaviPanelCard/NaviPanelCard'
 import type { SpaceType } from '@/types/space.types'
 import NaviPanelAddCard from './NaviPanelAddCard/NaviPanelAddCard'
-import AddSpaceModal from '@/components/modals/AddSpaceModal/AddSpaceModal'
 import SpacePreviewCard from './SpacePreviewCard/SpacePreviewCard'
-import type { SpaceIconTypes } from '@/types/Icons.types'
-import { useDisclosure } from '@/hooks/useDisclosure'
 import { useSpaces } from '@/contexts/SpacesContext'
-import { SwapIcon } from '@/components/ui/icons/SwapIcon'
+// import { SwapIcon } from '@/components/ui/icons/SwapIcon'
 import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
 import { ExitIcon } from '@/components/ui/icons/ExitIcon'
 import { logout } from '@/modules/loader'
-import { useContextMenuContext } from '@/contexts/ContextMenuContext'
+import { useAddSpaceModal } from '@/contexts/AddSpaceModalContext'
 
 const NaviPanel = () => {
   const { spaces, setCurrentSpaceId } = useSpaces()
-  const { setOnOpenAddSpaceModal } = useContextMenuContext();
-  const previewChangeRef = useRef<((space: {
-    name: string
-    description: string
-    icon: SpaceIconTypes
-  }) => void) | null>(null)
+  const { isOpen, openAddSpaceModal } = useAddSpaceModal()
 
-  const {
-    isOpen: isAddCardModalOpen,
-    open: openAddCardModal,
-    close: closeAddCardModal,
-  } = useDisclosure(false, {
-    onOpen: () => {
-      console.log('openAddCardModal')
-    },
-    onClose: () => {
-      console.log('closeAddCardModal')
-    },
-  })
+  // const { isOpen: isChangable, toggle: toggleChangable } = useDisclosure(
+  //   false,
+  //   {
+  //     onOpen: () => {
+  //       console.log('visible')
+  //     },
+  //     onClose: () => {
+  //       console.log('invisible')
+  //     },
+  //   }
+  // )
 
-  const { isOpen: isChangable, toggle: toggleChangable } = useDisclosure(
-    false,
-    {
-      onOpen: () => {
-        console.log('visible')
-      },
-      onClose: () => {
-        console.log('invisible')
-      },
-    }
-  )
-
-  const { swapIcon, settingsIcon, exitIcon } = useMemo(() => ({
-    swapIcon: <SwapIcon size={24} color="white" />,
+  const { settingsIcon, exitIcon } = useMemo(() => ({
     settingsIcon: <SettingsIcon size={24} color="white" />,
     exitIcon: <ExitIcon size={24} color="white" />,
   }), [])
-
-  // Stable callback
-  const handleSpacePreviewChange = useCallback((space: {
-    name: string
-    description: string
-    icon: SpaceIconTypes
-  }) => {
-    if (previewChangeRef.current) {
-      previewChangeRef.current(space)
-    }
-  }, [])
 
   // Memoize order values to prevent unnecessary re-sorting when only cards change
   const spacesOrderKey = useMemo(() => {
@@ -76,14 +43,7 @@ const NaviPanel = () => {
     return [...spaces].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   }, [spacesOrderKey])
 
-  // Register modal callback with context menu
-  useEffect(() => {
-    setOnOpenAddSpaceModal(() => openAddCardModal);
-    
-    return () => {
-      setOnOpenAddSpaceModal(null);
-    };
-  }, [openAddCardModal, setOnOpenAddSpaceModal]);
+  
 
   const handleLogout = () => {
     logout()
@@ -93,33 +53,32 @@ const NaviPanel = () => {
 
   return (
     <div
-      className={`navi-panel ${isAddCardModalOpen ? 'navi-panel-disabled' : ''}`}
+      className={`navi-panel ${isOpen ? 'navi-panel-disabled' : ''}`}
     >
       {/* Display space cards */}
       {sortedSpaces.map((space: SpaceType) => (
         <NaviPanelCard
           key={space.id}
           space={space}
-          isChangable={isChangable}
           onSpaceSelect={setCurrentSpaceId}
         // onTitleChange={(next: string) => dispatch({ type: 'changeSpaceTitle', id: space.id, title: next })}
         // onOrderChange={(next: number) => dispatch({ type: 'changeSpaceOrder', id: space.id, order: next })}
         />
       ))}
 
-      {isAddCardModalOpen && (
-        <SpacePreviewCard previewChangeRef={previewChangeRef} />
+      {isOpen && (
+        <SpacePreviewCard />
       )}
 
       {/* Button to create new space */}
-      <NaviPanelAddCard onOpenModal={openAddCardModal} />
+      <NaviPanelAddCard onOpenModal={openAddSpaceModal} />
       <div className="settings-buttons-container">
-        <button
+        {/* <button
           className="change-button button-svg button-svg-small button-svg-dark"
           onClick={toggleChangable}
         >
           {swapIcon}
-        </button>
+        </button> */}
         <button className="settings-button button-svg button-svg-small button-svg-dark">
           {settingsIcon}
         </button>
@@ -130,11 +89,6 @@ const NaviPanel = () => {
           {exitIcon}
         </button>
       </div>
-      <AddSpaceModal
-        isOpen={isAddCardModalOpen}
-        onClose={closeAddCardModal}
-        onspacePreviewChange={handleSpacePreviewChange}
-      />
     </div>
   )
 }

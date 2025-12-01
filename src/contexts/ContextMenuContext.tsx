@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
 import type { ClickedItem, ClickContextTypes } from '@/types/clickContext.types';
 import { useSpaces } from './SpacesContext';
+import { useAddSpaceModal } from './AddSpaceModalContext';
 
 type ContextMenuState = {
     position: { x: number; y: number };
@@ -25,7 +26,6 @@ type ContextMenuContextType = {
     handleAddSpace: () => void;
     handleChangeSpace: () => void;
     setOnOpenAddCardModal: (callback: (() => void) | null) => void;
-    setOnOpenAddSpaceModal: (callback: (() => void) | null) => void;
 };
 
 const ContextMenuContext = createContext<ContextMenuContextType | undefined>(undefined);
@@ -33,9 +33,9 @@ const ContextMenuContext = createContext<ContextMenuContextType | undefined>(und
 export const ContextMenuProvider = ({ children }: { children: ReactNode }) => {
     const [menuState, setMenuState] = useState<ContextMenuState | null>(null);
     const onOpenAddCardModalRef = useRef<(() => void) | null>(null);
-    const onOpenAddSpaceModalRef = useRef<(() => void) | null>(null);
 
     const { removeCard, removeSpace } = useSpaces();
+    const { openAddSpaceModal } = useAddSpaceModal();
 
     const openContextMenu = useCallback((
         e: React.MouseEvent,
@@ -95,10 +95,8 @@ export const ContextMenuProvider = ({ children }: { children: ReactNode }) => {
 
     const handleAddSpace = useCallback(() => {
         closeContextMenu();
-        if (menuState?.clickedItem?.type === 'space' && onOpenAddSpaceModalRef.current) {
-            onOpenAddSpaceModalRef.current();
-        }
-    }, [menuState, closeContextMenu]);
+        openAddSpaceModal();
+    }, [closeContextMenu, openAddSpaceModal]);
 
     const handleChangeSpace = useCallback(() => {
         closeContextMenu();
@@ -109,9 +107,7 @@ export const ContextMenuProvider = ({ children }: { children: ReactNode }) => {
         onOpenAddCardModalRef.current = callback;
     }, []);
 
-    const setOnOpenAddSpaceModal = useCallback((callback: (() => void) | null) => {
-        onOpenAddSpaceModalRef.current = callback;
-    }, []);
+
 
     // Close context menu on click outside or Escape key
     useEffect(() => {
@@ -146,7 +142,6 @@ export const ContextMenuProvider = ({ children }: { children: ReactNode }) => {
                 handleAddSpace,
                 handleChangeSpace,
                 setOnOpenAddCardModal,
-                setOnOpenAddSpaceModal,
             }}
         >
             {children}

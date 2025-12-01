@@ -1,46 +1,25 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SpaceIconTypes } from '@/types/Icons.types'
 import { SpacesIcons } from '@/components/ui/icons'
 import './SpacePreviewCard.css'
 import { memo } from 'react'
+import { useAddSpaceModal } from '@/contexts/AddSpaceModalContext'
 
-interface SpacePreviewCardProps {
-  previewChangeRef?: React.MutableRefObject<((space: {
-    name: string
-    description: string
-    icon: SpaceIconTypes
-  }) => void) | null>
-}
-
-function SpacePreviewCard({
-  previewChangeRef,
-}: SpacePreviewCardProps) {
+function SpacePreviewCard() {
   const { t } = useTranslation()
-  const [iconKey, setIconKey] = useState<SpaceIconTypes>('HomeIcon')
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
+  const { spacePreview } = useAddSpaceModal()
 
-  // Register callback in ref
+  const [iconKey, setIconKey] = useState<SpaceIconTypes>(spacePreview?.icon ?? 'HomeIcon')
+  const [title, setTitle] = useState<string>(spacePreview?.name ?? '')
+  const [description, setDescription] = useState<string>(spacePreview?.description ?? '')
+
   useEffect(() => {
-    if (previewChangeRef) {
-      previewChangeRef.current = (space: {
-        name: string
-        description: string
-        icon: SpaceIconTypes
-      }) => {
-        setIconKey(space.icon as SpaceIconTypes)
-        setTitle(space.name)
-        setDescription(space.description)
-      }
-    }
-    return () => {
-      if (previewChangeRef) {
-        previewChangeRef.current = null
-      }
-    }
-  }, [previewChangeRef])
-
+    setIconKey(spacePreview?.icon ?? 'HomeIcon')
+    setTitle(spacePreview?.name ?? '')
+    setDescription(spacePreview?.description ?? '')
+  }, [spacePreview])
 
   const spaceIcon = useMemo(() => {
     const Icon = iconKey && SpacesIcons[iconKey as SpaceIconTypes]

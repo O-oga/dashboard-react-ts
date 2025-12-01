@@ -21,10 +21,16 @@ const AddSpaceModal = ({
 }) => {
   const { t } = useTranslation()
   const { addSpace, spaces } = useSpaces()
-  const [newSpaceName, setNewSpaceName] = useState<string>('')
-  const [newSpaceDescription, setNewSpaceDescription] = useState<string>('')
-  const [selectedIcon, setSelectedIcon] = useState<SpaceIconTypes>('HomeIcon')
 
+  const [spacePreview, setSpacePreview] = useState<{
+    name: string
+    description: string
+    icon: SpaceIconTypes
+  }>({
+    name: '',
+    description: '',
+    icon: 'HomeIcon',
+  })
   const onAddSpace = useCallback(
     (space: {
       id: number
@@ -49,18 +55,18 @@ const AddSpaceModal = ({
 
   useEffect(() => {
     onspacePreviewChange?.({
-      name: newSpaceName,
-      description: newSpaceDescription,
-      icon: selectedIcon,
+      name: spacePreview.name,
+      description: spacePreview.description,
+      icon: spacePreview.icon,
     })
-  }, [newSpaceName, newSpaceDescription, selectedIcon, onspacePreviewChange])
+  }, [spacePreview, onspacePreviewChange])
 
   // Reset form when modal closes
   useEffect(() => {
     if (!isOpen) {
-      setNewSpaceName('')
-      setNewSpaceDescription('')
-      setSelectedIcon('HomeIcon')
+      spacePreview.name = ''
+      spacePreview.description = ''
+      spacePreview.icon = 'HomeIcon'
     }
   }, [isOpen])
 
@@ -102,21 +108,21 @@ const AddSpaceModal = ({
           aria-label={t('addSpace.iconSelection')}
         >
           <div className="icons">
-            <SpaceIconButtons setIcon={setSelectedIcon} />
+            <SpaceIconButtons setIcon={icon => setSpacePreview({ ...spacePreview, icon })} />
           </div>
         </section>
         <div className="add-space-input-container">
           <input
             className="add-space-input"
-            value={newSpaceName}
-            onChange={e => setNewSpaceName(e.target.value)}
+            value={spacePreview.name}
+            onChange={e => setSpacePreview({ ...spacePreview, name: e.target.value })}
             type="text"
             placeholder={t('addSpace.spaceNamePlaceholder')}
           />
           <input
             className="add-space-input"
-            value={newSpaceDescription}
-            onChange={e => setNewSpaceDescription(e.target.value)}
+            value={spacePreview.description}
+            onChange={e => setSpacePreview({ ...spacePreview, description: e.target.value })}
             type="text"
             placeholder={t('addSpace.spaceDescriptionPlaceholder')}
           />
@@ -127,9 +133,9 @@ const AddSpaceModal = ({
             onClick={() =>
               onAddSpace({
                 id: Date.now(),
-                name: newSpaceName,
-                description: newSpaceDescription,
-                icon: selectedIcon,
+                name: spacePreview.name,
+                description: spacePreview.description,
+                icon: spacePreview.icon,
                 order:
                   spaces.length > 0 ? spaces[spaces.length - 1].order + 1 : 1,
               })

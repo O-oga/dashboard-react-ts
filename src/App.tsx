@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useCallback } from 'react'
 import '@/App.css'
 import NaviPanel from '@/components/features/navigation/NaviPanel/NaviPanel'
 import Space from '@/components/features/spaces/Space/Space'
@@ -7,8 +8,11 @@ import LanguageSwitcher from '@/components/ui/LanguageSwitcher/LanguageSwitcher'
 import { useAuthenticationVerification } from '@/modules/autenticationVerification'
 import { SpacesProvider } from '@/contexts/SpacesContext'
 import { ContextMenuProvider } from '@/contexts/ContextMenuContext'
+import { AddSpaceModalProvider, useAddSpaceModal } from '@/contexts/AddSpaceModalContext'
 import ContextMenu from '@/components/ContextMenu/ContextMenu'
 import { useContextMenuContext } from '@/contexts/ContextMenuContext'
+import AddSpaceModal from '@/components/modals/AddSpaceModal/AddSpaceModal'
+import type { SpaceIconTypes } from '@/types/Icons.types'
 
 function App() {
   const { t } = useTranslation()
@@ -47,15 +51,30 @@ function App() {
 
   return (
     <SpacesProvider>
-      <ContextMenuProvider>
-        <AppContent />
-      </ContextMenuProvider>
+      <AddSpaceModalProvider>
+        <ContextMenuProvider>
+          <AppContent />
+        </ContextMenuProvider>
+      </AddSpaceModalProvider>
     </SpacesProvider>
   )
 }
 
 const AppContent = () => {
   const { menuState, handleRemoveCard, handleEditCard, handleAddCard, handleRemoveSpace, handleAddSpace, handleChangeSpace } = useContextMenuContext();
+  const { isOpen, closeAddSpaceModal, setSpacePreview } = useAddSpaceModal();
+
+  const handleSpacePreviewChange = useCallback((space: {
+    name: string
+    description: string
+    icon: string
+  }) => {
+    setSpacePreview({
+      name: space.name,
+      description: space.description,
+      icon: space.icon as SpaceIconTypes,
+    })
+  }, [setSpacePreview])
 
   return (
     <div className="app">
@@ -76,6 +95,11 @@ const AppContent = () => {
           handleChangeSpace={handleChangeSpace}
         />
       )}
+      <AddSpaceModal
+        isOpen={isOpen}
+        onClose={closeAddSpaceModal}
+        onspacePreviewChange={handleSpacePreviewChange}
+      />
     </div>
   )
 }

@@ -33,7 +33,6 @@ function Space() {
   })
 
   const { openContextMenu, setOnOpenAddCardModal } = useContextMenuContext();
-
   // Memoize current space to avoid unnecessary recalculations
   const currentSpace = useMemo(() => {
     if (currentSpaceId === null) {

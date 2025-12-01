@@ -1,7 +1,7 @@
 import './NaviPanelCard.css'
-import { SpacesIcons, UIIcons } from '@/components/ui/icons'
+import { SpacesIcons } from '@/components/ui/icons'
 import type { SpaceIconTypes } from '@/types/Icons.types'
-import { useSpaces } from '@/contexts/SpacesContext'
+// import { useSpaces } from '@/contexts/SpacesContext'
 import { memo } from 'react'
 import type { SpaceType } from '@/types/space.types'
 import { useContextMenuContext } from '@/contexts/ContextMenuContext'
@@ -9,19 +9,19 @@ import type { ClickedItem } from '@/types/clickContext.types'
 
 interface NaviPanelCardProps {
   space: SpaceType
-  isChangable: boolean
+  // isChangable: boolean
   onSpaceSelect: (spaceId: number) => void
 }
 
 const NaviPanelCard = ({
   space,
-  isChangable,
+  // isChangable,
   onSpaceSelect,
 }: NaviPanelCardProps) => {
   const IconComponent = SpacesIcons[space.icon as SpaceIconTypes]
-  const SettingsIconComponent = UIIcons['SettingsIcon']
-  const TrashIconComponent = UIIcons['TrashIcon']
-  const { removeSpace, changeSpace } = useSpaces()
+  // const SettingsIconComponent = UIIcons['SettingsIcon']
+  // const TrashIconComponent = UIIcons['TrashIcon']
+  // const { removeSpace, changeSpace } = useSpaces()
   const { openContextMenu } = useContextMenuContext()
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -43,7 +43,7 @@ const NaviPanelCard = ({
         <IconComponent size={60} color="white" />
         <div className="space-card-title">{space.title}</div>
       </button>
-      {isChangable && (
+      {/* {isChangable && (
         <div className="change-buttons-container">
           <button
             className="change-space-button button-svg button-svg-small button-svg-dark"
@@ -58,7 +58,7 @@ const NaviPanelCard = ({
             <TrashIconComponent size={24} color="white" />
           </button>
         </div>
-      )}
+      )} */}
     </div>
   )
 }
