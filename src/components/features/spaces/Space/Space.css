@@ -118,4 +118,18 @@
     color var(--transition) ease;
 }
 
+.card-extra-large {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  width: var(--space-card-extra-large-size);
+  height: var(--space-card-medium-size);
+  padding: 5px;
+  transition:
+    width ease var(--transition),
+    height ease var(--transition),
+    border var(--transition) ease,
+    background var(--transition) ease,
+    color var(--transition) ease;
+}
+
 /* Adaptive icon sizes for card SVG */

@@ -10,7 +10,7 @@ export const ENTITY_TYPES = [
 
 export type EntityTypes = (typeof ENTITY_TYPES)[number]
 
-export type CardSizeTypes = 'small' | 'medium' | 'large'
+export type CardSizeTypes = 'small' | 'medium' | 'large' | 'extra-large'
 
 export type CardDataTypes = {
   name: string

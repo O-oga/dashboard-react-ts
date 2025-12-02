@@ -10,13 +10,15 @@ function CardSizeSelection() {
     return null
   }
 
-  const { setSize } = cardCreationData
+  const { setSize, type } = cardCreationData
 
   const setSmallSize = () => setSize('small')
 
   const setMediumSize = () => setSize('medium')
 
   const setLargeSize = () => setSize('large')
+
+  const setExtraLargeSize = () => setSize('extra-large')
 
   return (
     <section className="card-size-selection">
@@ -38,6 +40,14 @@ function CardSizeSelection() {
       >
         <label htmlFor="size-large">{t('addCard.size.large')}</label>
       </button>
+      {type === 'weather' || type === 'sensor' && (  
+      <button
+        onClick={setExtraLargeSize}
+        className="size-extra-large button-svg button-svg-dark"
+      >
+        <label htmlFor="size-extra-large">{t('addCard.size.extra-large')}</label>
+      </button>
+      )}
     </section>
   )
 }

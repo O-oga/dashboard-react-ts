@@ -3,7 +3,7 @@ import { CardsIcons } from '@/components/ui/icons'
 import type { CardIconTypes } from '@/types/Icons.types'
 import { CardCreationDataContext } from '@/components/modals/AddCardModal/AddCardModal'
 import { useContext, useEffect, memo } from 'react'
-import { getHistory } from '@/modules/loader'
+import { createGraphData } from '@/modules/graph'
 
 interface SensorProps {
   title?: string
@@ -34,13 +34,14 @@ function Sensor(props?: SensorProps) {
 
   useEffect(() => {
     if (entity) {
-      getHistory([entity], undefined, undefined, 0, 60)
-        .then(history => {
-          console.log(history)
-        })
-        .catch(error => {
-          console.error('Error getting history:', error)
-        })
+      createGraphData({
+        entity_ids: [entity],
+        past_days: 1
+      }).then((data) => {
+        console.log('Graph data loaded:', data)
+      }).catch((error) => {
+        console.error('Error loading graph data:', error)
+      })
     }
   }, [entity])
 
@@ -79,6 +80,19 @@ function Sensor(props?: SensorProps) {
         <button
           key={id}
           className="sensor card-large button-svg-dark button-svg"
+        >
+          <div className="svg-icon">
+            <IconComponent size={50} />
+          </div>
+          <div className="sensor-title">{displayTitle}</div>
+        </button>
+      )
+    }
+    case 'extra-large': {
+      return (
+        <button
+          key={id}
+          className="sensor card-extra-large button-svg-dark button-svg"
         >
           <div className="svg-icon">
             <IconComponent size={50} />

@@ -677,13 +677,24 @@ export const createEntitysStateList = async () => {
   }
 }
 
-export const getHistory = async (
-  _entity_ids: string[],
-  _start_time?: string,
-  _end_time: string = new Date().toISOString(),
-  pastHours: number = 1,
-  pastDays: number = 0
-): Promise<Record<string, HistoryItemAPI[]>> => {
+export interface GetHistoryParams {
+  entity_ids: string[],
+  start_time?: Date,
+  end_time?: Date,
+  past_hours?: number,
+  past_days?: number
+}
+
+export const getHistory = async (options: GetHistoryParams): Promise<Record<string, HistoryItemAPI[]>> => {
+  
+  const {
+    entity_ids,
+    start_time,
+    end_time,
+    past_hours = 0,
+    past_days = 0
+  } = options
+
   try {
     // Wait for connection to be ready before sending request
     if (!connection) {
@@ -697,13 +708,13 @@ export const getHistory = async (
     }
 
     const newMessage: GetHistoryMessage = { ...messages.getHistory }
-    newMessage.entity_ids = _entity_ids
+    newMessage.entity_ids = entity_ids
     newMessage.start_time =
-      _start_time ||
+      start_time?.toISOString() ||
       new Date(
-        Date.now() - 3600_000 * pastHours - 86400_000 * pastDays
+        Date.now() - 3600_000 * past_hours - 86400_000 * past_days
       ).toISOString()
-    newMessage.end_time = _end_time
+    newMessage.end_time = end_time?.toISOString() || new Date().toISOString()
 
     const request = (await sendToHA(newMessage)) as HistoryResponseAPI
     if (!request.result) {

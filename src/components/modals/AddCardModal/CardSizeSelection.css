@@ -10,16 +10,21 @@
 }
 
 .size-small {
-  width: 40px;
-  aspect-ratio: 1;
+  width: calc(var(--preview-card-coeff-size) / 2);
+  height: calc(var(--preview-card-coeff-size) / 2);
 }
 
 .size-medium {
-  width: 80px;
-  aspect-ratio: 1;
+  width: var(--preview-card-coeff-size);
+  height: var(--preview-card-coeff-size);
 }
 
 .size-large {
-  width: 160px;
-  height: 80px;
+  width: calc(var(--preview-card-coeff-size) * 2);
+  height: var(--preview-card-coeff-size);
+}
+
+.size-extra-large {
+  width: calc(var(--preview-card-coeff-size) * 3);
+  height: var(--preview-card-coeff-size);
 }

@@ -119,10 +119,12 @@
   --navi-panel-height: 13dvh;
 
   /* Space Card size */
+  --preview-card-coeff-size: 80px;
   --space-card-small-size-gap: 10px;
   --space-card-small-size: 80px;
-  --space-card-medium-size: calc(160px + var(--space-card-small-size-gap));
-  --space-card-large-size: calc(320px + var(--space-card-small-size-gap));
+  --space-card-medium-size: calc(2 * var(--space-card-small-size) + var(--space-card-small-size-gap));
+  --space-card-large-size: calc(4 * var(--space-card-small-size) + 2 * var(--space-card-small-size-gap));
+  --space-card-extra-large-size: calc(6 * var(--space-card-small-size) + 3 * var(--space-card-small-size-gap));
 }
 
 html,
