@@ -4,6 +4,7 @@ import type { CardIconTypes } from '@/types/Icons.types'
 import { CardCreationDataContext } from '@/components/modals/AddCardModal/AddCardModal'
 import { useContext, useEffect, memo } from 'react'
 import { createGraphData } from '@/modules/graph'
+import Graph from '@/components/features/reusable/Graph/Graph'
 
 interface SensorProps {
   title?: string
@@ -77,28 +78,85 @@ function Sensor(props?: SensorProps) {
     }
     case 'large': {
       return (
-        <button
+        <div
           key={id}
           className="sensor card-large button-svg-dark button-svg"
         >
-          <div className="svg-icon">
-            <IconComponent size={50} />
+          <div className="svg-icon-large-card">
+            <IconComponent size={35} />
+          </div>
+          <div className="large-graph">
+            <Graph data={[
+              { time: new Date('2025-12-04T00:00:00Z'), value: 100 },
+              { time: new Date('2025-12-04T01:00:00Z'), value: 200 },
+              { time: new Date('2025-12-04T02:00:00Z'), value: 300 },
+              { time: new Date('2025-12-04T03:00:00Z'), value: 400 },
+              { time: new Date('2025-12-04T04:00:00Z'), value: 500 },
+              { time: new Date('2025-12-04T05:00:00Z'), value: 600 },
+              { time: new Date('2025-12-04T06:00:00Z'), value: 700 },
+              { time: new Date('2025-12-04T07:00:00Z'), value: 800 },
+              { time: new Date('2025-12-04T08:00:00Z'), value: 900 },
+              { time: new Date('2025-12-04T09:00:00Z'), value: 1000 },
+            ]} options={{
+              // showGrid: false,
+              // showTooltip: false,
+              // showXAxis: false,
+              // showYAxis: false,
+              // xAxisLabel: 'Time',
+              // yAxisLabel: 'Value',
+              height: 120,
+              barOptions: {
+                fill: 'var(--button-text-color)',
+                stroke: 'var(--button-text-color)',
+                strokeWidth: 2,
+                radius: [2, 2, 0, 0],
+              },
+            }} />
           </div>
           <div className="sensor-title">{displayTitle}</div>
-        </button>
+        </div>
       )
     }
     case 'extra-large': {
       return (
-        <button
+        <div
           key={id}
           className="sensor card-extra-large button-svg-dark button-svg"
         >
-          <div className="svg-icon">
-            <IconComponent size={50} />
+          <div className="svg-icon-extra-large-card">
+            <IconComponent size={35} />
           </div>
+          <Graph data={[
+            { time: new Date('2025-12-04T00:00:00Z'), value: 100 },
+            { time: new Date('2025-12-04T01:00:00Z'), value: 200 },
+            { time: new Date('2025-12-04T02:00:00Z'), value: 300 },
+            { time: new Date('2025-12-04T03:00:00Z'), value: 400 },
+            { time: new Date('2025-12-04T04:00:00Z'), value: 500 },
+            { time: new Date('2025-12-04T05:00:00Z'), value: 600 },
+            { time: new Date('2025-12-04T05:00:00Z'), value: 600 },
+            { time: new Date('2025-12-04T05:00:00Z'), value: 600 },
+            { time: new Date('2025-12-04T05:00:00Z'), value: 600 },
+            { time: new Date('2025-12-04T06:00:00Z'), value: 700 },
+            { time: new Date('2025-12-04T07:00:00Z'), value: 800 },
+            { time: new Date('2025-12-04T08:00:00Z'), value: 900 },
+            { time: new Date('2025-12-04T09:00:00Z'), value: 1000 },
+          ]} options={{
+            // showGrid: false,
+            // showTooltip: false,
+            // showXAxis: false,
+            // showYAxis: false,
+            // xAxisLabel: 'Time',
+            // yAxisLabel: 'Value',
+            height: 120,
+            barOptions: {
+              fill: 'var(--button-text-color)',
+              stroke: 'var(--button-text-color)',
+              strokeWidth: 2,
+              radius: [2, 2, 0, 0],
+            },
+          }} />
           <div className="sensor-title">{displayTitle}</div>
-        </button>
+        </div>
       )
     }
     default: {

@@ -36,7 +36,7 @@ export const createGraphData = async (params: CreateGraphDataParams) => {
     .then(data => {
         const entityId: string = params.entity_ids[0]
         
-        if (!data || data[entityId].length === 0) {
+        if (!data || !data[entityId] || data[entityId].length === 0) {
             return []
         }
         const entityDataArray = data[entityId]

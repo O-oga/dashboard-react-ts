@@ -1,3 +1,7 @@
+.sensor {
+  position: relative;
+}
+
 .sensor-small {
   display: flex;
   flex-direction: column;
@@ -66,4 +70,32 @@
   white-space: nowrap;
   width: 100%;
   text-align: center;
+}
+
+.large-graph {
+  width: 100%;
+  flex: 1;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.svg-icon-large-card {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.svg-icon-extra-large-card,
+.svg-icon-large-card {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.sensor-title {
+  position: absolute;
+  bottom: 0px;
 }
